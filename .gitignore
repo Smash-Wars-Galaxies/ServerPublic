@@ -11,3 +11,12 @@ MMOCoreORB/bin/bin.7z
 MMOCoreORB/sql/old_data.sql
 MMOCoreORB/.vs
 MMOCoreORB/bin/scripts.7z
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
