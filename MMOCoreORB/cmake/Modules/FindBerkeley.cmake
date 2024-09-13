@@ -24,7 +24,6 @@ FIND_PATH(DB_INCLUDE_DIR db.h
         /opt/local/include/db53/
         /usr/local/BerkeleyDB.5.3/include
 	/usr/local/include
-        NO_DEFAULT_PATH
         )
 ELSE ()
 FIND_PATH(DB_INCLUDE_DIR db.h
@@ -32,7 +31,6 @@ FIND_PATH(DB_INCLUDE_DIR db.h
         /usr/local/BerkeleyDB.5.3/include
 	/usr/local/include
 	/usr/include
-        NO_DEFAULT_PATH
         )
 ENDIF ()
 
