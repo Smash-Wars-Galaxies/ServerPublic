@@ -4,7 +4,9 @@
   config,
   inputs,
   ...
-}: {
+}: let
+  cpprest = pkgs.callPackage ./.nix/cpprest.nix {};
+in {
   # https://devenv.sh/packages/
   packages = [
     pkgs.git
@@ -18,6 +20,7 @@
     pkgs.zlib.dev
     pkgs.gtest
     pkgs.libgcc.lib
+    cpprest
   ];
 
   env.hardeningDisable = ["all"];
