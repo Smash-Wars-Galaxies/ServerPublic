@@ -865,24 +865,27 @@ void CombatManager::broadcastCombatSpam(TangibleObject* attacker, TangibleObject
 		CreatureObject *c_attacker = attacker->asCreatureObject();
 		if( c_attacker != nullptr ){
 			WeaponObject* weapon = c_attacker->getWeapon();
-			
-			spam_weapon.append(attacker->getDisplayedName());
-			spam_weapon.append(" damaged you with ");
-			
-			UnicodeString weapon_name = weapon->getDisplayedName();
-			if(weapon_name.indexOf("AI_DEFAULT") == -1 && weapon_name.indexOf("unknown weapon") == -1){
-				spam_weapon.append(weapon_name);
-			} else {
-				spam_weapon.append("their fists");
+			if( weapon == nullptr ){
+				info(true) << "Weapon missing for " << attacker->getDisplayedName();
+			}else{
+				spam_weapon.append(attacker->getDisplayedName());
+				spam_weapon.append(" damaged you with ");
+				
+				UnicodeString weapon_name = weapon->getDisplayedName();
+				if(weapon_name.indexOf("AI_DEFAULT") == -1 && weapon_name.indexOf("unknown weapon") == -1){
+					spam_weapon.append(weapon_name);
+				} else {
+					spam_weapon.append("their fists");
+				}
+
+				spam_weapon.append(" ( AP: ");
+				spam_weapon.append(std::to_string(weapon->getArmorPiercing()));
+
+				spam_weapon.append(" Type: ");
+				spam_weapon.append(DamageTypeToString(SharedWeaponObjectTemplate::DamageType(weapon->getDamageType())));
+
+				spam_weapon.append(" )");
 			}
-
-			spam_weapon.append(" ( AP: ");
-			spam_weapon.append(std::to_string(weapon->getArmorPiercing()));
-
-			spam_weapon.append(" Type: ");
-			spam_weapon.append(DamageTypeToString(SharedWeaponObjectTemplate::DamageType(weapon->getDamageType())));
-
-			spam_weapon.append(" )");
 		};
 	}
 	
