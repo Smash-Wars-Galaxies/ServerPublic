@@ -336,7 +336,7 @@ bool PlayerCreationManager::createCharacter(ClientCreateCharacterCallback* callb
 	auto client = callback->getClient();
 	auto maxchars = ConfigManager::instance()->getInt("Core3.PlayerCreationManager.MaxCharactersPerGalaxy", 10);
 
-	if (client->getCharacterCount(zoneServer.get()->getGalaxyID()) >= 1) {
+	if (client->getCharacterCount(zoneServer.get()->getGalaxyID()) >= maxchars) {
 		ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are limited to 1 character per galaxy.", 0x0);
 		client->sendMessage(errMsg);
 
