@@ -334,15 +334,15 @@ void RESTServer::start() {
 	}
 
 	port = ConfigManager::instance()->getRESTPort();
-
 	if (port == 0) {
 		info() << "disabled, RESTPort not set";
 		doRun.set(false);
 		return;
 	}
 
-	auto apiAuthToken = ConfigManager::instance()->getString("Core3.RESTServer.APIToken", "");
+	auto address = ConfigManager::instance()->getString("Core3.RESTServer.Address", "127.0.0.1");
 
+	auto apiAuthToken = ConfigManager::instance()->getString("Core3.RESTServer.APIToken", "");
 	if (apiAuthToken.length() == 0) {
 		error() << "Core3.RESTServer.APIToken not set, refusing to authorize API calls";
 	} else if (apiAuthToken.length() < 15) {
@@ -352,46 +352,9 @@ void RESTServer::start() {
 	}
 
 	createProxies();
-
 	registerEndpoints();
 
-	http_listener_config serverConfig;
-
-	serverConfig.set_ssl_context_callback([this](boost::asio::ssl::context& ctx) {
-		auto sslKeyFilename = ConfigManager::instance()->getString("Core3.RESTServer.SSLKeyFile", "");
-
-		if (sslKeyFilename.length() == 0) {
-			error() << "missing Core3.RESTServer.SSLKeyFile";
-			return;
-		}
-
-		auto sslCrtFilename = ConfigManager::instance()->getString("Core3.RESTServer.SSLCertFile", "");
-
-		if (sslCrtFilename.length() == 0) {
-			error() << "missing Core3.RESTServer.SSLCertFile";
-			return;
-		}
-
-		ctx.set_options(boost::asio::ssl::context::default_workarounds);
-
-		boost::system::error_code err;
-
-		ctx.use_certificate_chain_file(sslCrtFilename.toCharArray(), err);
-
-		if (err) {
-			error() << "load ssl cert failed: " << err.message();
-			return;
-		}
-
-		ctx.use_private_key_file(sslKeyFilename.toCharArray(), boost::asio::ssl::context::pem, err);
-
-		if (err) {
-			error() << "load ssl key failed: " << err.message();
-			return;
-		}
-	});
-
-	restListener = new http_listener(("https://0.0.0.0:" + String::valueOf(port)).toCharArray(), serverConfig);
+	restListener = new http_listener(("http://" + address + ":" + String::valueOf(port)).toCharArray());
 
 	restListener->support([this](http_request request) { routeRequest(request); });
 
