@@ -2658,10 +2658,8 @@ int CombatManager::getArmorReduction(TangibleObject* attacker, WeaponObject* wea
 		// inflict condition damage
 		Locker alocker(armor);
 
-		if(hitLocation == 1) // Body Armor should absorb more damage
-			armor->inflictDamage(armor, 0, dmgAbsorbed * 0.03, true, true);
-		else
-			armor->inflictDamage(armor, 0, dmgAbsorbed * 0.05, true, true);
+		const float durabilityMultiplier = ConfigManager::instance()->getFloat("Core3.Armor.DurabilityMultiplier", 0.02);
+		armor->inflictDamage(armor, 0, dmgAbsorbed * durabilityMultiplier, true, true);
 	}
 
 	return damage;
