@@ -28,6 +28,9 @@ public:
 			if (command.toLowerCase() == "reset") {
 				StatisticsManager::instance()->reset();
 				creature->sendSystemMessage("Statistics have been reset.");
+			}else if (command.toLowerCase() == "reset_commands") {
+				StatisticsManager::instance()->resetCommands();
+				creature->sendSystemMessage("Command statistics have been reset.");
 			}
 		} else {
 			creature->sendSystemMessage(StatisticsManager::instance()->getStatistics());
