@@ -1344,10 +1344,34 @@ void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool * r
 		repairChance = 100;
 	}else {
 		/// Profession Bonus
-		if (player->hasSkill(repairTemplate->getSkill())){
-			repairChance += 35;
+		String repair_skill = repairTemplate->getSkill().replaceAll("_master", "");
+
+		String assembly_line = "";
+		if (repair_skill == "crafting_armorsmith") {
+			assembly_line = "complexity";
+		} else if ( repair_skill == "crafting_tailor" ){
+			assembly_line = "production";
+		} else if ( repair_skill == "crafting_weaponsmith") {
+			assembly_line = "techniques";
 		}
 
+		// Handle Novice
+		if (player->hasSkill(repair_skill + "_novice")){
+			repairChance += 5;
+		}
+
+		// Handle each box in assembly line
+		for (int i = 1; i <= 4; i++ ){
+			if (player->hasSkill(repair_skill + "_" + assembly_line + "_0" + std::to_string(i))){
+				repairChance += 5;
+			}
+		}
+		
+		// Handle Master
+		if (player->hasSkill(repair_skill + "_master")){
+			repairChance += 10;
+		}
+		
 		/// Get Skill mods
 		repairChance += player->getSkillMod(repairTemplate->getSkillMod());
 		repairChance += player->getSkillMod("crafting_repair");
