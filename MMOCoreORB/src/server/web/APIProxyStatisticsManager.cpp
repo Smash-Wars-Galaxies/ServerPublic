@@ -33,10 +33,12 @@ void APIProxyStatisticsManager::handleGET(APIRequest& apiRequest) {
 }
 
 void APIProxyStatisticsManager::handlePUT(APIRequest& apiRequest) {
-	auto reset = apiRequest.getQueryFieldBool("reset", false, false);
-
-	if (reset) {
+	if (apiRequest.getQueryFieldBool("reset", false, false)) {
 		StatisticsManager::instance()->reset();
+	}
+
+	if (apiRequest.getQueryFieldBool("reset_commands", false, false)) {
+		StatisticsManager::instance()->resetCommands();
 	}
 
 	handleGET(apiRequest);
