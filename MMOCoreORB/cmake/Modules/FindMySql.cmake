@@ -38,19 +38,17 @@ ENDIF (MYSQL_LIB)
 
 #-------------- FIND MYSQL_INCLUDE_DIR ------------------
 FIND_PATH(MYSQL_INCLUDE_DIR mysql.h
+    PATH_SUFFIXES
+      mysql
+    PATHS
         /usr/include/mysql
-        /usr/local/include/mysql
         /opt/mysql/mysql/include
-        /opt/mysql/mysql/include/mysql
         /opt/mysql/include
         /opt/local/include/mysql5
         /opt/local/include/mysql51
-        /opt/local/include/mysql51/mysql
         /opt/local/include/mysql56
-        /opt/local/include/mysql56/mysql
         /usr/local/mysql/include
-        /usr/local/mysql/include/mysql
-	/usr/local/opt/mysql-client/include/mysql
+	      /usr/local/opt/mysql-client/include/mysql
         $ENV{ProgramFiles}/MySQL/*/include
         $ENV{SystemDrive}/MySQL/*/include)
 
