@@ -137,6 +137,11 @@ void RESTServer::registerEndpoints() {
 		mPlayerManagerProxy->lookupCharacter(apiRequest);
 	}));
 
+	addEndpoint(RESTEndpoint("GET:/v1/character/online", {}, [this] (APIRequest& apiRequest) -> void {
+		mPlayerManagerProxy->listOnline(apiRequest);
+	}));
+
+
 	addEndpoint(RESTEndpoint("GET:/v1/(find|lookup)/guild/", {"mode"}, [this] (APIRequest& apiRequest) -> void {
 		mGuildManagerProxy->lookupGuild(apiRequest);
 	}));
