@@ -15,6 +15,7 @@
 #include "server/zone/ZoneServer.h"
 #include "server/login/account/AccountManager.h"
 #include "server/zone/managers/player/PlayerManager.h"
+#include "server/zone/Zone.h"
 #include "server/zone/objects/player/PlayerObject.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/creature/credits/CreditObject.h"
@@ -373,6 +374,87 @@ void APIProxyPlayerManager::handle(APIRequest& apiRequest) {
 		<< "for '" << reason << "' "
 		<< "expires = " << expires << ", "
 		<< "result = " << result["action_result"].get<std::string>();
+
+	apiRequest.success(result);
+}
+
+void APIProxyPlayerManager::listOnline(APIRequest& apiRequest) {\
+	if (!apiRequest.isMethodGET()) {
+		apiRequest.fail("Only supports GET");
+		return;
+	}
+
+	auto server = getZoneServer();
+	if (server == nullptr) {
+		apiRequest.fail("Failed to getZoneServer");
+		return;
+	}
+
+	if (server->isServerLoading()) {
+		apiRequest.fail("zoneServer is loading.");
+		return;
+	}
+
+	// Create vector of usernames and character names
+	JSONSerializationType json_accounts;
+
+	auto iter = server->getPlayerManager()->getOnlineZoneClientMap()->iterator();
+	while (iter.hasNext()) {
+		auto clients = iter.next();
+		for (int i = 0; i < clients.size(); i++) {
+			auto session = clients.get(i);
+			if (session == nullptr) {
+				continue;
+			}
+			
+			JSONSerializationType json_client;
+			json_client["sessionID"] = session->getSessionID();
+			json_client["accountID"] = session->getAccountID();
+			json_client["ip"] = session->getIPAddress();
+		
+			auto account = AccountManager::getAccount(session->getAccountID(), false);
+			if( account != nullptr ){
+				json_client["username"] = account->getUsername();
+			}
+		
+			Reference<CreatureObject*> creature = session->getPlayer();
+			if (creature != nullptr) {
+				JSONSerializationType json_player;
+				
+				json_player["oid"] = creature->getObjectID();
+				json_player["firstName"] = creature->getFirstName();
+
+				Reference<PlayerObject*> ghost = creature->getPlayerObject();
+				if (creature != nullptr) {
+					json_player["playedSeconds"] = (int)(ghost->getPlayedMiliSecs() / 1000);
+					json_player["sessionSeconds"] = (int)(ghost->getSessionMiliSecs() / 1000);
+					json_player["totalMovement"] = ghost->getSessionTotalMovement();
+				}
+			
+				Zone* zone = creature->getZone();
+				if (zone != nullptr) {
+					auto worldPosition = creature->getWorldPosition();
+
+					json_player["position"] = std::tuple<int, int, int>((int)worldPosition.getX(), (int)worldPosition.getZ(), (int)worldPosition.getY());
+					json_player["zone"] = zone->getZoneName();
+				}
+
+				json_client["character"] = json_player;
+			}
+
+			json_accounts.push_back(json_client);
+		}
+	}
+
+	JSONSerializationType metadata;
+
+	Time now;
+	metadata["asOfTime"] = now.getFormattedTimeFull();
+
+	JSONSerializationType result;
+
+	result["metadata"] = metadata;
+	result["result"] = json_accounts;
 
 	apiRequest.success(result);
 }
