@@ -23,7 +23,7 @@ zekka_thyne = Creature:new {
 	tamingChance = 0,
 	ferocity = 0,
 	pvpBitmask = NONE,
-	creatureBitmask = PACK,
+	creatureBitmask = PACK + STATIONARY,
 	optionsBitmask = AIENABLED + CONVERSABLE,
 	diet = HERBIVORE,
 
