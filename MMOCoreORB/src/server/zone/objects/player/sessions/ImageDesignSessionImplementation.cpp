@@ -17,6 +17,7 @@
 #include "server/zone/packets/object/ImageDesignMessage.h"
 #include "server/zone/objects/player/PlayerObject.h"
 #include "server/zone/objects/transaction/TransactionLog.h"
+#include "server/zone/objects/building/BuildingObject.h"
 
 // #define DEBUG_ID
 
@@ -47,36 +48,39 @@ int ImageDesignSessionImplementation::cancelSession() {
 	return 0;
 }
 
+uint64 ImageDesignSessionImplementation::getMigrationBuilding(SceneObject* designer) const {
+	// Handle Salon Building
+	ManagedReference<SceneObject*> obj = designer->getParentRecursively(SceneObjectType::SALONBUILDING);
+	if ( obj != nullptr) {
+		return obj->getObjectID();
+	}
+
+	// Handle other buildings
+	ManagedReference<BuildingObject*> building = designer->getParentRecursively(SceneObjectType::BUILDING).castTo<BuildingObject*>();
+	if ( building != nullptr || !building->isEntertainmentBuilding() ){
+		return building->getObjectID();
+	}
+
+	// No valid building found
+	return 0;
+}
+
 void ImageDesignSessionImplementation::startImageDesign(CreatureObject* designer, CreatureObject* targetPlayer) {
 	sessionStartTime.updateToCurrentTime();
 
-	uint64 designerTentID = 0; // Equals False, that controls if you can stat migrate or not (only in a Salon).
-	uint64 targetTentID = 0;
+	uint64 designerTentID = getMigrationBuilding(designer);  // Equals False, that controls if you can stat migrate or not (only in a Salon).
+	uint64 targetTentID = getMigrationBuilding(targetPlayer);
+	
+	if ( designerTentID != 0 && targetTentID != 0 ){ // Check if both are inside the building
+		positionObserver = new ImageDesignPositionObserver(_this.getReferenceUnsafeStaticCast());
 
-	ManagedReference<SceneObject*> obj = designer->getParentRecursively(SceneObjectType::SALONBUILDING);
-
-	if (obj != nullptr) // If they are in a salon, enable the tickmark for stat migration.
-		designerTentID = obj->getObjectID();
-
-	if (designerTentID != 0) {
-		obj = targetPlayer->getParentRecursively(SceneObjectType::SALONBUILDING);
-
-		if (obj != nullptr)
-			targetTentID = obj->getObjectID();
-
-		if (targetTentID != 0) {
-			positionObserver = new ImageDesignPositionObserver(_this.getReferenceUnsafeStaticCast());
-
-			designer->registerObserver(ObserverEventType::POSITIONCHANGED, positionObserver);
-
-			if (targetPlayer != designer)
-				targetPlayer->registerObserver(ObserverEventType::POSITIONCHANGED, positionObserver);
+		designer->registerObserver(ObserverEventType::POSITIONCHANGED, positionObserver);
+		if (targetPlayer != designer){
+			targetPlayer->registerObserver(ObserverEventType::POSITIONCHANGED, positionObserver);
 		}
-	}
-
-	if (targetTentID == 0 || designerTentID == 0) {
-		targetTentID = 0;
+	}else{ // Reset the building IDs
 		designerTentID = 0;
+		targetTentID = 0;
 	}
 
 	designer->addActiveSession(SessionFacadeType::IMAGEDESIGN, _this.getReferenceUnsafeStaticCast());
@@ -137,7 +141,7 @@ void ImageDesignSessionImplementation::updateImageDesign(CreatureObject* updater
 	// Check time since session started to ensure timer is not bypassed client side
 	if (statMig && strongReferenceDesigner != strongReferenceTarget) {
 		uint64 timeElapsed = sessionStartTime.miliDifference() / 1000;
-		int remainingTime = (4 * 60) - timeElapsed;
+		int remainingTime = (1 * 60) - timeElapsed;
 
 #ifdef DEBUG_ID
 		info(true) << "updateImageDesign - start time elapsed = " << timeElapsed << " with remining time of " << remainingTime;
@@ -195,7 +199,7 @@ void ImageDesignSessionImplementation::updateImageDesign(CreatureObject* updater
 
 		int xpGranted = 0; // Minimum Image Design XP granted (base amount).
 
-		if (statMig && strongReferenceDesigner != strongReferenceTarget && strongReferenceDesigner->getParentRecursively(SceneObjectType::SALONBUILDING) && strongReferenceDesigner->getParentRecursively(SceneObjectType::SALONBUILDING)) {
+		if (statMig && strongReferenceDesigner != strongReferenceTarget && getMigrationBuilding(strongReferenceDesigner) != 0 && getMigrationBuilding(strongReferenceTarget) != 0) {
 			ManagedReference<Facade*> facade = strongReferenceTarget->getActiveSession(SessionFacadeType::MIGRATESTATS);
 			ManagedReference<MigrateStatsSession*> session = dynamic_cast<MigrateStatsSession*>(facade.get());
 
@@ -376,14 +380,14 @@ void ImageDesignSessionImplementation::checkDequeueEvent(SceneObject* scene) {
 
 	if (scene == designerCreature) {
 		Locker clocker(targetCreature, designerCreature);
-
-		if (targetCreature->getParentRecursively(SceneObjectType::SALONBUILDING) == nullptr || designerCreature->getParentRecursively(SceneObjectType::SALONBUILDING) == nullptr)
+		if (getMigrationBuilding(targetCreature) == 0 || getMigrationBuilding(designerCreature) == 0 ){
 			return;
+		}
 	} else if (scene == targetCreature) {
 		Locker clocker(designerCreature, targetCreature);
-
-		if (targetCreature->getParentRecursively(SceneObjectType::SALONBUILDING) == nullptr || designerCreature->getParentRecursively(SceneObjectType::SALONBUILDING) == nullptr)
+		if (getMigrationBuilding(designerCreature) == 0 || getMigrationBuilding(targetCreature) == 0 ){
 			return;
+		}
 	}
 
 	dequeueIdTimeoutEvent();
@@ -396,7 +400,7 @@ void ImageDesignSessionImplementation::sessionTimeout() {
 	if (designerCreature != nullptr) {
 		Locker locker(designerCreature);
 
-		if (designerCreature->getParentRecursively(SceneObjectType::SALONBUILDING) == nullptr || imageDesignData.isAcceptedByDesigner()) {
+		if ( getMigrationBuilding(designerCreature) == 0 || imageDesignData.isAcceptedByDesigner()) {
 			designerCreature->sendSystemMessage("Image Design session has timed out. Changes aborted.");
 
 			cancelImageDesign(designerCreature->getObjectID(), targetCreature->getObjectID(), 0, 0, imageDesignData);
@@ -409,7 +413,7 @@ void ImageDesignSessionImplementation::sessionTimeout() {
 		Locker locker(designerCreature);
 		Locker clocker(targetCreature, designerCreature);
 
-		if (targetCreature->getParentRecursively(SceneObjectType::SALONBUILDING) == nullptr || imageDesignData.isAcceptedByDesigner()) {
+		if (getMigrationBuilding(targetCreature) == 0|| imageDesignData.isAcceptedByDesigner()) {
 			targetCreature->sendSystemMessage("Image Design session has timed out. Changes aborted.");
 
 			cancelImageDesign(designerCreature->getObjectID(), targetCreature->getObjectID(), 0, 0, imageDesignData);

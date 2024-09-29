@@ -22,7 +22,7 @@ int ImageDesignPositionObserverImplementation::notifyObserverEvent(uint32 eventT
 	if (scene == nullptr)
 		return 1;
 
-	if (scene->getParentRecursively(SceneObjectType::SALONBUILDING) == nullptr) {
+	if (strongRef->getMigrationBuilding(scene) == 0) {
 		//queue the timeout
 		strongRef->queueIdTimeoutEvent();
 	} else {
