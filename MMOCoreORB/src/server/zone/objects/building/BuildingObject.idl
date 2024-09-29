@@ -488,4 +488,10 @@ class BuildingObject extends StructureObject {
 	public void addCooldown(final string name, unsigned long miliseconds) {
 		cooldownTimerMap.updateToCurrentAndAddMili(name, miliseconds);
 	}
+
+	@read
+	public native boolean isMedicalBuilding();
+
+	@read
+	public native boolean isEntertainmentBuilding();
 }
