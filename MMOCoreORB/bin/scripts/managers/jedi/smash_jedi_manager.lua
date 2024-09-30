@@ -141,9 +141,12 @@ function SmashJediManager:checkRequirements(pCreatureObject)
 		return
 	end
 
+
     -- Handle Faction Selection
     local faction = PlayerObject(pGhost):getJediFaction()
-    if (faction == "" or not SmashJediManager:isValidFaction(faction) ) then
+    if faction == "" and SmashJediManager:hasProgressed(pCreatureObject) then
+        PlayerObject(pGhost):setJediFaction("corsec")
+    elseif faction == "" or not SmashJediManager:isValidFaction(faction)  then
         local valid_factions = self:getValidFactions()
         PlayerObject(pGhost):setJediFaction(valid_factions[getRandomNumber(1, #valid_factions)])
     end
