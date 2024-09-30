@@ -16,19 +16,32 @@ SmashJediManager = JediManager:new {
 --Filter spawn locations to places that are enabled
 ---@return string[]
 function SmashJediManager:getValidFactions()
-	local valid = {}
-	for _, faction in pairs(getFactionMap()) do
-        if (faction == "rebel" or faction == "imperial" ) then
-            goto continue
-        elseif (faction == "fs_villager" ) then
-            goto continue
-        elseif (faction == "pirate" ) then
-            goto continue
-        end
-        valid[#valid+1] = faction
-	    ::continue::
-	end
-	return valid
+    local holoFactions = {
+        --corellia/Talus
+        "afarathu",
+        "corsec",
+        --Lok
+        "bloodrazor", 
+        "canyon_corsair",
+        "lok_mercenaries",
+        --Dantoonine
+        "janta_tribe",
+        "kunga_tribe",
+        --Naboo
+        "naboo_security_force",
+        "trade_federation",
+        "gungan",
+        "plasma_thief",
+        --Rori
+        "rorgungan",
+        "spice_collective",
+        --Tatooine
+        "townsperson",
+        "jabba",
+        "valarian"
+        --Nothing on Dathomir, because I'm not a prick.
+    }
+    return holoFactions
 end
 
 -- Return a list of all professions and their badge number that are available for the hologrind
@@ -229,7 +242,7 @@ function SmashJediManager:setForceSensitive(pCreatureObject)
 	if (pGhost == nil) then
 		return false
 	end
-    
+
     awardSkill(pCreatureObject, "force_title_jedi_novice")
     PlayerObject(pGhost):setJediState(1)
 end
