@@ -4337,13 +4337,13 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 				--		"A Blacksun Razor Knuckler", "object/weapon/melee/special/blacksun_razor.iff"
 				}
 			},
-			--"Holocrons",
-			--{
-			--	"Dark Jedi Holocron", "object/tangible/jedi/jedi_holocron_dark.iff",
-			--	"Light Jedi Holocron", "object/tangible/jedi/jedi_holocron_light.iff",
-			--	"Dark Jedi Holocron (gift)", "object/tangible/jedi/no_drop_jedi_holocron_dark.iff",
-			--	"Light Jedi Holocron (gift)", "object/tangible/jedi/no_drop_jedi_holocron_light.iff"
-			--}
+			"Holocrons",
+			{
+				"Dark Jedi Holocron", "object/tangible/jedi/jedi_holocron_dark.iff",
+				"Light Jedi Holocron", "object/tangible/jedi/jedi_holocron_light.iff",
+				"Dark Jedi Holocron (gift)", "object/tangible/jedi/no_drop_jedi_holocron_dark.iff",
+				"Light Jedi Holocron (gift)", "object/tangible/jedi/no_drop_jedi_holocron_light.iff"
+			},
 			"Slicing Testing",
 			{
 				"Precision Laser Knife", "object/tangible/slicing/slicing_laser_knife.iff",

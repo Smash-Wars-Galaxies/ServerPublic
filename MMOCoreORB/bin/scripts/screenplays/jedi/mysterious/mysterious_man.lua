@@ -1,0 +1,90 @@
+---@module 'director_manager'
+
+local ObjectManager = require("managers.object.object_manager")
+
+MysteriousMan = ScreenPlay:new {
+	numberOfActs = 1,
+	screenplayName = "MysteriousMan",
+
+	time_to_stay = 45,
+	spawnPoints = {
+		{planetName = "dantooine", xPos = 4228, zPos = 61, yPos = 5103, cell = 0},
+        {planetName = "corellia", xPos = -3035, zPos = 34, yPos = -1823, cell = 0},
+        {planetName = "tatooine", xPos = -4474, zPos = 46, yPos = -2150, cell = 0},
+        {planetName = "lok", xPos = 4561, zPos = 12, yPos = -1143, cell = 0},
+        {planetName = "talus", xPos = 4471, zPos = 72, yPos = 1372, cell = 0},
+        {planetName = "yavin4", xPos = 5080, zPos = 73, yPos = 5538, cell = 0},
+        {planetName = "dathomir", xPos = 3086, zPos = 126, yPos = 1673, cell = 0},
+        {planetName = "rori", xPos = -2901, zPos = 76, yPos = 2589, cell = 0},
+        {planetName = "naboo", xPos = -1152, zPos = 12, yPos = 348, cell = 0},
+	},
+}
+
+--True here tells the server to load this screenplay at server load. False tells it to wait until explicitly started.
+registerScreenPlay("MysteriousMan", true)
+
+--Filter spawn locations to places that are enabled
+function MysteriousMan:getValidSpawnLocations()
+	local valid_locations = {}
+	for i, point in pairs(self.spawnPoints) do
+		if (isZoneEnabled(point.planetName)) then
+			valid_locations[#valid_locations+1] = point
+		end
+	end
+	return valid_locations
+end
+
+---Play an effect to announce the spawn or despawn of the mysterious man
+---@args pCreature CreatureObject
+function MysteriousMan:playEffect(pCreature)
+	playClientEffectLoc(
+		CreatureObject(pCreature):getObjectID(),
+		"clienteffect/level_granted.cef",
+		CreatureObject(pCreature):getZoneName(),
+		CreatureObject(pCreature):getPositionX(),
+		CreatureObject(pCreature):getPositionZ(),
+		CreatureObject(pCreature):getPositionY(),
+		CreatureObject(pCreature):getParentID()
+	)
+end
+
+
+--This gets executed automatically when the screenplay is started
+function MysteriousMan:start()
+	self:spawn()
+end
+
+--Put all the initial spawning of mobiles in a nice method like this.
+function MysteriousMan:spawn()
+	-- Get list of valid spawn locations
+	local valid_spawns = self:getValidSpawnLocations()
+
+	-- Select random location
+	local spawn = valid_spawns[getRandomNumber(1, #valid_spawns)]
+
+	-- Spawn Mysterious Man
+	local pMobile = spawnMobile(spawn.planetName, "mysterious", 0, spawn.xPos, spawn.zPos, spawn.yPos, getRandomNumber(360) - 180, spawn.cell)
+	if (pMobile ~= nil) then
+		self:playEffect(pMobile)
+
+		-- Despawn after time_to_stay minutes
+		createEvent(self.time_to_stay * 60 * 1000, "MysteriousMan", "despawn", pMobile, "")
+	end
+end
+
+function MysteriousMan:despawn(pMobile)
+	if (pMobile == nil) then
+		return
+	end
+
+	if (CreatureObject(pMobile):isInCombat() or AiAgent(pMobile):getFollowObject() ~= nil) then
+		createEvent(10000, "MysteriousMan", "despawn", pMobile, "")
+		return
+	end
+
+	SceneObject(pMobile):destroyObjectFromWorld()
+	self:playEffect(pMobile)
+
+	-- Respawn in one minute
+	createEvent(60 * 1000, "MysteriousMan", "spawn", "", "")
+end

@@ -113,6 +113,7 @@ class PlayerObject extends IntangibleObject {
 	protected byte maximumLots;
 
 	protected int jediState;
+	protected string jediFaction;
 	protected unsigned int adminLevel;
 	protected int priviledgeFlag;
 
@@ -833,6 +834,10 @@ class PlayerObject extends IntangibleObject {
 
 	public native void setJediState(int state, boolean notifyClient = true);
 
+	public void setJediFaction(final string faction) {
+		jediFaction = faction;
+	}
+
 	public native void setActiveQuestsBit(int bitIndex, byte value, boolean notifyClient = true);
 
 	public void clearActiveQuestsBit(int bitIndex, boolean notifyClient = true) {
@@ -1516,6 +1521,11 @@ class PlayerObject extends IntangibleObject {
 	}
 
 	@read
+	public string getJediFaction() {
+		return jediFaction;
+	}
+
+	@read
 	public byte getLanguageID() {
 		return languageID;
 	}
@@ -1716,6 +1726,10 @@ class PlayerObject extends IntangibleObject {
 
 	public void addHologrindProfession(byte prof) {
 		hologrindProfessions.add(prof);
+	}
+
+	public void removeHologrindProfession(byte prof) {
+		hologrindProfessions.removeElement(prof);
 	}
 
 	@local

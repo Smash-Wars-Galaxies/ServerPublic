@@ -11,11 +11,11 @@ if _TEST then
 	ITEMTHEATERDATAPAD = 2
 end
 
-jediProgressionType = HOLOGRINDJEDIPROGRESSION
+jediProgressionType = CUSTOMJEDIPROGRESSION
 
 jediManagerName = "JediManager"
 
-customJediProgressionFile = "scripts/managers/jedi/custom_jedi_manager.lua"
+customJediProgressionFile = "scripts/managers/jedi/smash_jedi_manager.lua"
 
 function printf(...) io.write(string.format(table.unpack({...}))) end
 
