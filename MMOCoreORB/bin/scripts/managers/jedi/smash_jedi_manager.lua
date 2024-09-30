@@ -44,6 +44,18 @@ function SmashJediManager:getValidFactions()
     return holoFactions
 end
 
+---@param name string
+---@return boolean
+function SmashJediManager:isValidFaction(name)
+    local factions = SmashJediManager:getValidFactions()
+    for _, v in pairs(factions) do
+        if v == name then
+            return true
+        end
+    end
+    return false
+end
+
 -- Return a list of all professions and their badge number that are available for the hologrind
 -- @return a list of professions and their badge numbers.
 function SmashJediManager:getGrindableProfessions()
@@ -130,7 +142,8 @@ function SmashJediManager:checkRequirements(pCreatureObject)
 	end
 
     -- Handle Faction Selection
-    if (PlayerObject(pGhost):getJediFaction() == "" ) then
+    local faction = PlayerObject(pGhost):getJediFaction()
+    if (faction == "" or not SmashJediManager:isValidFaction(faction) ) then
         local valid_factions = self:getValidFactions()
         PlayerObject(pGhost):setJediFaction(valid_factions[getRandomNumber(1, #valid_factions)])
     end
