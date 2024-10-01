@@ -109,7 +109,7 @@ learn_combat = ConvoScreen:new {
 	stopConversation = "true",
 	options = {}
 }
-paemosConvoTemplate:addScreen(learn_combat);
+mysteriousManConvoTemplate:addScreen(learn_combat);
 
 learn_senses = ConvoScreen:new {
 	id = "learn_senses",
