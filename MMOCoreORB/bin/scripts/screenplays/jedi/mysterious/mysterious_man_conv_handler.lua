@@ -1,14 +1,15 @@
+
 MysteriousManConvoHandler = conv_handler:new {}
 
 function MysteriousManConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
 	local screenID = LuaConversationScreen(pConvScreen):getScreenID()
 	local template = LuaConversationTemplate(pConvTemplate)
+	local clonedConversation = LuaConversationScreen(pConvScreen)
+	if not SmashJediManager:hasCompletedMasteries(pPlayer) then
+		return template:getScreen("cant_convert")
+	end
 
 	if screenID == "intro" then
-		if not SmashJediManager:hasCompletedMasteries(pPlayer) then
-			return template:getScreen("cant_convert")
-		end
-
 		if not SmashJediManager:hasProgressed(pPlayer) then
 			local standing = SmashJediManager:getFactionStanding(pPlayer)
 			if (standing < 2000) then
@@ -25,26 +26,15 @@ function MysteriousManConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNp
 				return template:getScreen("become")
 			end
 		end
-	elseif screenID == "tune_force" then
+	elseif screenID == "learn_force" then
 		if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
 			SmashJediManager:setForceSensitive(pPlayer)
 		end
-	end
-
-	return pConvScreen
-end
-
-function MysteriousManConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
-	local screen = LuaConversationScreen(pConvScreen)
-	local screenID = screen:getScreenID()
-	local pConvScreen = screen:cloneScreen()
-	local clonedConversation = LuaConversationScreen(pConvScreen)
-
-	if (string.find(screenID, "learn_")) then
+	elseif (string.find(screenID, "learn_")) then
 		local learnType = string.sub(screenID, 7)
-		ExperienceConverter:sendConversionSUI(pPlayer, pNpc, learnType)
+		MysteriousExperienceConverter:sendConversionSUI(pPlayer, pNpc, learnType)
 	elseif (screenID == "what_aspects") then
-		local branchList = ExperienceConverter:getBranchLearnList(pPlayer)
+		local branchList = MysteriousExperienceConverter:getBranchLearnList(pPlayer)
 		clonedConversation:setDialogTextTO(branchList)
 	end
 

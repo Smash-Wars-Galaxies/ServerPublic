@@ -259,8 +259,8 @@ function SmashJediManager:setForceSensitive(pCreatureObject)
 		return false
 	end
 
-    awardSkill(pCreatureObject, "force_title_jedi_novice")
-    PlayerObject(pGhost):setJediState(1)
+	PlayerObject(pGhost):setJediState(1)
+	awardSkill(pCreatureObject, "force_title_jedi_novice")
 end
 
 -- Sui window ok pressed callback function.
@@ -316,6 +316,11 @@ function SmashJediManager:onPlayerLoggedIn(pCreatureObject)
 	self:checkRequirements(pCreatureObject)
 	self:checkIfProgressed(pCreatureObject)
 	createObserver(BADGEAWARDED, "SmashJediManager", "onBadgeAwarded", pCreatureObject)
+
+	-- Ensure anyone who has progressed has the force sensitive rank
+	if self:hasProgressed(pCreatureObject) and not CreatureObject(pPlayer):hasSkill("force_title_jedi_novice") then
+		awardSkill(pCreatureObject, "force_title_jedi_novice")
+	end
 end
 
 -- Get the profession name from the badge number.

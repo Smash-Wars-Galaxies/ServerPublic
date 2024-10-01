@@ -68,7 +68,7 @@ become_fs = ConvoScreen:new {
     customDialogText = "So you found me at last... Are you interested in learning the secrets of the universe?",
     stopConversation = "false",
     options = {
-        {"Absolutely!", "tune_force"},
+        {"Absolutely!", "learn_force"},
         {"I don't think so...", "cant_convert"}
     }
 }

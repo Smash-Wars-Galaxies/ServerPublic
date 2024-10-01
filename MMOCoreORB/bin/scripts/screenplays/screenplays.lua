@@ -286,6 +286,7 @@ includeFile("jedi/components/TrialsSearchObjectMenuComponent.lua")
 -- Smash Jedi
 includeFile("jedi/mysterious/mysterious_man.lua")
 includeFile("jedi/mysterious/mysterious_man_conv_handler.lua")
+includeFile("jedi/mysterious/mysterious_experience_converter.lua")
 
 -- Events - Bestine Election
 includeFile("events/bestine_election/bestineElection.lua")
