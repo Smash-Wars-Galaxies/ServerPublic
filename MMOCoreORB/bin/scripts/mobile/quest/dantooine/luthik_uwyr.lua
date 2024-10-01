@@ -23,7 +23,7 @@ luthik_uwyr = Creature:new {
 	tamingChance = 0,
 	ferocity = 0,
 	pvpBitmask = NONE,
-	creatureBitmask = STATIONARY,
+	creatureBitmask = STATIC + STATIONARY,
 	optionsBitmask = AIENABLED + CONVERSABLE,
 	diet = HERBIVORE,
 

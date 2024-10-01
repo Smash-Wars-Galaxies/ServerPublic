@@ -71,6 +71,8 @@ CreatureTemplateManager::CreatureTemplateManager() : Logger("CreatureTemplateMan
 	lua->setGlobalInt("HEALER", ObjectFlag::HEALER);
 	lua->setGlobalInt("NOINTIMIDATE", ObjectFlag::NOINTIMIDATE);
 	lua->setGlobalInt("NODOT", ObjectFlag::NODOT);
+	lua->setGlobalInt("STATIC", ObjectFlag::STATIC);
+	lua->setGlobalInt("STATIONARY", ObjectFlag::STATIONARY);
 
 	lua->setGlobalInt("CARNIVORE", ObjectFlag::CARNIVORE);
 	lua->setGlobalInt("HERBIVORE", ObjectFlag::HERBIVORE);
