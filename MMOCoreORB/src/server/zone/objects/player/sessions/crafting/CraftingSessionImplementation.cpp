@@ -974,27 +974,7 @@ void CraftingSessionImplementation::initialAssembly(int clientCounter) {
 
 	// Remove all resources - Not recovering them
 	if (assemblyResult == CraftingManager::CRITICALFAILURE) {
-		/*createPrototypeObject(draftSchematic);
-
-		state = 2;
-
-		// re-setup the slots and ingredients
-		manufactureSchematic->synchronizedUIListen(crafter, 0);*/
-
-		closeCraftingWindow(0, false);
-		cancelSession();
-
-		// Start Dplay9 **************************************
-		// Reset crafting state
-		PlayerObjectDeltaMessage9* dplay9 = new PlayerObjectDeltaMessage9(crafter->getPlayerObject());
-		dplay9->setExperimentationPoints(0xFFFFFFFF);
-		dplay9->setCraftingState(state);
-
-		dplay9->close();
-
-		crafter->sendMessage(dplay9);
-		// End DPLAY9 ****************************************
-
+		cancelSessionCommand();
 	} else {
 		crafterGhost->decreaseSchematicUseCount(draftSchematic);
 	}
