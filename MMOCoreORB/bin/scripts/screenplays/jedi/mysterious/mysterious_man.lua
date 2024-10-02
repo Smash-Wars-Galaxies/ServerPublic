@@ -6,7 +6,7 @@ MysteriousMan = ScreenPlay:new {
 	numberOfActs = 1,
 	screenplayName = "MysteriousMan",
 
-	time_to_stay = 45,
+	time_to_stay = 60,
 	spawnPoints = {
 		{planetName = "dantooine", xPos = 4228, zPos = 61, yPos = 5103, cell = 0},
         {planetName = "corellia", xPos = -3035, zPos = 34, yPos = -1823, cell = 0},
@@ -16,7 +16,7 @@ MysteriousMan = ScreenPlay:new {
         {planetName = "yavin4", xPos = 5080, zPos = 73, yPos = 5538, cell = 0},
         {planetName = "dathomir", xPos = 3086, zPos = 126, yPos = 1673, cell = 0},
         {planetName = "rori", xPos = -2901, zPos = 76, yPos = 2589, cell = 0},
-        {planetName = "naboo", xPos = -1152, zPos = 12, yPos = 348, cell = 0},
+        {planetName = "naboo", xPos = -1990, zPos = 5, yPos = -5545, cell = 0},
 	},
 }
 
