@@ -9,6 +9,8 @@
 in {
   # https://devenv.sh/packages/
   packages = [
+    pkgs.bashInteractive
+    pkgs.devenv
     pkgs.git
     pkgs.cmake
     pkgs.lua5_3
@@ -23,7 +25,33 @@ in {
     cpprest
   ];
 
-  env.hardeningDisable = ["all"];
+  languages.cplusplus.enable = true;
+
+  tasks = {
+    "swgemu:clean" = {
+      exec = ''
+        [ -d "$PWD/MMOCoreORB/compile" ] && rm -rf $PWD/MMOCoreORB/compile
+      '';
+    };
+    "swgemu:configure" = {
+      exec = ''
+        [ ! -d "$PWD/MMOCoreORB/compile" ] && mkdir $PWD/MMOCoreORB/compile
+        cd $PWD/MMOCoreORB/compile
+        ${pkgs.cmake}/bin/cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_REST_SERVER=ON ..
+      '';
+    };
+    "swgemu:build" = {
+      exec = ''
+        cd $PWD/MMOCoreORB/compile
+        ${pkgs.cmake}/bin/cmake --build . --parallel 12 --target all --
+      '';
+      after = ["swgemu:configure"];
+    };
+  };
+
+  env = {
+    hardeningDisable = ["all"];
+  };
 
   # https://devenv.sh/processes/
   processes = {
