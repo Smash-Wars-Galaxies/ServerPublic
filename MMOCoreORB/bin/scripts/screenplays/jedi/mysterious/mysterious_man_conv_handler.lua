@@ -12,11 +12,11 @@ function MysteriousManConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNp
 	if screenID == "intro" then
 		if not SmashJediManager:hasProgressed(pPlayer) then
 			local standing = SmashJediManager:getFactionStanding(pPlayer)
-			if (standing < 2000) then
+			if (standing < 0) then
 				return template:getScreen("extra_bad_faction")
-			elseif (standing < 0)  then
+			elseif (standing < 1000)  then
 				return template:getScreen("really_bad_faction")
-			elseif (standing < 1000) then
+			elseif (standing < 2000) then
 				return template:getScreen("bad_faction")
 			elseif (standing < 3000) then
 				return template:getScreen("kinda_bad_faction")
