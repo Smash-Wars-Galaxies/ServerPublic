@@ -11,6 +11,8 @@ MMOCoreORB/bin/bin.7z
 MMOCoreORB/sql/old_data.sql
 MMOCoreORB/.vs
 MMOCoreORB/bin/scripts.7z
+MMOCoreORB/compile
+
 # Devenv
 .devenv*
 devenv.local.nix
