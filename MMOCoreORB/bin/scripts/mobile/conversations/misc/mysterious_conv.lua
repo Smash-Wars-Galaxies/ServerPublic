@@ -8,6 +8,7 @@ mysteriousManConvoTemplate = ConvoTemplate:new {
 --[[
     Faction Messages
 --]]
+
 cant_convert = ConvoScreen:new {
     id = "cant_convert",
     leftDialog = "",
@@ -75,12 +76,23 @@ become_fs = ConvoScreen:new {
 mysteriousManConvoTemplate:addScreen(become_fs);
 
 --[[ 
-    Force Sensitive Training
+    Force Sensitive XP Conversion
     From: MMOCoreORB/bin/scripts/mobile/conversations/village/paemos_conv.lua     
 --]]
 
 intro = ConvoScreen:new {
 	id = "intro",
+	leftDialog = "Welcome, friend! Come here and tell me how I may help you today?", -- Welcome, friend! Come here and tell me what insight I may provide for you today?
+	stopConversation = "false",
+	options = {
+		{"I wish to broaden my knowledge", "intro_convert"}, -- I wish to learn more about using the Force for crafting.
+		{"I wish to train my skills", "intro_trainer"}, -- I wish to learn more about using the Force for combat.
+	}
+}
+mysteriousManConvoTemplate:addScreen(intro);
+
+intro_convert = ConvoScreen:new {
+	id = "intro_convert",
 	leftDialog = "@conversation/fs_experience_converter:s_962f82a6", -- Welcome, friend! Come here and tell me what insight I may provide for you today?
 	stopConversation = "false",
 	options = {
@@ -93,7 +105,7 @@ intro = ConvoScreen:new {
 		{"@conversation/fs_experience_converter:s_e4c01185", "what_aspects"} -- What aspects of the Force am I ready to learn?
 	}
 }
-mysteriousManConvoTemplate:addScreen(intro);
+mysteriousManConvoTemplate:addScreen(intro_convert);
 
 learn_crafting = ConvoScreen:new {
 	id = "learn_crafting",
@@ -142,5 +154,111 @@ what_aspects = ConvoScreen:new {
 	options = {}
 }
 mysteriousManConvoTemplate:addScreen(what_aspects);
+
+--[[ 
+    Force Sensitive Training
+    From: MMOCoreORB/bin/scripts/mobile/conversations/trainer/trainer_conv.lua
+--]]
+
+trainerType = ConvoScreen:new {
+    id = "trainerType",
+    leftDialog = "trainerType", -- Storage for the type of trainer, so it can be pulled in the convo handler.
+    stopConversation = "false",
+    options = {
+        { "trainerType" , "trainer_fs" }
+    }
+}
+mysteriousManConvoTemplate:addScreen(trainerType);
+
+intro_trainer = ConvoScreen:new {
+    id = "intro_trainer",
+    leftDialog = "",
+    stopConversation = "false",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(intro_trainer);
+
+trainer_unknown = ConvoScreen:new {
+    id = "trainer_unknown",
+    leftDialog = "@skill_teacher:trainer_unknown",
+    stopConversation = "true",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(trainer_unknown);
+
+topped_out = ConvoScreen:new {
+    id = "topped_out",
+    leftDialog = "",
+    stopConversation = "true",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(topped_out);
+
+no_qualify = ConvoScreen:new {
+    id = "no_qualify",
+    leftDialog = "",
+    stopConversation = "true",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(no_qualify);
+
+msg2_1 = ConvoScreen:new {
+    id = "msg2_1",
+    leftDialog = "",
+    stopConversation = "false",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(msg2_1);
+
+msg2_2 = ConvoScreen:new {
+    id = "msg2_2",
+    leftDialog = "",
+    stopConversation = "false",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(msg2_2);
+
+learn = ConvoScreen:new {
+    id = "learn",
+    leftDialog = "",
+    stopConversation = "false",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(learn);
+
+confirm_learn = ConvoScreen:new {
+    id = "confirm_learn",
+    leftDialog = "",
+    stopConversation = "false",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(confirm_learn);
+
+cancel_learn = ConvoScreen:new {
+    id = "cancel_learn",
+    leftDialog = "",
+    stopConversation = "false",
+    options = {
+        {"@skill_teacher:opt1_1", "msg2_1"}, -- I'm interested in learning a skill.
+        {"@skill_teacher:opt1_2", "msg2_2"} -- What skills will I be able to learn next?
+    }
+}
+mysteriousManConvoTemplate:addScreen(cancel_learn);
+
+info = ConvoScreen:new {
+    id = "info",
+    leftDialog = "",
+    stopConversation = "false",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(info);
+
+nsf_skill_points = ConvoScreen:new {
+    id = "nsf_skill_points",
+    leftDialog = "",
+    stopConversation = "false",
+    options = {}
+}
+mysteriousManConvoTemplate:addScreen(nsf_skill_points);
 
 addConversationTemplate("mysteriousManConvoTemplate", mysteriousManConvoTemplate);
