@@ -2995,6 +2995,10 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 				"Color Crystal", "color_crystals",
 				"Krayt Pearl", "krayt_pearls"
 			},
+			"Dev Items",
+			{
+				"Dev Datapad", "object/tangible/item/development_datapad.iff",
+			},
 			--"Attachments",
 			--{
 			--	"Armor Attachment", "object/tangible/gem/armor.iff",
