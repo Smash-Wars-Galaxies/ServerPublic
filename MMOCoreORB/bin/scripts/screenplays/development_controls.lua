@@ -47,7 +47,7 @@ function developmentMenuComponent:handleObjectMenuSelect(pDatapad, pPlayer, sele
 	end
 
 	if (selectedID == 61) then
-		DirectorManager::instance()->reloadScreenPlays();
+		DirectorManager:instance()->reloadScreenPlays();
 	end
 
 	if (selectedID == 62) then
