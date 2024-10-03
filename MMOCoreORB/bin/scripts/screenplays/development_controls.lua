@@ -15,9 +15,9 @@ function developmentMenuComponent:fillObjectMenuResponse(pSceneObject, pMenuResp
 	menuResponse:addRadialMenuItemToRadialID(40, 41, 3, "Start")
 	menuResponse:addRadialMenuItemToRadialID(40, 42, 3, "End")
 
-	menuResponse:addRadialMenuItem(60, 3, "Empty Header") -- Header
-	menuResponse:addRadialMenuItemToRadialID(60, 61, 3, "Empty")
-	menuResponse:addRadialMenuItemToRadialID(60, 62, 3, "Empty")
+	menuResponse:addRadialMenuItem(60, 3, "Common Dev") -- Header
+	menuResponse:addRadialMenuItemToRadialID(60, 61, 3, "Reload Screenplays")
+--	menuResponse:addRadialMenuItemToRadialID(60, 62, 3, "Empty")
 --	menuResponse:addRadialMenuItemToRadialID(60, 63, 3, "Empty")
 --	menuResponse:addRadialMenuItemToRadialID(60, 64, 3, "Empty")
 --	menuResponse:addRadialMenuItemToRadialID(60, 65, 3, "Empty")
@@ -47,7 +47,7 @@ function developmentMenuComponent:handleObjectMenuSelect(pDatapad, pPlayer, sele
 	end
 
 	if (selectedID == 61) then
-		CreatureObject(pPlayer):sendSystemMessage(" \\#FFFF33\\This function, " .. selectedID .. " is empty.")
+		DirectorManager::instance()->reloadScreenPlays();
 	end
 
 	if (selectedID == 62) then
