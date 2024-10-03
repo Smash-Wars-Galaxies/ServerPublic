@@ -1,6 +1,6 @@
 mysterious = Creature:new {
 	objectName = "@mob/creature_names:commoner",
-	customName = "Mysterious Man",
+	customName = "A strange force ghost",
 	socialGroup = "townsperson",
 	faction = "townsperson",
 	mobType = MOB_NPC,
@@ -27,7 +27,7 @@ mysterious = Creature:new {
 	optionsBitmask = AIENABLED + INVULNERABLE + CONVERSABLE,
 	diet = HERBIVORE,
 
-	templates = {"object/mobile/dressed_jedi_trainer_nikto_male_01.iff"},
+	templates = {"object/mobile/dressed_jedi_trainer_chiss_male_01.iff"},
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)
