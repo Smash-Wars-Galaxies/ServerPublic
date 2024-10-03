@@ -539,6 +539,12 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	luaEngine->registerFunction("createNavMesh", createNavMesh);
 	luaEngine->registerFunction("destroyNavMesh", destroyNavMesh);
 
+	// Faction Information
+	luaEngine->registerFunction("getFactionMap", getFactionMap);
+
+	// Development
+	luaEngine->registerFunction("reloadScreenplays", reloadScreenplaysLua);
+
 	luaEngine->setGlobalInt("POSITIONCHANGED", ObserverEventType::POSITIONCHANGED);
 	luaEngine->setGlobalInt("CLOSECONTAINER", ObserverEventType::CLOSECONTAINER);
 	luaEngine->setGlobalInt("OBJECTDESTRUCTION", ObserverEventType::OBJECTDESTRUCTION);
@@ -4658,6 +4664,24 @@ int DirectorManager::useCovertOvert(lua_State* L) {
 	bool result = ConfigManager::instance()->useCovertOvertSystem();
 
 	lua_pushboolean(L, result);
+
+	return 1;
+}
+
+int DirectorManager::getFactionMap(lua_State* L) {
+	FactionMap* result = FactionManager::instance()->getFactionMap();
+
+	lua_newtable(L);
+	for( int i = 0; i < result->size(); i++ ){
+		lua_pushstring(L, result->get(i).getFactionName().toCharArray());
+		lua_rawseti(L, -2, i);
+	}
+
+	return 1;
+}
+
+int DirectorManager::reloadScreenplaysLua(lua_State* L) {
+	DirectorManager::instance()->reloadScreenPlays();
 
 	return 1;
 }

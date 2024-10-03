@@ -11,6 +11,7 @@
 #include "server/zone/managers/skill/SkillModManager.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/player/PlayerObject.h"
+#include "server/zone/managers/statistics/StatisticsManager.h"
 
 void ObjectControllerImplementation::loadCommands() {
 	configManager = new CommandConfigManager(server);
@@ -80,6 +81,11 @@ float ObjectControllerImplementation::activateCommand(CreatureObject* object, un
 		object->error() << "unregistered queue command 0x" << hex << actionCRC << " arguments: " << arguments.toString();
 
 		return 0.f;
+	}
+
+	if (ConfigManager::instance()->getBool("Core3.Metrics.Commands.Enabled", false) && object->isPlayerCreature() ) {
+		Reference<PlayerObject*> ghost = object->getSlottedObject("ghost").castTo<PlayerObject*>();
+		StatisticsManager::instance()->incrementCommand(ghost->getName(), queueCommand->getName());
 	}
 
 	float commandTime = queueCommand->getCommandDuration(object, arguments);

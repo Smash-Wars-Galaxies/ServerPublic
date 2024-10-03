@@ -1338,46 +1338,67 @@ void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool * r
 	int roll = System::random(100);
 	int repairChance = roll;
 
-	/// Profession Bonus
-	if (player->hasSkill(repairTemplate->getSkill()))
-		repairChance += 35;
+	if (roll < 5) { // 5% random failure
+		repairChance = 0;
+	} else if (roll > 95) { // 5% critical success
+		repairChance = 100;
+	}else {
+		/// Profession Bonus
+		String repair_skill = repairTemplate->getSkill().replaceAll("_master", "");
 
-	/// Get Skill mods
-	repairChance += player->getSkillMod(repairTemplate->getSkillMod());
-	repairChance += player->getSkillMod("crafting_repair");
-	repairChance += player->getSkillMod("force_repair_bonus");
+		String assembly_line = "";
+		if (repair_skill == "crafting_armorsmith") {
+			assembly_line = "complexity";
+		} else if ( repair_skill == "crafting_tailor" ){
+			assembly_line = "production";
+		} else if ( repair_skill == "crafting_weaponsmith") {
+			assembly_line = "techniques";
+		}
 
-	/// use tool quality to lower chances if bad tool
-	float quality = 1.f - (((100.f - repairTool->getQuality()) / 2) / 100.f);
-	repairChance *= quality;
+		// Handle Novice
+		if (player->hasSkill(repair_skill + "_novice")){
+			repairChance += 5;
+		}
 
-	ManagedReference<PlayerManager*> playerMan = player->getZoneServer()->getPlayerManager();
+		// Handle each box in assembly line
+		for (int i = 1; i <= 4; i++ ){
+			if (player->hasSkill(repair_skill + "_" + assembly_line + "_0" + std::to_string(i))){
+				repairChance += 5;
+			}
+		}
+		
+		// Handle Master
+		if (player->hasSkill(repair_skill + "_master")){
+			repairChance += 10;
+		}
+		
+		/// Get Skill mods
+		repairChance += player->getSkillMod(repairTemplate->getSkillMod());
+		repairChance += player->getSkillMod("crafting_repair");
+		repairChance += player->getSkillMod("force_repair_bonus");
 
-	/// Increase if near station
-	if (playerMan->getNearbyCraftingStation(player, repairTemplate->getStationType()) != nullptr) {
-		repairChance += 15;
+		/// use tool quality to lower chances if bad tool
+		float quality = 1.f - (((100.f - repairTool->getQuality()) / 2) / 100.f);
+		repairChance *= quality;
+
+		/// Increase if near station
+		ManagedReference<PlayerManager*> playerMan = player->getZoneServer()->getPlayerManager();
+		if (playerMan->getNearbyCraftingStation(player, repairTemplate->getStationType()) != nullptr) {
+			repairChance += 15;
+		}
+
+		/// Subtract battle fatigue
+		//repairChance -= (player->getShockWounds() / 2);
+
+		/// Subtract complexity
+		repairChance -= (getComplexity() / 3);
 	}
 
-	/// Subtract battle fatigue
-	//repairChance -= (player->getShockWounds() / 2);
-
-	/// Subtract complexity
-	repairChance -= (getComplexity() / 3);
-
-	/// 5% random failure
-	if (roll < 5)
-		repairChance = 0;
-
-	if (roll > 95)
-		repairChance = 100;
-
 	String result = repairAttempt(repairChance);
+	player->sendSystemMessage(result);
 
 	Locker locker(repairTool);
-
 	repairTool->decreaseUseCount(1, true);
-
-	player->sendSystemMessage(result);
 }
 
 ThreatMap* TangibleObjectImplementation::getThreatMap() {

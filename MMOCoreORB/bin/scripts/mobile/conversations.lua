@@ -319,6 +319,7 @@ includeFile("conversations/pet/pets_conv.lua")
 
 -- Misc
 includeFile("conversations/misc/bartender_conv.lua")
+includeFile("conversations/misc/mysterious_conv.lua")
 includeFile("conversations/misc/philosopher_conv.lua")
 
 -- Junk Dealers

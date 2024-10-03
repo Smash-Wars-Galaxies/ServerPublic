@@ -53,6 +53,10 @@ class StatisticsManager : public Singleton<StatisticsManager>, public Logger, pu
 	uint16 distinctIPsMax;
 	Time distinctIPsMaxWhen;
 
+	// Command Statistics
+	std::map<String,long> command_calls;
+	std::map<String,long> command_character;
+
 public:
 	StatisticsManager() : Logger("StatisticsManager") {
 		reset();
@@ -143,6 +147,12 @@ public:
 		}
 	}
 
+	void incrementCommand(const String& character, const String& command) {
+		Locker guard(&mutex);
+		command_calls[command]++;
+		command_character[character]++;
+	}
+
 	String getStatistics() {
 		return String(getAsJSON().dump(2));
 	}
@@ -217,6 +227,42 @@ public:
 
 		json["missionStats"] = missions;
 
+		JSONSerializationType cmd;
+
+		JSONSerializationType cmd_players;
+		{
+			// Sort calls
+			std::vector<std::pair<String, long>> pairs(command_character.begin(), command_character.end());
+			sort(pairs.begin(), pairs.end(), [](std::pair<String, long>& a, std::pair<String, long>& b){
+				return a.second > b.second;
+			});
+
+			// Add to result
+			const unsigned int count_max = ConfigManager::instance()->getInt("Core3.Metrics.Commands.MaxPlayers", 100);
+			for(int i = 0; i < pairs.size() && i < count_max; i++){
+				cmd_players[pairs.at(i).first] = pairs.at(i).second;
+			}
+		}
+		cmd["players"] = cmd_players;
+		
+		JSONSerializationType cmd_calls;
+		{
+			// Sort calls
+			std::vector<std::pair<String, long>> pairs(command_calls.begin(), command_calls.end());
+			sort(pairs.begin(), pairs.end(), [](std::pair<String, long>& a, std::pair<String, long>& b){
+				return a.second > b.second;
+			});
+
+			// Add to result			
+			const unsigned int count_max = ConfigManager::instance()->getInt("Core3.Metrics.Commands.MaxCommands", 100);
+			for(int i = 0; i < pairs.size() && i < count_max; i++){
+				cmd_calls[pairs.at(i).first] = pairs.at(i).second;
+			}
+		}
+		cmd["calls"] = cmd_calls;
+
+		json["commandStats"] = cmd;
+
 		return json;
 	}
 
@@ -238,8 +284,15 @@ public:
 		onlineMaxWhen.updateToCurrentTime();
 
 		lastReset.updateToCurrentTime();
-	}
 
+		resetCommandStatistics();
+	}
+	
+	void resetCommands() {
+		Locker guard(&mutex);
+
+		resetCommandStatistics();
+	}
 private:
 	void resetMissionStatistics() {
 		numberOfCompletedMissionsBounty = 0;
@@ -260,6 +313,11 @@ private:
 		creditsGeneratedFromMissionsMusician = 0;
 		creditsGeneratedFromMissionsRecon = 0;
 		creditsGeneratedFromMissionsSurvey = 0;
+	}
+
+	void resetCommandStatistics() {		
+		command_character.clear();
+		command_calls.clear();
 	}
 };
 

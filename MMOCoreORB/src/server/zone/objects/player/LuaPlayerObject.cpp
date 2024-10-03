@@ -46,6 +46,7 @@ Luna<LuaPlayerObject>::RegType LuaPlayerObject::Register[] = {
 		{ "awardBadge", &LuaPlayerObject::awardBadge },
 		{ "hasBadge", &LuaPlayerObject::hasBadge },
 		{ "addHologrindProfession", &LuaPlayerObject::addHologrindProfession },
+		{ "removeHologrindProfession", &LuaPlayerObject::removeHologrindProfession },
 		{ "setHologrindProfession", &LuaPlayerObject::setHologrindProfession },
 		{ "getHologrindProfessions", &LuaPlayerObject::getHologrindProfessions },
 		{ "getForcePower", &LuaPlayerObject::getForcePower },
@@ -56,6 +57,8 @@ Luna<LuaPlayerObject>::RegType LuaPlayerObject::Register[] = {
 		{ "isJediDark", &LuaPlayerObject::isJediDark },
 		{ "setJediState", &LuaPlayerObject::setJediState },
 		{ "getJediState", &LuaPlayerObject::getJediState },
+		{ "setJediFaction", &LuaPlayerObject::setJediFaction },
+		{ "getJediFaction", &LuaPlayerObject::getJediFaction },
 		{ "isOnline", &LuaPlayerObject::isOnline },
 		{ "activateJournalQuest", &LuaPlayerObject::activateJournalQuest },
 		{ "completeJournalQuest", &LuaPlayerObject::completeJournalQuest },
@@ -363,6 +366,14 @@ int LuaPlayerObject::addHologrindProfession(lua_State* L){
 	return 0;
 }
 
+int LuaPlayerObject::removeHologrindProfession(lua_State* L){
+	byte profession = lua_tointeger(L, -1);
+
+	realObject->removeHologrindProfession(profession);
+
+	return 0;
+}
+
 int LuaPlayerObject::setHologrindProfession(lua_State* L){
 	int index = lua_tointeger(L, -2) - 1;
 	byte profession = lua_tointeger(L, -1);
@@ -434,6 +445,20 @@ int LuaPlayerObject::setJediState(lua_State* L) {
 
 int LuaPlayerObject::getJediState(lua_State* L) {
 	lua_pushinteger(L, realObject->getJediState());
+
+	return 1;
+}
+
+int LuaPlayerObject::setJediFaction(lua_State* L) {
+	String faction = lua_tostring(L, -1);
+
+	realObject->setJediFaction(faction);
+
+	return 0;
+}
+
+int LuaPlayerObject::getJediFaction(lua_State* L) {
+	lua_pushstring(L, realObject->getJediFaction().toCharArray());
 
 	return 1;
 }

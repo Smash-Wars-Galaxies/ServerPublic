@@ -47,6 +47,7 @@ namespace player {
 		int awardBadge(lua_State* L);
 		int hasBadge(lua_State* L);
 		int addHologrindProfession(lua_State* L);
+		int removeHologrindProfession(lua_State* L);
 		int setHologrindProfession(lua_State* L);
 		int getHologrindProfessions(lua_State* L);
 		int getForcePower(lua_State* L);
@@ -57,6 +58,8 @@ namespace player {
 		int isJediDark(lua_State* L);
 		int setJediState(lua_State* L);
 		int getJediState(lua_State* L);
+		int setJediFaction(lua_State* L);
+		int getJediFaction(lua_State* L);
 		int isOnline(lua_State* L);
 		int activateJournalQuest(lua_State* L);
 		int completeJournalQuest(lua_State* L);

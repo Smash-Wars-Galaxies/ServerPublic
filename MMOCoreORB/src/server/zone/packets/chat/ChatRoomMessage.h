@@ -15,7 +15,7 @@ public:
 		insertAscii("SWG");
 		insertAscii(galaxyName);
 		
-		insertAscii(sender.toLowerCase());
+		insertAscii(sender);
 		
 		insertInt(channelid); //Channel ID, Long converted to an Int.
 		

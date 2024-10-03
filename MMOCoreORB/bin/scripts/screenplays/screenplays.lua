@@ -1,3 +1,5 @@
+---@module 'director_manager'
+
 package.path = package.path .. ";scripts/screenplays/themepark/?.lua;scripts/screenplays/?.lua;scripts/screenplays/dungeon/corellian_corvette/?.lua"
 require("screenplay")
 require("conv_handler")
@@ -280,6 +282,11 @@ includeFile("jedi/padawan/convos/padawan_the_ring_02_conv_handler.lua")
 -- Jedi Objects
 includeFile("jedi/components/ForceShrineMenuComponent.lua")
 includeFile("jedi/components/TrialsSearchObjectMenuComponent.lua")
+
+-- Smash Jedi
+includeFile("jedi/mysterious/mysterious_man.lua")
+includeFile("jedi/mysterious/mysterious_man_conv_handler.lua")
+includeFile("jedi/mysterious/mysterious_experience_converter.lua")
 
 -- Events - Bestine Election
 includeFile("events/bestine_election/bestineElection.lua")

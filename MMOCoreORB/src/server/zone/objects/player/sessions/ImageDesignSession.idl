@@ -46,6 +46,10 @@ class ImageDesignSession extends Facade {
 
 	public native void initializeTransientMembers();
 
+	@read
+	@dirty
+	public native unsigned long getMigrationBuilding(SceneObject designer);
+
 	/**
 	 * Starts an ImageDesign session between the designer and the target player.
 	 * @param designer The image designer.

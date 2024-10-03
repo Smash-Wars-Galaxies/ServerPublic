@@ -2022,3 +2022,47 @@ String BuildingObjectImplementation::getCellName(uint64 cellID) const {
 
 	return cellProperty->getName();
 }
+
+bool BuildingObjectImplementation::isMedicalBuilding() const {
+	const PlanetMapCategory* pmc = this->getPlanetMapCategory();
+	if (pmc == nullptr){
+		return false;
+	}
+
+	String categoryName = pmc->getName();
+
+	if (categoryName == "medicalcenter" || categoryName == "tavern"){
+		return true;
+	}
+
+	if (categoryName == "imperial" || categoryName == "rebel") {
+		const SharedBuildingObjectTemplate* buildingTemplate = templateObject.castTo<SharedBuildingObjectTemplate*>();
+		if (buildingTemplate != nullptr && buildingTemplate->getSkillMod("private_medical_rating") > 0) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool BuildingObjectImplementation::isEntertainmentBuilding() const {
+	const PlanetMapCategory* pmc = this->getPlanetMapCategory();
+	if (pmc == nullptr){
+		return false;
+	}
+
+	String categoryName = pmc->getName();
+
+	if (categoryName == "hotel" || categoryName == "cantina" || categoryName == "theater" || categoryName == "guild_theater" || categoryName == "tavern"){
+			return true;
+	}
+
+	if (categoryName == "imperial" || categoryName == "rebel") {
+		const SharedBuildingObjectTemplate* buildingTemplate = templateObject.castTo<SharedBuildingObjectTemplate*>();
+		if (buildingTemplate != nullptr && buildingTemplate->getSkillMod("private_med_battle_fatigue") > 0) {
+			return true;
+		}
+	}
+
+	return false;
+}
