@@ -318,7 +318,7 @@ function SmashJediManager:onPlayerLoggedIn(pCreatureObject)
 	createObserver(BADGEAWARDED, "SmashJediManager", "onBadgeAwarded", pCreatureObject)
 
 	-- Ensure anyone who has progressed has the force sensitive rank
-	if self:hasProgressed(pCreatureObject) and not CreatureObject(pPlayer):hasSkill("force_title_jedi_novice") then
+	if self:hasProgressed(pCreatureObject) and not CreatureObject(pCreatureObject):hasSkill("force_title_jedi_novice") then
 		awardSkill(pCreatureObject, "force_title_jedi_novice")
 	end
 end
