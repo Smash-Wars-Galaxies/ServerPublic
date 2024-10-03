@@ -542,6 +542,9 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	// Faction Information
 	luaEngine->registerFunction("getFactionMap", getFactionMap);
 
+	// Development
+	luaEngine->registerFunction("reloadScreenplays", reloadScreenplaysLua);
+
 	luaEngine->setGlobalInt("POSITIONCHANGED", ObserverEventType::POSITIONCHANGED);
 	luaEngine->setGlobalInt("CLOSECONTAINER", ObserverEventType::CLOSECONTAINER);
 	luaEngine->setGlobalInt("OBJECTDESTRUCTION", ObserverEventType::OBJECTDESTRUCTION);
@@ -4673,6 +4676,12 @@ int DirectorManager::getFactionMap(lua_State* L) {
 		lua_pushstring(L, result->get(i).getFactionName().toCharArray());
 		lua_rawseti(L, -2, i);
 	}
+
+	return 1;
+}
+
+int DirectorManager::reloadScreenplaysLua(lua_State* L) {
+	DirectorManager::instance()->reloadScreenPlays();
 
 	return 1;
 }

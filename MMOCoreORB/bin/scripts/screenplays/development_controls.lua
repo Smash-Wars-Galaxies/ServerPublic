@@ -47,7 +47,8 @@ function developmentMenuComponent:handleObjectMenuSelect(pDatapad, pPlayer, sele
 	end
 
 	if (selectedID == 61) then
-		DirectorManager:instance()->reloadScreenPlays();
+		reloadScreenplays()
+		CreatureObject(pPlayer):sendSystemMessage(" \\#FFFF33\\Reloading Screenplays.")
 	end
 
 	if (selectedID == 62) then
