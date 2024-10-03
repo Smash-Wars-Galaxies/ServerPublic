@@ -66,7 +66,7 @@ function MysteriousMan:spawn()
 	local pMobile = spawnMobile(spawn.planetName, "mysterious", 0, spawn.xPos, spawn.zPos, spawn.yPos, getRandomNumber(360) - 180, spawn.cell)
 	if (pMobile ~= nil) then
 		self:playEffect(pMobile)
-
+		print("Force Ghost spawned at " .. spawn.xPos .. ", " .. spawn.yPos .. " on " .. spawn.planetName .. ".")
 		-- Despawn after time_to_stay minutes
 		createEvent(self.time_to_stay * 60 * 1000, "MysteriousMan", "despawn", pMobile, "")
 	end
@@ -84,7 +84,7 @@ function MysteriousMan:despawn(pMobile)
 
 	SceneObject(pMobile):destroyObjectFromWorld()
 	self:playEffect(pMobile)
-
+	print( "Force Ghost despwaned...")
 	-- Respawn in one minute
 	createEvent(60 * 1000, "MysteriousMan", "spawn", "", "")
 end
