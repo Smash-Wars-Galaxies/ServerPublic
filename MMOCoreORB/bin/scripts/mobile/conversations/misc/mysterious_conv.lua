@@ -82,7 +82,8 @@ mysteriousManConvoTemplate:addScreen(become_fs);
 
 intro = ConvoScreen:new {
 	id = "intro",
-	leftDialog = "Welcome, friend! Come here and tell me how I may help you today?", -- Welcome, friend! Come here and tell me what insight I may provide for you today?
+	leftDialog = "",
+	customDialogText = "Welcome, friend! Come, tell me how I may help you today?",
 	stopConversation = "false",
 	options = {
 		{"I wish to broaden my knowledge", "intro_convert"}, -- I wish to learn more about using the Force for crafting.
