@@ -190,6 +190,7 @@ class CreatureObject extends TangibleObject {
 	protected transient byte healthWoundHeal;
 	protected transient byte actionWoundHeal;
 	protected transient byte mindWoundHeal;
+	protected transient byte shockHeal;
 
 	protected transient byte currentWeather;
 	protected transient byte currentWind;
