@@ -54,7 +54,7 @@ object_building_poi_scout_camp_s1 = object_building_poi_shared_scout_camp_s1:new
 		{"private_med_wound_health", 20},
 		{"private_med_wound_action", 20},
 		{"private_buff_mind", 100},
-		{"private_med_battle_fatigue", 15}
+		{"private_med_battle_fatigue", 5}
 	},
 
 	aggroMod = 0,
