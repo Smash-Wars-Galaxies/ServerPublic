@@ -297,6 +297,7 @@
 #include "server/zone/objects/creature/commands/GmForceRankCommand.h"
 #include "server/zone/objects/creature/commands/GmFsVillageCommand.h"
 #include "server/zone/objects/creature/commands/GmJediStateCommand.h"
+#include "server/zone/objects/creature/commands/GmRestoreCommand.h"
 #include "server/zone/objects/creature/commands/GmReviveCommand.h"
 #include "server/zone/objects/creature/commands/GotoCommand.h"
 #include "server/zone/objects/creature/commands/GrantBadgeCommand.h"
@@ -701,6 +702,7 @@ void CommandConfigManager::registerCommands2() {
 	commandFactory.registerCommand<GmForceRankCommand>(String("gmForceRank").toLowerCase());
 	commandFactory.registerCommand<GmFsVillageCommand>(String("gmFsVillage").toLowerCase());
 	commandFactory.registerCommand<GmJediStateCommand>(String("gmJediState").toLowerCase());
+	commandFactory.registerCommand<GmRestoreCommand>(String("gmRestore").toLowerCase());
 	commandFactory.registerCommand<GmReviveCommand>(String("gmRevive").toLowerCase());
 	commandFactory.registerCommand<GotoCommand>(String("goto").toLowerCase());
 	commandFactory.registerCommand<GrantBadgeCommand>(String("grantBadge").toLowerCase());
