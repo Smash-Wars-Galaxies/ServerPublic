@@ -2188,6 +2188,10 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 					continue;
 				}
 
+				if (xpType == "combat_general") { // Prevents XP generated from grenades from applying to the equiped weapon, but still counts towards combat XP
+					continue;
+				}
+
 				//Award individual expType
 				awardExperience(attackerCreo, xpType, xpAmount);
 			}
