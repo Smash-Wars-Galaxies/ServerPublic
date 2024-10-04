@@ -25,6 +25,7 @@ admin_player_management_01 = {
 		"getGameTime",
 		"getRank",
 		"gmRevive",
+		"gmRestore",
 		"setFaction",
 		"setFactionStanding",
 		"setRank",
