@@ -51,13 +51,13 @@ int ImageDesignSessionImplementation::cancelSession() {
 uint64 ImageDesignSessionImplementation::getMigrationBuilding(SceneObject* designer) const {
 	// Handle Salon Building
 	ManagedReference<SceneObject*> obj = designer->getParentRecursively(SceneObjectType::SALONBUILDING);
-	if ( obj != nullptr) {
+	if (obj != nullptr) {
 		return obj->getObjectID();
 	}
 
 	// Handle other buildings
 	ManagedReference<BuildingObject*> building = designer->getParentRecursively(SceneObjectType::BUILDING).castTo<BuildingObject*>();
-	if ( building != nullptr || !building->isEntertainmentBuilding() ){
+	if (building != nullptr && building->isEntertainmentBuilding()) {
 		return building->getObjectID();
 	}
 
@@ -68,17 +68,17 @@ uint64 ImageDesignSessionImplementation::getMigrationBuilding(SceneObject* desig
 void ImageDesignSessionImplementation::startImageDesign(CreatureObject* designer, CreatureObject* targetPlayer) {
 	sessionStartTime.updateToCurrentTime();
 
-	uint64 designerTentID = getMigrationBuilding(designer);  // Equals False, that controls if you can stat migrate or not (only in a Salon).
+	uint64 designerTentID = getMigrationBuilding(designer); // Equals False, that controls if you can stat migrate or not (only in a Salon).
 	uint64 targetTentID = getMigrationBuilding(targetPlayer);
-	
-	if ( designerTentID != 0 && targetTentID != 0 ){ // Check if both are inside the building
+
+	if (designerTentID != 0 && targetTentID != 0) { // Check if both are inside the building
 		positionObserver = new ImageDesignPositionObserver(_this.getReferenceUnsafeStaticCast());
 
 		designer->registerObserver(ObserverEventType::POSITIONCHANGED, positionObserver);
-		if (targetPlayer != designer){
+		if (targetPlayer != designer) {
 			targetPlayer->registerObserver(ObserverEventType::POSITIONCHANGED, positionObserver);
 		}
-	}else{ // Reset the building IDs
+	} else { // Reset the building IDs
 		designerTentID = 0;
 		targetTentID = 0;
 	}
@@ -108,7 +108,7 @@ void ImageDesignSessionImplementation::startImageDesign(CreatureObject* designer
 	idTimeoutEvent = new ImageDesignTimeoutEvent(_this.getReferenceUnsafeStaticCast());
 
 #ifdef DEBUG_ID
-	info(true) << "startImageDesign - for Target Player: " << targetPlayer->getFirstName() << " Target Tent ID = " <<  targetTentID << " Designer Tent ID = " << designerTentID << " Holoemote = " << holoemote;
+	info(true) << "startImageDesign - for Target Player: " << targetPlayer->getFirstName() << " Target Tent ID = " << targetTentID << " Designer Tent ID = " << designerTentID << " Holoemote = " << holoemote;
 #endif
 }
 
@@ -168,7 +168,8 @@ void ImageDesignSessionImplementation::updateImageDesign(CreatureObject* updater
 			strongReferenceDesigner->sendSystemMessage(msg.toString());
 			cancelSession();
 
-			strongReferenceDesigner->error() << "Player has attempted to bypass the stat migration timer in the client -- Image Designer: " << strongReferenceDesigner->getFirstName() << " " << strongReferenceDesigner->getObjectID() << " Target Player: " << strongReferenceTarget->getFirstName() << " " << strongReferenceTarget->getObjectID() << " Message to Image Designer: " << msg.toString();
+			strongReferenceDesigner->error() << "Player has attempted to bypass the stat migration timer in the client -- Image Designer: " << strongReferenceDesigner->getFirstName() << " " << strongReferenceDesigner->getObjectID() << " Target Player: " << strongReferenceTarget->getFirstName() << " "
+											 << strongReferenceTarget->getObjectID() << " Message to Image Designer: " << msg.toString();
 
 			return;
 		}
@@ -251,7 +252,7 @@ void ImageDesignSessionImplementation::updateImageDesign(CreatureObject* updater
 				xpGranted = 100;
 		}
 
-		int bodyAttSize= bodyAttributes->size();
+		int bodyAttSize = bodyAttributes->size();
 		int colorAttSize = colorAttributes->size();
 
 		// Modification type pulled from iff customization_data
@@ -276,7 +277,7 @@ void ImageDesignSessionImplementation::updateImageDesign(CreatureObject* updater
 #endif
 
 		// Set XP based on modifcation type
-		switch(modificationType) {
+		switch (modificationType) {
 			case ImageDesignManager::PHYSICAL: {
 				if (xpGranted < 300)
 					xpGranted = 300;
@@ -380,12 +381,12 @@ void ImageDesignSessionImplementation::checkDequeueEvent(SceneObject* scene) {
 
 	if (scene == designerCreature) {
 		Locker clocker(targetCreature, designerCreature);
-		if (getMigrationBuilding(targetCreature) == 0 || getMigrationBuilding(designerCreature) == 0 ){
+		if (getMigrationBuilding(targetCreature) == 0 || getMigrationBuilding(designerCreature) == 0) {
 			return;
 		}
 	} else if (scene == targetCreature) {
 		Locker clocker(designerCreature, targetCreature);
-		if (getMigrationBuilding(designerCreature) == 0 || getMigrationBuilding(targetCreature) == 0 ){
+		if (getMigrationBuilding(designerCreature) == 0 || getMigrationBuilding(targetCreature) == 0) {
 			return;
 		}
 	}
@@ -400,7 +401,7 @@ void ImageDesignSessionImplementation::sessionTimeout() {
 	if (designerCreature != nullptr) {
 		Locker locker(designerCreature);
 
-		if ( getMigrationBuilding(designerCreature) == 0 || imageDesignData.isAcceptedByDesigner()) {
+		if (getMigrationBuilding(designerCreature) == 0 || imageDesignData.isAcceptedByDesigner()) {
 			designerCreature->sendSystemMessage("Image Design session has timed out. Changes aborted.");
 
 			cancelImageDesign(designerCreature->getObjectID(), targetCreature->getObjectID(), 0, 0, imageDesignData);
@@ -413,7 +414,7 @@ void ImageDesignSessionImplementation::sessionTimeout() {
 		Locker locker(designerCreature);
 		Locker clocker(targetCreature, designerCreature);
 
-		if (getMigrationBuilding(targetCreature) == 0|| imageDesignData.isAcceptedByDesigner()) {
+		if (getMigrationBuilding(targetCreature) == 0 || imageDesignData.isAcceptedByDesigner()) {
 			targetCreature->sendSystemMessage("Image Design session has timed out. Changes aborted.");
 
 			cancelImageDesign(designerCreature->getObjectID(), targetCreature->getObjectID(), 0, 0, imageDesignData);
