@@ -20,7 +20,7 @@
 void EntertainerMissionObjectiveImplementation::activate() {
 	Locker _lock(_this.getReferenceUnsafeStaticCast());
 
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	if (mission == nullptr)
 		return;
@@ -34,7 +34,7 @@ void EntertainerMissionObjectiveImplementation::activate() {
 	ManagedReference<ZoneServer*> zoneServer = Core::lookupObject<ZoneServer>("ZoneServer");
 
 	if (locationActiveArea == nullptr) {
-		locationActiveArea = ( zoneServer->createObject(STRING_HASHCODE("object/active_area.iff"), 1)).castTo<ActiveArea*>();
+		locationActiveArea = (zoneServer->createObject(STRING_HASHCODE("object/active_area.iff"), 1)).castTo<ActiveArea*>();
 	}
 
 	if (!locationActiveArea->isInQuadTree()) {
@@ -113,12 +113,19 @@ void EntertainerMissionObjectiveImplementation::clearLocationActiveAreaAndObserv
 void EntertainerMissionObjectiveImplementation::complete() {
 	clearLocationActiveAreaAndObservers();
 
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
+	if (mission == nullptr) {
+		return;
+	}
 
-	// Award XP 
-	CreatureObject* player = getPlayerOwner();
+	ManagedReference<CreatureObject*> owner = getPlayerOwner();
+	if (owner == nullptr) {
+		return;
+	}
+
+	// Award XP
 	int xp = mission->getRewardCredits();
-	player->getZoneServer()->getPlayerManager()->awardExperience(player, "entertainer_healing", xp, true, 1);
+	owner->getZoneServer()->getPlayerManager()->awardExperience(owner, "entertainer_healing", xp, true, 1);
 
 	MissionObjectiveImplementation::complete();
 }
@@ -130,15 +137,13 @@ void EntertainerMissionObjectiveImplementation::setIsEntertaining(bool value) {
 		return;
 	}
 
-
-
 	isEntertaining = value;
 
 	startCompleteTask();
 }
 
 void EntertainerMissionObjectiveImplementation::startCompleteTask() {
-	//Is entertaining in mission area inside a building.
+	// Is entertaining in mission area inside a building.
 	Locker _lock(_this.getReferenceUnsafeStaticCast());
 
 	ManagedReference<CreatureObject*> object = getPlayerOwner();
@@ -190,7 +195,7 @@ int EntertainerMissionObjectiveImplementation::notifyObserverEvent(MissionObserv
 }
 
 Vector3 EntertainerMissionObjectiveImplementation::getEndPosition() {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	Vector3 missionEndPoint;
 	if (mission == nullptr)
