@@ -2,6 +2,7 @@ rancor_boss = Creature:new {
 	customName = "Corrupted Rancor",
 	socialGroup = "rancor",
 	faction = "",
+	mobType = MOB_CARNIVORE,
 	level = 500,
 	chanceHit = 70.0,
 	damageMin = 500,

@@ -2,6 +2,7 @@ geonosian_boss = Creature:new {
 	customName = "Corrupted Geonosian",
 	socialGroup = "geonosian_creature",
 	faction = "",
+	mobType = MOB_CARNIVORE,
 	level = 300,
 	chanceHit = 70.0,
 	damageMin = 5570,

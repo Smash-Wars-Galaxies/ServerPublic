@@ -2,6 +2,7 @@ wampa_boss = Creature:new {
 	customName = "Corrupted Wampa",
 	socialGroup = "wampa",
 	faction = "",
+	mobType = MOB_CARNIVORE,
 	level = 300,
 	chanceHit = 70.0,
 	damageMin = 5570,

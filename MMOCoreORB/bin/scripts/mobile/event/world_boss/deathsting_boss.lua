@@ -2,6 +2,7 @@ deathsting_boss = Creature:new {
 	customName = "Corrupted Deathsting",
 	socialGroup = "krayt",
 	faction = "",
+	mobType = MOB_CARNIVORE,
 	level = 500,
 	chanceHit = 70.0,
 	damageMin = 5570,

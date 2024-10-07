@@ -4,6 +4,7 @@ crazylarry = Creature:new {
 	socialGroup = "jawa",
 	pvpFaction = "townsperson",
 	faction = "jawa",
+	mobType = MOB_NPC,
 	level = 1,
 	chanceHit = 0.25,
 	damageMin = 50,

@@ -4,6 +4,7 @@ cyan_yaro = Creature:new {
 	socialGroup = "jabba",
 	pvpFaction = "townsperson",
 	faction = "jabba",
+	mobType = MOB_NPC,
 	level = 1,
 	chanceHit = 0.25,
 	damageMin = 50,
