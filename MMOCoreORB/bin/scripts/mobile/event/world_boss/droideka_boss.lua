@@ -2,6 +2,7 @@ droideka_boss = Creature:new {
 	customName = "M1r.d3r Experimental Attack Droid",
 	socialGroup = "droideka",
 	faction = "",
+	mobType = MOB_DROID,
 	level = 500,
 	chanceHit = 70.0,
 	damageMin = 500,
