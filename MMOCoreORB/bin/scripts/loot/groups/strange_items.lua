@@ -4,17 +4,17 @@ strange_items = {
 	maximumLevel = 0,
 	lootItems = {
 
-		{groupTemplate = "large_resource_chemical", weight = 142857},
-		{groupTemplate = "large_resource_flora", weight = 142857},
-		{groupTemplate = "large_resource_gemstone", weight = 142857},
-		{groupTemplate = "large_resource_metal", weight = 142857},
-		{groupTemplate = "large_resource_ore", weight = 142857},
-		{groupTemplate = "large_resource_water", weight = 142857}, 
-		{groupTemplate = "large_resource_creature", weight = 142857},
+		{groupTemplate = "large_resource_chemical", weight = 105714},
+		{groupTemplate = "large_resource_flora", weight = 105714},
+		{groupTemplate = "large_resource_gemstone", weight = 105714},
+		{groupTemplate = "large_resource_metal", weight = 105714},
+		{groupTemplate = "large_resource_ore", weight = 105714},
+		{groupTemplate = "large_resource_water", weight = 105714}, 
+		{groupTemplate = "large_resource_creature", weight = 105714},
 
 
 		-- 13.35%
-		{itemTemplate = "locked_container", weight = 1335001}, 
+		{itemTemplate = "locked_container", weight = 1335002}, 
 
 		-- 10%
 		{groupTemplate = "color_crystals", weight = 1000000}, 
