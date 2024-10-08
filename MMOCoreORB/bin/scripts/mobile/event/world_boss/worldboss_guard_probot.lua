@@ -1,6 +1,6 @@
 worldboss_guard_probot = Creature:new {
 	customName = "Pr0-Atk Droid",
-	socialGroup = "",
+	socialGroup = "worldboss",
 	faction = "",
 	mobType = MOB_DROID,
 	level = 150,
