@@ -203,7 +203,7 @@ void VendorDataComponent::runVendorUpdate() {
 		E3_ASSERT(vendor->isLockedByCurrentThread());
 
 		Locker locker(owner, vendor);
-		playerManager->awardExperience(owner, "merchant", 150 * hoursSinceLastUpdate, false);
+		playerManager->awardExperience(owner, "merchant", 300 * hoursSinceLastUpdate, false);
 
 		playerManager->awardExperience(owner, "merchant", awardUsageXP * 50, false);
 
