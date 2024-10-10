@@ -7,12 +7,13 @@ Smash Wars Galaxies: Legacy Reborn is a relaunching of a pet project by Smashley
 Smash Wars Galaxies is built on top of the SWGEmu Project, without which we would have no legs to stand on.
 
 ## Features
-    Custom Jedi Unlock system.
-    Rebalanced Buffs. Chef's now have foods to handle the regen HAM stats, taking some of the load off Doctors.
-    Enhanced Smuggler Slicing system.
-    NPC Merchants that allow for gambling, akin to Diablo 2's merchants
-    World Bosses
-    "Strange" crafting components
+- Custom Jedi Unlock system
+- Rebalanced Buffs: Chefs now have foods to handle the regen HAM stats, taking some of the load off Doctors
+- Enhanced Smuggler Slicing system
+- NPC Merchants that allow for gambling, akin to Diablo 2's merchants
+- World Bosses
+- "Strange" crafting components
+
 
 ## What is SWGEmu?
 
