@@ -178,6 +178,7 @@ void CreatureObjectImplementation::initializeMembers() {
 	healthWoundHeal = 0;
 	actionWoundHeal = 0;
 	mindWoundHeal = 0;
+	shockHeal = 0;
 
 	setContainerInheritPermissionsFromParent(false);
 	setContainerDefaultDenyPermission(ContainerPermissions::MOVECONTAINER);
@@ -3108,6 +3109,16 @@ void CreatureObjectImplementation::activatePassiveWoundRegeneration() {
 			healWound(asCreatureObject(), CreatureAttribute::FOCUS, 1, true, false);
 			healWound(asCreatureObject(), CreatureAttribute::WILLPOWER, 1, true, false);
 			mindWoundHeal -= 100;
+		}
+	}
+
+	/// Battle Fatigue regen
+	int shockRegen = getSkillMod("private_med_battle_fatigue");
+	if(shockRegen > 0) {
+		shockHeal += (int)(shockRegen * 0.33);
+		if(shockHeal >= 100) {
+			addShockWounds(-1, true, false);
+			shockHeal -= 100;
 		}
 	}
 }

@@ -2,6 +2,7 @@ tusken_raider_boss = Creature:new {
 	customName = "Corrupted Tusken Raider King",
 	socialGroup = "tusken_raider",
 	faction = "tusken_raider",
+	mobType = MOB_NPC,
 	level = 500,
 	chanceHit = 70.0,
 	damageMin = 500,

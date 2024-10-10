@@ -278,6 +278,7 @@
 #include "GmForceRankCommand.h"
 #include "GmFsVillageCommand.h"
 #include "GmJediStateCommand.h"
+#include "GmRestoreCommand.h"
 #include "GmReviveCommand.h"
 #include "GotoCommand.h"
 #include "GrantBadgeCommand.h"

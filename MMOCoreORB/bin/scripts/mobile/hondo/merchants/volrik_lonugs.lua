@@ -4,6 +4,7 @@ volrik_lonugs = Creature:new {
 	socialGroup = "townsperson",
 	pvpFaction = "townsperson",
 	faction = "townsperson",
+	mobType = MOB_NPC,
 	level = 1,
 	chanceHit = 0.25,
 	damageMin = 50,

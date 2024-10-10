@@ -1,5 +1,4 @@
---Copyright (C) 2010 <SWGEmu>
-
+--Copyright (C) 2007 <SWGEmu>
 
 --This File is part of Core3.
 
@@ -39,38 +38,13 @@
 --it is their choice whether to do so. The GNU Lesser General Public License
 --gives permission to release a modified version without this exception;
 --this exception also makes it possible to release a modified version
+--which carries forward this exception.
+--true = 1, false = 0
 
-
-object_building_poi_scout_camp_s2 = object_building_poi_shared_scout_camp_s2:new {
-	-- Improved Camp
-	templateType = CAMPSTRUCTURE,
-	lotSize = 0,
-	baseMaintenanceRate = 0,
-	basePowerRate = 0,
-
-	skillMods = {
-		{"private_safe_logout", 1},
-		{"private_medical_rating", 70},
-		{"private_med_wound_health", 40},
-		{"private_med_wound_action", 40},
-		{"private_aggro_mod", 20},
-		{"private_buff_mind", 100},
-		{"private_med_battle_fatigue", 5}
-	},
-
-	aggroMod = 20,
-	duration = 3600,
-	radius = 18,
-	experience = 800,
-	skillRequired = 30,
-
-	childObjects = {
-		{templateFile = "object/tangible/camp/camp_control_panel.iff", x = 1.35, z = 0, y = 3.33, ox = 0, oy = -0.992, oz = 0, ow = 0.126, cellid = -1, containmentType = -1},
-		{templateFile = "object/tangible/camp/camp_chair_s2.iff", x = 1.9, z = 0, y = -2.43, ox = 0, oy = -0.376, oz = 0, ow = 0.927, cellid = -1, containmentType = -1},
-		{templateFile = "object/tangible/camp/camp_chair_s2.iff", x = -2.2, z = 0, y = -.42, ox = 0, oy = 0.661, oz = .0, ow = 0.751, cellid = -1, containmentType = -1},
-		{templateFile = "object/tangible/camp/camp_chair_s2.iff", x = 0.66, z = 0, y = -2.91, ox = 0, oy = -0.130, oz = 0, ow = 0.992, cellid = -1, containmentType = -1},
-		{templateFile = "object/tangible/camp/camp_chair_s2.iff", x = 2.58, z = 0, y = -1.3, ox = 0, oy = -0.581, oz = 0, ow = 0.814, cellid = -1, containmentType = -1},
-	}
+GmRestoreCommand = {
+    name = "gmrestore",
+    cooldown = 7200,
 }
 
-ObjectTemplates:addTemplate(object_building_poi_scout_camp_s2, "object/building/poi/scout_camp_s2.iff")
+AddCommand(GmRestoreCommand)
+

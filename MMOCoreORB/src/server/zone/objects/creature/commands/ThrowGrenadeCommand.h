@@ -13,47 +13,54 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-		if (!checkStateMask(creature))
+		if (!checkStateMask(creature)){
 			return INVALIDSTATE;
+		}
 
-		if (!checkInvalidLocomotions(creature))
+		if (!checkInvalidLocomotions(creature)){
 			return INVALIDLOCOMOTION;
+		}
 
 		StringTokenizer tokenizer(arguments.toString());
-
-		if (!tokenizer.hasMoreTokens())
+		if (!tokenizer.hasMoreTokens()){
 			return INVALIDPARAMETERS;
+		}
 
 		try {
 			uint64 weaponID = tokenizer.getLongToken();
 
 			Reference<WeaponObject*> grenade = server->getZoneServer()->getObject(weaponID).castTo<WeaponObject*>();
-
-			if (grenade == nullptr || !grenade->isThrownWeapon())
+			if (grenade == nullptr || !grenade->isThrownWeapon()){
 				return INVALIDPARAMETERS;
+			}
 
-			if (!grenade->isASubChildOf(creature))
+			if (!grenade->isASubChildOf(creature)){
 				return GENERALERROR;
+			}
+
+			if ( !grenade->isCertifiedFor(creature) ){
+				creature->sendSystemMessage("@combat_effects:no_proficiency");
+				grenade->setCertified(false);
+			}
 
 			ManagedReference<TangibleObject*> targetObject = server->getZoneServer()->getObject(target).castTo<TangibleObject*>();
-
-			if (targetObject == nullptr)
+			if (targetObject == nullptr){
 				return GENERALERROR;
+			}
 
 			SharedObjectTemplate* templateData = TemplateManager::instance()->getTemplate(grenade->getServerObjectCRC());
-
-			if (templateData == nullptr)
+			if (templateData == nullptr){
 				return GENERALERROR;
+			}
 
 			SharedWeaponObjectTemplate* grenadeData = cast<SharedWeaponObjectTemplate*>(templateData);
-
-			if (grenadeData == nullptr)
+			if (grenadeData == nullptr){
 				return GENERALERROR;
+			}
 
 			UnicodeString args = "combatSpam=" + grenadeData->getCombatSpam() + ";";
 
 			int result = doCombatAction(creature, target, args, grenade);
-
 			if (result == SUCCESS) {
 				// We need to give some time for the combat animation to start playing before destroying the tano
 				// otherwise our character will play the wrong animations
@@ -65,8 +72,8 @@ public:
 			}
 
 			return result;
-
 		} catch (Exception& e) {
+
 		}
 
 		return GENERALERROR;
@@ -74,16 +81,15 @@ public:
 
 	String getAnimation(TangibleObject* attacker, TangibleObject* defender, WeaponObject* weapon, uint8 hitLocation, int damage) const {
 		SharedWeaponObjectTemplate* weaponData = cast<SharedWeaponObjectTemplate*>(weapon->getObjectTemplate());
-
 		if (weaponData == nullptr) {
 			warning("Null weaponData in ThrowGrenadeCommand::getAnimation");
 			return "";
 		}
 
 		String type = weaponData->getAnimationType();
-
-		if (type.isEmpty())
+		if (type.isEmpty()){
 			return "throw_grenade";
+		}
 
 		int range = attacker->getWorldPosition().distanceTo(defender->getWorldPosition());
 
@@ -102,21 +108,18 @@ public:
 
 	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
 		StringTokenizer tokenizer(arguments.toString());
-
 		if (!tokenizer.hasMoreTokens()) {
 			return 10.f;
 		}
 
-		uint64 weaponID = tokenizer.getLongToken();
-
 		auto zoneServer = server->getZoneServer();
-
 		if (zoneServer == nullptr) {
 			return 10.f;
 		}
 
-		Reference<WeaponObject*> grenade = zoneServer->getObject(weaponID).castTo<WeaponObject*>();
+		const uint64 weaponID = tokenizer.getLongToken();
 
+		Reference<WeaponObject*> grenade = zoneServer->getObject(weaponID).castTo<WeaponObject*>();
 		if (grenade == nullptr) {
 			return 10.f;
 		}

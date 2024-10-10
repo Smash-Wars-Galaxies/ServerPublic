@@ -2,6 +2,7 @@ jawa_boss = Creature:new {
 	customName = "Glob the Footpad",
 	socialGroup = "jawa",
 	faction = "jawa",
+	mobType = MOB_NPC,
 	level = 500,
 	chanceHit = 70.0,
 	damageMin = 500,

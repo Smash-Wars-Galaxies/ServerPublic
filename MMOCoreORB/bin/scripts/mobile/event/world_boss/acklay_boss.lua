@@ -2,6 +2,7 @@ acklay_boss = Creature:new {
 	customName = "Corrupted Acklay",
 	socialGroup = "geonosian_creature",
 	faction = "",
+	mobType = MOB_CARNIVORE,
 	level = 500,
 	chanceHit = 70.0,
 	damageMin = 500,

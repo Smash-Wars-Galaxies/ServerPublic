@@ -4,6 +4,7 @@ big_game_hunter = Creature:new {
     socialGroup = "",
     pvpFaction = "",
     faction = "",
+	mobType = MOB_NPC,
     level = 300,
     chanceHit = 100,
     damageMin = 95,
@@ -24,7 +25,7 @@ big_game_hunter = Creature:new {
     ferocity = 0,
     pvpBitmask = NONE,
     creatureBitmask = NONE,
-    optionsBitmask = 264,
+    optionsBitmask = AIENABLED,
     diet = HERBIVORE,
  
     templates = {"object/mobile/dressed_death_watch_silver.iff"},

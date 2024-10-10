@@ -1984,18 +1984,6 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 				uint32 damage = entry->elementAt(j).getValue();
 				totalDamage -= damage;
 			}
-		} else if (attacker->isPlayerCreature()) {
-			CreatureObject* creatureObject = attacker->asCreatureObject();
-			if ( creatureObject != nullptr ){
-				PlayerObject* playerObject = creatureObject->getPlayerObject();
-				for (int j = 0; j < entry->size(); ++j) {
-					String xpType = entry->elementAt(j).getKey();
-					if(playerObject->hasCappedExperience(xpType)) {
-						uint32 damage = entry->elementAt(j).getValue();
-						totalDamage -= damage;
-					}
-				}
-			}
 		}
 	}
 
@@ -2197,6 +2185,10 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 					xpAmount *= 0.2f;
 
 				if (xpType == "dotDMG") { // Prevents XP generated from DoTs from applying to the equiped weapon, but still counts towards combat XP
+					continue;
+				}
+
+				if (xpType == "combat_general") { // Prevents XP generated from grenades from applying to the equiped weapon, but still counts towards combat XP
 					continue;
 				}
 

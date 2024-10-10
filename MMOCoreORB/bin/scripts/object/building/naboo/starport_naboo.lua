@@ -50,7 +50,7 @@ object_building_naboo_starport_naboo = object_building_naboo_shared_starport_nab
 		{templateFile = "object/tangible/terminal/terminal_travel.iff", x = 2.54505, z = 0.639421, y = 48.1693, ox = 0, oy = 0, oz = 0, ow = 1, cellid = 4, containmentType = -1},
 		{templateFile = "object/tangible/terminal/terminal_travel.iff", x = -13.0021, z = 0.639421, y = 51.1865, ox = 0, oy = 0.332372, oz = 0, ow = 1, cellid = 4, containmentType = -1},
 		{templateFile = "object/tangible/travel/ticket_collector/ticket_collector.iff", x = 10, z = 0, y = -10, ox = 0, oy = 0.707107, oz = 0, ow = 0.707107, cellid = -1, containmentType = -1},
-		{templateFile = "object/creature/npc/theme_park/player_transport.iff", x = 0, z = 0, y = 0, ox = 0, oy = 1, oz = 0, ow = 0, cellid = -1, containmentType = -1}
+		{templateFile = "object/mobile/player_transport.iff", x = 0, z = 0, y = 0, ox = 0, oy = 1, oz = 0, ow = 0, cellid = -1, containmentType = -1}
 	}
 }
 
