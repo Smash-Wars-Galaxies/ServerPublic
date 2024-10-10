@@ -141,6 +141,7 @@ Luna<LuaCreatureObject>::RegType LuaCreatureObject::Register[] = {
 		{ "setWounds", &LuaCreatureObject::setWounds },
 		{ "setShockWounds", &LuaCreatureObject::setShockWounds },
 		{ "getForceSensitiveSkillCount", &LuaCreatureObject::getForceSensitiveSkillCount },
+		{ "smashKnightPrereqsMet", &LuaCreatureObject::smashKnightPrereqsMet },
 		{ "villageKnightPrereqsMet", &LuaCreatureObject::villageKnightPrereqsMet },
 		{ "isOnLeave", &LuaTangibleObject::isOnLeave },
 		{ "isOvert", &LuaTangibleObject::isOvert },
@@ -1090,6 +1091,16 @@ int LuaCreatureObject::getForceSensitiveSkillCount(lua_State* L) {
 	int result = SkillManager::instance()->getForceSensitiveSkillCount(realObject, includeNoviceMasterBoxes);
 
 	lua_pushnumber(L, result);
+
+	return 1;
+}
+
+int LuaCreatureObject::smashKnightPrereqsMet(lua_State* L) {
+	String skillToDrop = lua_tostring(L, -1);
+
+	bool result = SkillManager::instance()->smashKnightPrereqsMet(realObject, skillToDrop);
+
+	lua_pushboolean(L, result);
 
 	return 1;
 }
