@@ -119,6 +119,7 @@ namespace creature {
 		int setWounds(lua_State* L);
 		int setShockWounds(lua_State* L);
 		int getForceSensitiveSkillCount(lua_State* L);
+		int smashKnightPrereqsMet(lua_State* L);
 		int villageKnightPrereqsMet(lua_State* L);
 		int broadcastToServer(lua_State* L);
 		int broadcastToDiscord(lua_State* L);
