@@ -819,6 +819,40 @@ int SkillManager::getForceSensitiveSkillCount(CreatureObject* creature, bool inc
 	return forceSensitiveSkillCount;
 }
 
+bool SkillManager::smashKnightPrereqsMet(CreatureObject* creature, const String& skillToDrop) {
+	const SkillList* skillList = creature->getSkillList();
+
+	int fullTrees = 0;
+	int totalJediPoints = 0;
+
+	for (int i = 0; i < skillList->size(); ++i) {
+		Skill* skill = skillList->get(i);
+
+		String skillName = skill->getSkillName();
+		if (skillName.contains("force_discipline_") &&
+			(skillName.indexOf("0") != -1 || skillName.contains("novice") || skillName.contains("master") )) {
+			totalJediPoints += skill->getSkillPointsRequired();
+
+			if (skillName.indexOf("4") != -1) {
+				fullTrees++;
+			}
+		}
+	}
+
+	if (!skillToDrop.isEmpty()) {
+		Skill* skillBeingDropped = skillMap.get(skillToDrop.hashCode());
+
+		if (skillToDrop.indexOf("4") != -1) {
+			fullTrees--;
+		}
+
+		totalJediPoints -= skillBeingDropped->getSkillPointsRequired();
+	}
+
+	return fullTrees >= 2 && totalJediPoints >= 206;
+}
+
+
 bool SkillManager::villageKnightPrereqsMet(CreatureObject* creature, const String& skillToDrop) {
 	const SkillList* skillList = creature->getSkillList();
 

@@ -74,8 +74,8 @@ function MysteriousExperienceConverter:getBranchLearnList(pPlayer)
 
 	local branchList = "\nNothing"
 	local hasBranch = false
-	for i = 1, #VillageJediManagerCommon.forceSensitiveBranches, 1 do
-		local branchName = VillageJediManagerCommon.forceSensitiveBranches[i]
+	for i = 1, #SmashJediManagerCommon.forceSensitiveBranches, 1 do
+		local branchName = SmashJediManagerCommon.forceSensitiveBranches[i]
 		local localizedBranch = getStringId("@quest/force_sensitive/utils:" .. branchName)
 		if (hasBranch) then
 			branchList = branchList .. "\n" .. localizedBranch

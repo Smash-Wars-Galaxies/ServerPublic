@@ -383,6 +383,14 @@ function SmashJediManager:useItem(pSceneObject, itemType, pCreatureObject)
 end
 
 function SmashJediManager:canLearnSkill(pPlayer, skillName)
+	if skillName == "force_title_jedi_rank_01" and CreatureObject(pPlayer):getForceSensitiveSkillCount(false) < 24 then
+		return false
+	end
+
+	if skillName == "force_title_jedi_rank_03" and not CreatureObject(pPlayer):smashKnightPrereqsMet("") then
+		return false
+	end
+
 	return true
 end
 
