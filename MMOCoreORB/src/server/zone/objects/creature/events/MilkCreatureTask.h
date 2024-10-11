@@ -109,7 +109,7 @@ public:
 		String restype = creature->getMilkType();
 		int quantity = creature->getMilk();
 
-		const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.milkMultiplier", 1.0);
+		const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.MilkMultiplier", 1.0);
 		int quantityExtracted = int(resourceMultiplier * quantity * float(player->getSkillMod("creature_harvesting") / 100.0f));
 		quantityExtracted = Math::max(quantityExtracted, 3);
 

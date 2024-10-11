@@ -623,7 +623,7 @@ void FishingManagerImplementation::success(CreatureObject* player, int fish, Sce
 				}
 
 				String resourceString = "seafood_fish_" + zoneName;
-				const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.fishMultiplier", 1.0);
+				const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.FishingMultiplier", 1.0);
 				int amount = harvestingMod * 50 * resourceMultiplier;
 
 				ManagedReference<ResourceManager*> resourceManager = zoneServer->getResourceManager();

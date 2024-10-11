@@ -814,7 +814,7 @@ void CreatureManagerImplementation::droidHarvest(Creature* creature, CreatureObj
 		return;
 	}
 	int ownerSkill = owner->getSkillMod("creature_harvesting");
-	const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.harvestMultiplier", 1.0);
+	const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.HarvestMultiplier", 1.0);
 	int quantityExtracted = int(resourceMultiplier * quantity * float(ownerSkill / 100.0f));
 	// add in droid bonus
 	quantityExtracted = Math::max(quantityExtracted, 3);
@@ -997,7 +997,7 @@ void CreatureManagerImplementation::harvest(Creature* creature, CreatureObject* 
 		return;
 	}
 	
-	const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.harvestMultiplier", 1.0);
+	const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.HarvestMultiplier", 1.0);
 	int quantityExtracted = int(quantity * float(player->getSkillMod("creature_harvesting") / 100.0f));
 	quantityExtracted = Math::max(quantityExtracted, 3);
 
