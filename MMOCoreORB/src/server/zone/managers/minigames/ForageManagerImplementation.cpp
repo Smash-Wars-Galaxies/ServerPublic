@@ -401,8 +401,8 @@ bool ForageManagerImplementation::forageGiveResource(TransactionLog& trx, Creatu
 			return false;
 		}
 	}
-
-	int quantity = System::random(30) + 10;
+	const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.forageMultiplier", 1.0);
+	int quantity = System::random(30) + 10 * resourceMultiplier;
 	resourceManager->harvestResourceToPlayer(trx, player, resource, quantity);
 	return true;
 }

@@ -814,7 +814,8 @@ void CreatureManagerImplementation::droidHarvest(Creature* creature, CreatureObj
 		return;
 	}
 	int ownerSkill = owner->getSkillMod("creature_harvesting");
-	int quantityExtracted = int(quantity * float(ownerSkill / 100.0f));
+	const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.harvestMultiplier", 1.0);
+	int quantityExtracted = int(resourceMultiplier * quantity * float(ownerSkill / 100.0f));
 	// add in droid bonus
 	quantityExtracted = Math::max(quantityExtracted, 3);
 	ManagedReference<ResourceSpawn*> resourceSpawn = resourceManager->getCurrentSpawn(restype, droidZone->getZoneName());
@@ -995,6 +996,8 @@ void CreatureManagerImplementation::harvest(Creature* creature, CreatureObject* 
 		player->sendSystemMessage("Tried to harvest something this creature didn't have, please report this error");
 		return;
 	}
+	
+	const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.harvestMultiplier", 1.0);
 	int quantityExtracted = int(quantity * float(player->getSkillMod("creature_harvesting") / 100.0f));
 	quantityExtracted = Math::max(quantityExtracted, 3);
 

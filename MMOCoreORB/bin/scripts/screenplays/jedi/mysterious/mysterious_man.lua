@@ -11,12 +11,8 @@ MysteriousMan = ScreenPlay:new {
 		{planetName = "dantooine", xPos = 4228, zPos = 61, yPos = 5103, cell = 0},
         {planetName = "corellia", xPos = -3035, zPos = 34, yPos = -1823, cell = 0},
         {planetName = "tatooine", xPos = -4474, zPos = 46, yPos = -2150, cell = 0},
-        {planetName = "lok", xPos = 4561, zPos = 12, yPos = -1143, cell = 0},
-        {planetName = "talus", xPos = 4471, zPos = 72, yPos = 1372, cell = 0},
         {planetName = "yavin4", xPos = 5080, zPos = 73, yPos = 5538, cell = 0},
         {planetName = "dathomir", xPos = 3086, zPos = 126, yPos = 1673, cell = 0},
-        {planetName = "rori", xPos = -2901, zPos = 76, yPos = 2589, cell = 0},
-        {planetName = "naboo", xPos = -1990, zPos = 5, yPos = -5545, cell = 0},
 	},
 }
 
