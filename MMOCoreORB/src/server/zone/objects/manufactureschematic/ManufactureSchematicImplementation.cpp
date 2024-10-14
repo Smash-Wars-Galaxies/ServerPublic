@@ -5,7 +5,9 @@
 #include "server/zone/objects/manufactureschematic/ManufactureSchematic.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/player/sessions/crafting/CraftingSession.h"
+#include "server/zone/objects/player/PlayerObject.h"
 #include "server/zone/objects/draftschematic/DraftSchematic.h"
+#include "server/zone/packets/object/ObjectMenuResponse.h"
 
 #include "server/zone/packets/scene/SceneObjectCreateMessage.h"
 #include "server/zone/packets/scene/SceneObjectCloseMessage.h"
@@ -29,6 +31,65 @@ void ManufactureSchematicImplementation::destroyObjectFromDatabase(bool destroyC
 	}
 
 	SceneObjectImplementation::destroyObjectFromDatabase(destroyContainedObjects);
+}
+
+void ManufactureSchematicImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
+	if (player->getPlayerObject() != nullptr && player->getPlayerObject()->isPrivileged()) {
+		menuResponse->addRadialMenuItem(230, 3, "Generate Crate");
+	}
+}
+
+int ManufactureSchematicImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
+	if (selectedID == 230) {
+		Locker locker(prototype);
+
+		int crateSize = draftSchematic->getFactoryCrateSize();
+		if (crateSize <= 0) {
+			return 1;
+		}
+
+		ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+		if (inventory == nullptr) {
+			return 1;
+		}
+
+		if (crateSize > 1) {
+			String crateType = draftSchematic->getFactoryCrateType();
+
+			ManagedReference<FactoryCrate*> crate = prototype->createFactoryCrate(crateSize, crateType, false);
+			if (crate == nullptr) {
+				return 1;
+			}
+
+			Locker clocker(crate);
+			crate->setUseCount(crateSize, true);
+
+			Locker locker(inventory, crate);
+			if (inventory->transferObject(crate, -1, true, false)) {
+				inventory->broadcastObject(crate, true);
+			} else {
+				crate->destroyObjectFromDatabase(true);
+			}
+		} else {
+			ObjectManager* objectManager = ObjectManager::instance();
+			ManagedReference<TangibleObject*> protoclone = cast<TangibleObject*>(objectManager->cloneObject(prototype->asTangibleObject()));
+
+			if (protoclone == nullptr) {
+				return 1;
+			}
+
+			Locker clocker(protoclone);
+			Locker locker(inventory, protoclone);
+			protoclone->setParent(nullptr);
+			if (inventory->transferObject(protoclone, -1, true, false)) {
+				inventory->broadcastObject(protoclone, true);
+			} else {
+				protoclone->destroyObjectFromDatabase(true);
+			}
+		}
+	}
+
+	return 0;
 }
 
 void ManufactureSchematicImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
@@ -307,34 +368,34 @@ void ManufactureSchematicImplementation::initializeIngredientSlots() {
 		slotIndexes.add(i);
 
 		switch (draftSlot->getSlotType()) {
-		case IngredientSlot::RESOURCESLOT:
-			ingredientSlot = new ResourceSlot();
-			ingredientSlot->setOptional(false);
-			ingredientSlot->setIdentical(true);
-			break;
-		case IngredientSlot::IDENTICALSLOT:
-			ingredientSlot = new ComponentSlot();
-			ingredientSlot->setOptional(false);
-			ingredientSlot->setIdentical(true);
-			break;
-		case IngredientSlot::MIXEDSLOT:
-			ingredientSlot = new ComponentSlot();
-			ingredientSlot->setOptional(false);
-			ingredientSlot->setIdentical(false);
-			break;
-		case IngredientSlot::OPTIONALIDENTICALSLOT:
-			ingredientSlot = new ComponentSlot();
-			ingredientSlot->setOptional(true);
-			ingredientSlot->setIdentical(true);
-			break;
-		case IngredientSlot::OPTIONALMIXEDSLOT:
-			ingredientSlot = new ComponentSlot();
-			ingredientSlot->setOptional(true);
-			ingredientSlot->setIdentical(false);
-			break;
-		default:
-			error("Ingredient Slot script value bad: " + draftSchematic->getDisplayedName());
-			continue;
+			case IngredientSlot::RESOURCESLOT:
+				ingredientSlot = new ResourceSlot();
+				ingredientSlot->setOptional(false);
+				ingredientSlot->setIdentical(true);
+				break;
+			case IngredientSlot::IDENTICALSLOT:
+				ingredientSlot = new ComponentSlot();
+				ingredientSlot->setOptional(false);
+				ingredientSlot->setIdentical(true);
+				break;
+			case IngredientSlot::MIXEDSLOT:
+				ingredientSlot = new ComponentSlot();
+				ingredientSlot->setOptional(false);
+				ingredientSlot->setIdentical(false);
+				break;
+			case IngredientSlot::OPTIONALIDENTICALSLOT:
+				ingredientSlot = new ComponentSlot();
+				ingredientSlot->setOptional(true);
+				ingredientSlot->setIdentical(true);
+				break;
+			case IngredientSlot::OPTIONALMIXEDSLOT:
+				ingredientSlot = new ComponentSlot();
+				ingredientSlot->setOptional(true);
+				ingredientSlot->setIdentical(false);
+				break;
+			default:
+				error("Ingredient Slot script value bad: " + draftSchematic->getDisplayedName());
+				continue;
 		}
 
 		ingredientSlot->setContentType(draftSlot->getResourceType());
