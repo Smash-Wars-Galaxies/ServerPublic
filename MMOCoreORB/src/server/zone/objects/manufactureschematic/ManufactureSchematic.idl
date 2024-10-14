@@ -8,6 +8,7 @@ import system.lang.ref.Reference;
 import system.util.Vector;
 import server.zone.objects.intangible.IntangibleObject;
 import server.zone.packets.scene.AttributeListMessage;
+import server.zone.packets.object.ObjectMenuResponse;
 import server.zone.objects.draftschematic.DraftSchematic;
 include server.zone.objects.creature.CreatureObject;
 import server.zone.objects.scene.SceneObject;
@@ -115,6 +116,22 @@ class ManufactureSchematic extends IntangibleObject {
 
 	public abstract native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
 
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+	
+	/**
+	 * Handles the radial selection sent by the client, must be overriden by inherited objects
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player CreatureObject that selected the option
+	 * @param selectedID selected menu id
+	 * @returns 0 if successfull
+	 */
+	@preLocked
+	@arg1preLocked
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
 	/**
 	 * Fills the attribute list message options that are sent to player creature
 	 * @pre { }
