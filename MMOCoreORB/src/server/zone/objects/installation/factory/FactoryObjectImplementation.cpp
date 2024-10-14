@@ -566,7 +566,7 @@ bool FactoryObjectImplementation::startFactory() {
 	timer = 30;
 	info(true) << "Factory Testing Timer Set To: " << timer;
 #else
-	timer = ((int)schematic->getComplexity()) * 8;
+	timer = (int)(schematic->getComplexity() * 8.0 * ConfigManager::instance()->getFloat("Core3.Production.FactoryTimeMultiplier", 1.0));
 #endif
 
 	if (!populateSchematicBlueprint(schematic))

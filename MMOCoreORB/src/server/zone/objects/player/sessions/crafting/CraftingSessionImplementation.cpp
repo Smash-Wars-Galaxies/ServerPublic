@@ -1398,7 +1398,7 @@ void CraftingSessionImplementation::createPrototype(int clientCounter, bool crea
 
 		} else {
 			// This is for practicing
-			startCreationTasks(manufactureSchematic->getComplexity() * 2, true);
+			startCreationTasks((int)(manufactureSchematic->getComplexity() * 2 * ConfigManager::instance()->getFloat("Core3.Production.AssemblyTimeMultiplier", 1.0)), true);
 			xp = round(xp * 1.10f);
 		}
 
