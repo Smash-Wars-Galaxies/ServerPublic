@@ -415,10 +415,6 @@ void ArmorObjectImplementation::calculateSpecialProtection(CraftingValues* craft
 			setProtectionValue(type, value);
 		}
 	}
-
-	// Remove vulnerability flag for added special types from special segments
-	// so they can be experimented on
-	vulnerabilites &= ~specialResists;
 }
 
 String ArmorObjectImplementation::getStringType(int type) const {
