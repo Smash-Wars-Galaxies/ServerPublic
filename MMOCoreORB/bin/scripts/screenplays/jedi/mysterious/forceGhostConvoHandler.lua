@@ -35,7 +35,9 @@ function ForceGhostConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, 
 		if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
 			SmashJediManager:setForceSensitive(pPlayer)
 		end
-	elseif screenID == "trainers" then
+	elseif screenID == "location" then
+		--give waypoint
+		--Floating message "Something tells you to look on Yavin 4..."
 	end
 end
 
