@@ -27,9 +27,9 @@ function JediTrials:isEligibleForPadawanTrials(pPlayer)
 		return false
 	end
 
-	local learnedBranches = VillageJediManagerCommon.getLearnedForceSensitiveBranches(pPlayer)
+	local learnedBranches = SmashJediManagerCommon.getLearnedForceSensitiveBranches(pPlayer)
 
-	return CreatureObject(pPlayer):hasScreenPlayState(32, "VillageJediProgression") and not CreatureObject(pPlayer):hasSkill("force_title_jedi_rank_02") and learnedBranches >= 6 and tonumber(readScreenPlayData(pPlayer, "PadawanTrials", "completedTrials")) ~= 1
+	return CreatureObject(pPlayer):hasScreenPlayState(SMASH_JEDI_PROGRESSION_READY_PADAWAN_TRIALS, "SmashJediProgression") and not CreatureObject(pPlayer):hasSkill("force_title_jedi_rank_02") and learnedBranches >= 2 and tonumber(readScreenPlayData(pPlayer, "PadawanTrials", "completedTrials")) ~= 1
 end
 
 function JediTrials:isOnPadawanTrials(pPlayer)

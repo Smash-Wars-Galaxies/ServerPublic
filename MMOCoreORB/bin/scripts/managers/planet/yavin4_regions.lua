@@ -97,6 +97,7 @@ yavin4_regions = {
 	{"yavin4_force_shrine_04", -3362, 6915, {CIRCLE, 199}, NOSPAWNAREA + NOBUILDZONEAREA},
 	{"yavin4_jedi_enclave_dark", 5070, 310, {CIRCLE, 577}, NOSPAWNAREA + NOBUILDZONEAREA + NAVAREA},
 	{"yavin4_jedi_enclave_light", -5514, 4912, {CIRCLE, 577}, NOSPAWNAREA + NOBUILDZONEAREA + NAVAREA},
+	{"yavin4_force_sensitive_enclave", -23, 1109, {CIRCLE, 577}, NOSPAWNAREA + NOBUILDZONEAREA + NAVAREA},
 
 	-- TBD
 	--{"death_star_debris", 5846, 1444, {CIRCLE, 350}, NOSPAWNAREA + NOBUILDZONEAREA},
