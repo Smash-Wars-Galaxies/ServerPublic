@@ -5,6 +5,15 @@ jediConverterConvoTemplate = ConvoTemplate:new {
 	screens = {}
 }
 
+no_business = ConvoScreen:new {
+    id = "no_business",
+    leftDialog = "",
+    customDialogText = "Apologies, friend. It seems we aren't acquainted.",
+    stopConversation = "true",
+    options = {}
+}
+jediConverterConvoTemplate:addScreen(no_business);
+
 intro = ConvoScreen:new {
 	id = "intro",
 	leftDialog = "",
@@ -14,6 +23,7 @@ intro = ConvoScreen:new {
 		{"I wish to broaden my knowledge", "convert"},
 	}
 }
+jediConverterConvoTemplate:addScreen(intro);
 
 convert = ConvoScreen:new {
 	id = "iconvert",

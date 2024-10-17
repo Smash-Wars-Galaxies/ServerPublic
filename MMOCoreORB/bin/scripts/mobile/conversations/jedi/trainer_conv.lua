@@ -19,6 +19,15 @@ trainerType = ConvoScreen:new {
 }
 jediTrainerConvoTemplate:addScreen(trainerType);
 
+no_business = ConvoScreen:new {
+    id = "no_business",
+    leftDialog = "",
+    customDialogText = "Not interested.",
+    stopConversation = "true",
+    options = {}
+}
+jediTrainerConvoTemplate:addScreen(no_business);
+
 intro = ConvoScreen:new {
     id = "intro",
     leftDialog = "",
