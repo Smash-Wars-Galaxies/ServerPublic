@@ -2,11 +2,11 @@
 
 local ObjectManager = require("managers.object.object_manager")
 
-MysteriousMan = ScreenPlay:new {
+ForceGhost = ScreenPlay:new {
 	numberOfActs = 1,
-	screenplayName = "MysteriousMan",
+	screenplayName = "ForceGhost",
 
-	time_to_stay = 60,
+	time_to_stay = 30,
 	spawnPoints = {
 		{planetName = "dantooine", xPos = 4228, zPos = 61, yPos = 5103, cell = 0},
         {planetName = "corellia", xPos = -3035, zPos = 34, yPos = -1823, cell = 0},
@@ -17,10 +17,10 @@ MysteriousMan = ScreenPlay:new {
 }
 
 --True here tells the server to load this screenplay at server load. False tells it to wait until explicitly started.
-registerScreenPlay("MysteriousMan", true)
+registerScreenPlay("ForceGhost", true)
 
 --Filter spawn locations to places that are enabled
-function MysteriousMan:getValidSpawnLocations()
+function ForceGhost:getValidSpawnLocations()
 	local valid_locations = {}
 	for i, point in pairs(self.spawnPoints) do
 		if (isZoneEnabled(point.planetName)) then
@@ -32,7 +32,7 @@ end
 
 ---Play an effect to announce the spawn or despawn of the mysterious man
 ---@args pCreature CreatureObject
-function MysteriousMan:playEffect(pCreature)
+function ForceGhost:playEffect(pCreature)
 	playClientEffectLoc(
 		CreatureObject(pCreature):getObjectID(),
 		"clienteffect/level_granted.cef",
@@ -46,12 +46,12 @@ end
 
 
 --This gets executed automatically when the screenplay is started
-function MysteriousMan:start()
+function ForceGhost:start()
 	self:spawn()
 end
 
 --Put all the initial spawning of mobiles in a nice method like this.
-function MysteriousMan:spawn()
+function ForceGhost:spawn()
 	-- Get list of valid spawn locations
 	local valid_spawns = self:getValidSpawnLocations()
 
@@ -59,22 +59,22 @@ function MysteriousMan:spawn()
 	local spawn = valid_spawns[getRandomNumber(1, #valid_spawns)]
 
 	-- Spawn Mysterious Man
-	local pMobile = spawnMobile(spawn.planetName, "mysterious", 0, spawn.xPos, spawn.zPos, spawn.yPos, getRandomNumber(360) - 180, spawn.cell)
+	local pMobile = spawnMobile(spawn.planetName, "force_ghost", 0, spawn.xPos, spawn.zPos, spawn.yPos, getRandomNumber(360) - 180, spawn.cell)
 	if (pMobile ~= nil) then
 		self:playEffect(pMobile)
 		print("Force Ghost spawned at " .. spawn.xPos .. ", " .. spawn.yPos .. " on " .. spawn.planetName .. ".")
 		-- Despawn after time_to_stay minutes
-		createEvent(self.time_to_stay * 60 * 1000, "MysteriousMan", "despawn", pMobile, "")
+		createEvent(self.time_to_stay * 60 * 1000, "ForceGhost", "despawn", pMobile, "")
 	end
 end
 
-function MysteriousMan:despawn(pMobile)
+function ForceGhost:despawn(pMobile)
 	if (pMobile == nil) then
 		return
 	end
 
 	if (CreatureObject(pMobile):isInCombat() or AiAgent(pMobile):getFollowObject() ~= nil) then
-		createEvent(10000, "MysteriousMan", "despawn", pMobile, "")
+		createEvent(10000, "ForceGhost", "despawn", pMobile, "")
 		return
 	end
 

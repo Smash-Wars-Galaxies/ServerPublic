@@ -317,9 +317,13 @@ includeFile("conversations/record_keepers/record_keeper_rebel_conv.lua")
 -- Personality Conversations
 includeFile("conversations/pet/pets_conv.lua")
 
+-- Jedi
+includeFile("conversations/jedi/converter_conv.lua")
+includeFile("conversations/jedi/forceghost_conv.lua")
+includeFile("conversations/jedi/tainer_conv.lua")
+
 -- Misc
 includeFile("conversations/misc/bartender_conv.lua")
-includeFile("conversations/misc/mysterious_conv.lua")
 includeFile("conversations/misc/philosopher_conv.lua")
 
 -- Junk Dealers

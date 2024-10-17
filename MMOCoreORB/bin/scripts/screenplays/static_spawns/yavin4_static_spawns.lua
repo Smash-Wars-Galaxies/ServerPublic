@@ -13,6 +13,10 @@ Yavin4StaticSpawnsScreenPlay = ScreenPlay:new {
 		{"dark_jedi_sentinel", 10, 5074.2, 78.8, 313.9, 90, 0},
 		{"dark_jedi_sentinel", 10, 5074.3, 79.2, 306.4, 90, 0},
 
+		-- Force Sensitive Trainers
+		{"kyra_sovari",  10, -26.0, 19, 1109.5, -179, 0},
+		{"jarek_ventai", 10, -23.6, 19, 1109.2, 90, 0},
+
 		-- Yavin4 Ruins (-6299, -1502)
 		{"crazed_geonosian_guard",300,-6299.1,24.7,-1502,0,0},
 		{"crazed_geonosian_guard",300,-6299.1,25.6,-1506.4,179,0},

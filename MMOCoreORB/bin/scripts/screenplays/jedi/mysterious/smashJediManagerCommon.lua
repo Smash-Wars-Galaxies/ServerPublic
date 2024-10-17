@@ -23,13 +23,10 @@ SmashJediManagerCommon = ScreenPlay:new {
 }
 
 SMASH_JEDI_PROGRESSION_SCREEN_PLAY_STATE_STRING = "SmashJediProgression"
-SMASH_JEDI_PROGRESSION_GLOWING = 1
-SMASH_JEDI_PROGRESSION_HAS_CRYSTAL = 2
-SMASH_JEDI_PROGRESSION_HAS_VILLAGE_ACCESS = 4
-SMASH_JEDI_PROGRESSION_COMPLETED_VILLAGE = 8
-SMASH_JEDI_PROGRESSION_ACCEPTED_MELLICHAE = 16
-SMASH_JEDI_PROGRESSION_DEFEATED_MELLIACHAE = 32
-SMASH_JEDI_PROGRESSION_COMPLETED_PADAWAN_TRIALS = 64
+SMASH_JEDI_PROGRESSION_FORCE_SENSITIVE_UNLOCKED = 1
+SMASH_JEDI_PROGRESSION_READY_PADAWAN_TRIALS = 2
+SMASH_JEDI_PROGRESSION_COMPLETED_PADAWAN_TRIALS = 4
+
 
 -- Set the jedi progression screen play state on the player.
 -- @param pPlayer pointer to the creature object of the player.
@@ -39,15 +36,7 @@ function SmashJediManagerCommon.setJediProgressionScreenPlayState(pPlayer, state
 		return
 	end
 
-	CreatureObject(pPlayer):setScreenPlayState(state, VILLAGE_JEDI_PROGRESSION_SCREEN_PLAY_STATE_STRING)
-end
-
-function SmashJediManagerCommon.isVillageEligible(pPlayer)
-	if (pPlayer == nil) then
-		return false
-	end
-
-	return VillageJediManagerCommon.hasJediProgressionScreenPlayState(pPlayer, VILLAGE_JEDI_PROGRESSION_HAS_VILLAGE_ACCESS) and QuestManager.hasCompletedQuest(pPlayer, QuestManager.quests.FS_VILLAGE_ELDER)
+	CreatureObject(pPlayer):setScreenPlayState(state, SMASH_JEDI_PROGRESSION_SCREEN_PLAY_STATE_STRING)
 end
 
 -- Check if the player has the jedi progression screen play state.
@@ -59,7 +48,7 @@ function SmashJediManagerCommon.hasJediProgressionScreenPlayState(pPlayer, state
 		return false
 	end
 
-	return CreatureObject(pPlayer):hasScreenPlayState(state, VILLAGE_JEDI_PROGRESSION_SCREEN_PLAY_STATE_STRING)
+	return CreatureObject(pPlayer):hasScreenPlayState(state, SMASH_JEDI_PROGRESSION_SCREEN_PLAY_STATE_STRING)
 end
 
 function SmashJediManagerCommon.getLearnedForceSensitiveBranches(pPlayer)

@@ -4,7 +4,6 @@ includeFile("quest/chadra_fan_assassin.lua")
 includeFile("quest/chadra_fan_female.lua")
 includeFile("quest/chadra_fan_male.lua")
 includeFile("quest/chadra_fan_thief.lua")
-includeFile("quest/mysterious_man.lua")
 includeFile("quest/gadget_specialist.lua")
 includeFile("quest/theater_manager.lua")
 
@@ -41,6 +40,11 @@ includeFile("quest/generic/scientist_target_crazed_scientist.lua")
 includeFile("quest/generic/scientist_target_robber.lua")
 includeFile("quest/generic/scientist_target_scientist.lua")
 includeFile("quest/generic/scientist_target_spy.lua")
+
+--Jedi
+includeFile("quest/jedi/force_ghost.lua")
+includeFile("quest/jedi/jarek_ventai.lua")
+includeFile("quest/jedi/kyra_sovari.lua")
 
 --CoA
 includeFile("quest/coa/coa2_drall_guard.lua")
