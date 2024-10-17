@@ -656,6 +656,7 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	luaEngine->setGlobalInt("WAYPOINTRACETRACK", WaypointObject::SPECIALTYPE_RACETRACK);
 	luaEngine->setGlobalInt("WAYPOINTTREASUREMAP", WaypointObject::SPECIALTYPE_TREASUREMAP);
 	luaEngine->setGlobalInt("WAYPOINTQUESTTASK", WaypointObject::SPECIALTYPE_QUESTTASK);
+	luaEngine->setGlobalInt("WAYPOINTJEDI", WaypointObject::SPECIALTYPE_JEDI);
 
 	luaEngine->setGlobalInt("HEALTH", CreatureAttribute::HEALTH);
 	luaEngine->setGlobalInt("CONSTITUTION", CreatureAttribute::CONSTITUTION);
