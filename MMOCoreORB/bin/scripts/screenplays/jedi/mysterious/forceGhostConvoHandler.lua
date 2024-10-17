@@ -36,9 +36,16 @@ function ForceGhostConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, 
 			SmashJediManager:setForceSensitive(pPlayer)
 		end
 	elseif screenID == "location" then
-		--give waypoint
-		--Floating message "Something tells you to look on Yavin 4..."
-	end
+		-- Get the PlayerObject from the CreatureObject
+		local playerObject = LuaPlayerObject(CreatureObject(pPlayer):getPlayerObject())
+
+		if playerObject ~= nil then
+			-- Add the waypoint
+			playerObject:addWaypoint("yavin4", "A Strange Camp", "A mysterious location on Yavin 4", -5575, 4901, WAYPOINTPURPLE, true, true, WAYPOINTJEDI, 0)
+			
+			-- Send a message to the player
+			CreatureObject(pPlayer):sendSystemMessage("Something tells you to look on Yavin 4...")
+		end
 end
 
 return ForceGhostConvoHandler
