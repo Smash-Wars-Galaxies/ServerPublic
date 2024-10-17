@@ -22,6 +22,17 @@ trainers = ConvoScreen:new {
     id = "trainers",
     leftDialog = "",
     customDialogText = "I can help you no more, you must seek out Jarek and Kyra...",
+    stopConversation = "false",
+    options = {
+		{"Where can I find them?", "location"}
+	}
+}
+forceGhostConvoTemplate:addScreen(trainers);
+
+location = ConvoScreen:new {
+    id = "location",
+    leftDialog = "",
+    customDialogText = "The Force will guide you...",
     stopConversation = "true",
     options = {}
 }
