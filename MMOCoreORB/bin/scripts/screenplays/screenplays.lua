@@ -284,9 +284,13 @@ includeFile("jedi/components/ForceShrineMenuComponent.lua")
 includeFile("jedi/components/TrialsSearchObjectMenuComponent.lua")
 
 -- Smash Jedi
-includeFile("jedi/mysterious/mysterious_man.lua")
-includeFile("jedi/mysterious/mysterious_man_conv_handler.lua")
-includeFile("jedi/mysterious/mysterious_experience_converter.lua")
+includeFile("jedi/mysterious/forceGhost.lua")
+includeFile("jedi/mysterious/forceGhostConvoHandler.lua")
+includeFile("jedi/mysterious/jediConverterConvoHandler.lua")
+includeFile("jedi/mysterious/jediTrainerConvoHandler.lua")
+includeFile("jedi/mysterious/smashExperienceConverter.lua")
+includeFile("jedi/mysterious/smashJediManagerCommon.lua")
+includeFile("jedi/mysterious/smashJediManagerHolocron.lua")
 
 -- Events - Bestine Election
 includeFile("events/bestine_election/bestineElection.lua")
