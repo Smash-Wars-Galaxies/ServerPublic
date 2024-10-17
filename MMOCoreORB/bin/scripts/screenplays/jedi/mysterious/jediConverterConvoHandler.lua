@@ -11,6 +11,8 @@ function JediConverterConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNp
 		return template:getScreen("cant_convert")
 	end
 
+	if screenID == "intro" then
+		
 	elseif screenID == "learn_force" then
 		if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
 			SmashJediManager:setForceSensitive(pPlayer)

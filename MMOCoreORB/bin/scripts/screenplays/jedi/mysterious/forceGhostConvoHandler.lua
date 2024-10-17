@@ -46,6 +46,7 @@ function ForceGhostConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, 
 			-- Send a message to the player
 			CreatureObject(pPlayer):sendSystemMessage("Something tells you to look on Yavin 4...")
 		end
+	end
 end
 
 return ForceGhostConvoHandler
