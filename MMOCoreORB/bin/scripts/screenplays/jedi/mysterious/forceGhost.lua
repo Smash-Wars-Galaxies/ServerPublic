@@ -82,5 +82,5 @@ function ForceGhost:despawn(pMobile)
 	self:playEffect(pMobile)
 	print( "Force Ghost despwaned...")
 	-- Respawn in one minute
-	createEvent(60 * 1000, "MysteriousMan", "spawn", "", "")
+	createEvent(60 * 1000, "ForceGhost", "spawn", "", "")
 end
