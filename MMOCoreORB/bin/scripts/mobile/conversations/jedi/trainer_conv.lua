@@ -1,7 +1,7 @@
-jediTrainerConvoTemplate = ConvoTemplate:new {
+jediFSTrainerConvoTemplate = ConvoTemplate:new {
 	initialScreen = "intro",
 	templateType = "Lua",
-	luaClassHandler = "JediTrainerConvoHandler",
+	luaClassHandler = "JediFSTrainerConvoHandler",
 	screens = {}
 }
 --[[ 
@@ -17,7 +17,7 @@ trainerType = ConvoScreen:new {
         { "trainerType" , "trainer_fs" }
     }
 }
-jediTrainerConvoTemplate:addScreen(trainerType);
+jediFSTrainerConvoTemplate:addScreen(trainerType);
 
 no_business = ConvoScreen:new {
     id = "no_business",
@@ -26,7 +26,7 @@ no_business = ConvoScreen:new {
     stopConversation = "true",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(no_business);
+jediFSTrainerConvoTemplate:addScreen(no_business);
 
 intro = ConvoScreen:new {
     id = "intro",
@@ -34,7 +34,7 @@ intro = ConvoScreen:new {
     stopConversation = "false",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(intro_trainer);
+jediFSTrainerConvoTemplate:addScreen(intro_trainer);
 
 trainer_unknown = ConvoScreen:new {
     id = "trainer_unknown",
@@ -42,7 +42,7 @@ trainer_unknown = ConvoScreen:new {
     stopConversation = "true",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(trainer_unknown);
+jediFSTrainerConvoTemplate:addScreen(trainer_unknown);
 
 topped_out = ConvoScreen:new {
     id = "topped_out",
@@ -50,7 +50,7 @@ topped_out = ConvoScreen:new {
     stopConversation = "true",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(topped_out);
+jediFSTrainerConvoTemplate:addScreen(topped_out);
 
 no_qualify = ConvoScreen:new {
     id = "no_qualify",
@@ -58,7 +58,7 @@ no_qualify = ConvoScreen:new {
     stopConversation = "true",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(no_qualify);
+jediFSTrainerConvoTemplate:addScreen(no_qualify);
 
 msg2_1 = ConvoScreen:new {
     id = "msg2_1",
@@ -66,7 +66,7 @@ msg2_1 = ConvoScreen:new {
     stopConversation = "false",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(msg2_1);
+jediFSTrainerConvoTemplate:addScreen(msg2_1);
 
 msg2_2 = ConvoScreen:new {
     id = "msg2_2",
@@ -74,7 +74,7 @@ msg2_2 = ConvoScreen:new {
     stopConversation = "false",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(msg2_2);
+jediFSTrainerConvoTemplate:addScreen(msg2_2);
 
 learn = ConvoScreen:new {
     id = "learn",
@@ -82,7 +82,7 @@ learn = ConvoScreen:new {
     stopConversation = "false",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(learn);
+jediFSTrainerConvoTemplate:addScreen(learn);
 
 confirm_learn = ConvoScreen:new {
     id = "confirm_learn",
@@ -90,7 +90,7 @@ confirm_learn = ConvoScreen:new {
     stopConversation = "false",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(confirm_learn);
+jediFSTrainerConvoTemplate:addScreen(confirm_learn);
 
 cancel_learn = ConvoScreen:new {
     id = "cancel_learn",
@@ -101,7 +101,7 @@ cancel_learn = ConvoScreen:new {
         {"@skill_teacher:opt1_2", "msg2_2"} -- What skills will I be able to learn next?
     }
 }
-jediTrainerConvoTemplate:addScreen(cancel_learn);
+jediFSTrainerConvoTemplate:addScreen(cancel_learn);
 
 info = ConvoScreen:new {
     id = "info",
@@ -109,7 +109,7 @@ info = ConvoScreen:new {
     stopConversation = "false",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(info);
+jediFSTrainerConvoTemplate:addScreen(info);
 
 nsf_skill_points = ConvoScreen:new {
     id = "nsf_skill_points",
@@ -117,6 +117,6 @@ nsf_skill_points = ConvoScreen:new {
     stopConversation = "false",
     options = {}
 }
-jediTrainerConvoTemplate:addScreen(nsf_skill_points);
+jediFSTrainerConvoTemplate:addScreen(nsf_skill_points);
 
-addConversationTemplate("jediTrainerConvoTemplate", jediTrainerConvoTemplate);
+addConversationTemplate("jediFSTrainerConvoTemplate", jediFSTrainerConvoTemplate);
