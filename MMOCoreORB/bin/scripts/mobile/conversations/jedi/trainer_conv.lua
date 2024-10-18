@@ -34,7 +34,7 @@ intro = ConvoScreen:new {
     stopConversation = "false",
     options = {}
 }
-jediFSTrainerConvoTemplate:addScreen(intro_trainer);
+jediFSTrainerConvoTemplate:addScreen(intro);
 
 trainer_unknown = ConvoScreen:new {
     id = "trainer_unknown",

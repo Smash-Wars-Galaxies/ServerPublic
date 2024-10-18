@@ -5,28 +5,8 @@ jediConverterConvoTemplate = ConvoTemplate:new {
 	screens = {}
 }
 
-no_business = ConvoScreen:new {
-    id = "no_business",
-    leftDialog = "",
-    customDialogText = "Apologies, friend. It seems we aren't acquainted.",
-    stopConversation = "true",
-    options = {}
-}
-jediConverterConvoTemplate:addScreen(no_business);
-
 intro = ConvoScreen:new {
 	id = "intro",
-	leftDialog = "",
-	customDialogText = "Welcome, seeker. Come, how I may help you today?",
-	stopConversation = "false",
-	options = {
-		{"I wish to broaden my knowledge", "convert"},
-	}
-}
-jediConverterConvoTemplate:addScreen(intro);
-
-convert = ConvoScreen:new {
-	id = "convert",
 	leftDialog = "@conversation/fs_experience_converter:s_962f82a6", -- Welcome, friend! Come here and tell me what insight I may provide for you today?
 	stopConversation = "false",
 	options = {
@@ -36,10 +16,10 @@ convert = ConvoScreen:new {
 		{"@conversation/fs_experience_converter:s_2734c210", "learn_reflex"}, -- I wish to learn more about using the Force to enhance my reflexes.
 		-- Was used to convert old jedi system to new
 		--{"@conversation/fs_experience_converter:s_69a7c6ca", "learn_force"}, -- I wish to learn new uses of the Force.
-		--{"@conversation/fs_experience_converter:s_e4c01185", "what_aspects"} -- What aspects of the Force am I ready to learn?
+		{"@conversation/fs_experience_converter:s_e4c01185", "what_aspects"} -- What aspects of the Force am I ready to learn?
 	}
 }
-jediConverterConvoTemplate:addScreen(convert);
+jediConverterConvoTemplate:addScreen(intro);
 
 learn_crafting = ConvoScreen:new {
 	id = "learn_crafting",
@@ -88,5 +68,14 @@ what_aspects = ConvoScreen:new {
 	options = {}
 }
 jediConverterConvoTemplate:addScreen(what_aspects);
+
+no_business = ConvoScreen:new {
+    id = "no_business",
+    leftDialog = "",
+    customDialogText = "Sorry Stranger, I don't think we have any business to conduct.",
+    stopConversation = "true",
+    options = {}
+}
+jediFSTrainerConvoTemplate:addScreen(no_business);
 
 addConversationTemplate("jediConverterConvoTemplate", jediConverterConvoTemplate);

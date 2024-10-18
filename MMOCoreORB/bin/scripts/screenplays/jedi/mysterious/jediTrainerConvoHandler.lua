@@ -1,21 +1,22 @@
+local ObjectManager = require("managers.object.object_manager")
 
-JediTrainerConvoHandler = conv_handler:new {}
+JediFSTrainerConvoHandler = conv_handler:new {}
 
-function JediTrainerConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
+function JediFSTrainerConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
 	local screenID = LuaConversationScreen(pConvScreen):getScreenID()
 	local template = LuaConversationTemplate(pConvTemplate)
 	local clonedConversation = LuaConversationScreen(pConvScreen)
 
 	-- Turn away those who have not unlocked sensitive
-	if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
+	if not SmashJediManager:hasProgressed(pPlayer) then
 		return template:getScreen("no_business")
 	end
 
-	return JediTrainerConvoHandler:runTrainerScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
+	return JediFSTrainerConvoHandler:runTrainerScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
 end
 
 
-function JediTrainerConvoHandler:runTrainerScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
+function JediFSTrainerConvoHandler:runTrainerScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
 	local screen = LuaConversationScreen(pConvScreen)
 	local screenID = screen:getScreenID()
 
@@ -24,7 +25,7 @@ function JediTrainerConvoHandler:runTrainerScreenHandlers(pConvTemplate, pPlayer
 	local stringTable = "@jedi_trainer:"
 	local isJediTrainer = true
 
-	if (screenID == "intro_trainer") then
+	if (screenID == "intro") then
 		local pConvScreen = screen:cloneScreen()
 		local clonedConversation = LuaConversationScreen(pConvScreen)
 
@@ -108,5 +109,4 @@ function JediTrainerConvoHandler:runTrainerScreenHandlers(pConvTemplate, pPlayer
 	return pConvScreen
 end
 
-
-return MysteriousManConvoHandler
+return JediFSTrainerConvoHandler

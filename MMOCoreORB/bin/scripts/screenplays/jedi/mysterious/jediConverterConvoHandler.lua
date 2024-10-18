@@ -1,29 +1,34 @@
+local ObjectManager = require("managers.object.object_manager")
 
 JediConverterConvoHandler = conv_handler:new {}
 
+function JediConverterConvoHandler:getInitialScreen(pPlayer, pNpc, pConvTemplate)
+	local convoTemplate = LuaConversationTemplate(pConvTemplate)
+
+	CreatureObject(pNpc):doAnimation("beckon")
+
+	if (SmashJediManager.hasProgressed(pPlayer)) then
+		return convoTemplate:getScreen("intro")
+	else
+		return convoTemplate:getScreen("no_business")
+	end
+end
+
 function JediConverterConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, selectedOption, pConvScreen)
-	local screenID = LuaConversationScreen(pConvScreen):getScreenID()
-	local template = LuaConversationTemplate(pConvTemplate)
+	local screen = LuaConversationScreen(pConvScreen)
+	local screenID = screen:getScreenID()
+	local pConvScreen = screen:cloneScreen()
 	local clonedConversation = LuaConversationScreen(pConvScreen)
 
-	-- Turn away those who have not unlocked sensitive
-	if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
-		return template:getScreen("cant_convert")
-	end
-
-	if screenID == "intro" then
-		
-	elseif screenID == "learn_force" then
-		if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
-			SmashJediManager:setForceSensitive(pPlayer)
-		end
-	elseif (string.find(screenID, "learn_")) then
+	if (string.find(screenID, "learn_")) then
 		local learnType = string.sub(screenID, 7)
-		MysteriousExperienceConverter:sendConversionSUI(pPlayer, pNpc, learnType)
+		ExperienceConverter:sendConversionSUI(pPlayer, pNpc, learnType)
 	elseif (screenID == "what_aspects") then
-		local branchList = MysteriousExperienceConverter:getBranchLearnList(pPlayer)
+		local branchList = ExperienceConverter:getBranchLearnList(pPlayer)
 		clonedConversation:setDialogTextTO(branchList)
 	end
+
+	return pConvScreen
 end
 
 return JediConverterConvoHandler
