@@ -12,7 +12,22 @@ function ForceGhostConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, 
 	end
 
 	-- If we are on the intro screen check if they have the right faction and standing
-	if screenID == "intro" then
+	if screenID == "learn_force" then
+		if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
+			SmashJediManager:setForceSensitive(pPlayer)
+		end
+	elseif screenID == "location" then
+		-- Get the PlayerObject from the CreatureObject
+		local playerObject = LuaPlayerObject(CreatureObject(pPlayer):getPlayerObject())
+
+		if playerObject ~= nil then
+			-- Add the waypoint
+			playerObject:addWaypoint("yavin4", "A Strange Camp", "A mysterious location on Yavin 4", -5575, 4901, WAYPOINTPURPLE, true, true, WAYPOINTJEDI, 0)
+			
+			-- Send a message to the player
+			CreatureObject(pPlayer):sendSystemMessage("Something tells you to look on Yavin 4...")
+		end
+	else
 		if not SmashJediManager:hasProgressed(pPlayer) then
 			local standing = SmashJediManager:getFactionStanding(pPlayer)
 			if (standing < 0) then
@@ -30,21 +45,6 @@ function ForceGhostConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, 
 			end
 		else
 			return template:getScreen("trainers")
-		end
-	elseif screenID == "learn_force" then
-		if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
-			SmashJediManager:setForceSensitive(pPlayer)
-		end
-	elseif screenID == "location" then
-		-- Get the PlayerObject from the CreatureObject
-		local playerObject = LuaPlayerObject(CreatureObject(pPlayer):getPlayerObject())
-
-		if playerObject ~= nil then
-			-- Add the waypoint
-			playerObject:addWaypoint("yavin4", "A Strange Camp", "A mysterious location on Yavin 4", -5575, 4901, WAYPOINTPURPLE, true, true, WAYPOINTJEDI, 0)
-			
-			-- Send a message to the player
-			CreatureObject(pPlayer):sendSystemMessage("Something tells you to look on Yavin 4...")
 		end
 	end
 end
