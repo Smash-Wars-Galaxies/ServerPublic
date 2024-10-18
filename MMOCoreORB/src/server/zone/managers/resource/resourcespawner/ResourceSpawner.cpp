@@ -996,7 +996,9 @@ void ResourceSpawner::sendSampleResults(TransactionLog& trx, CreatureObject* pla
 
 	float cityMultiplier = 1.f + player->getSkillMod("private_spec_samplesize") / 100.f;
 
-	int unitsExtracted = maxUnitsExtracted * (float(surveySkill) / 100.0f) * samplingMultiplier * cityMultiplier;
+	const float sampleMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.SamplingMultiplier", 1.0);
+
+	int unitsExtracted = maxUnitsExtracted * (float(surveySkill) / 100.0f) * sampleMultiplier * cityMultiplier;
 	int xpcap = 40;
 
 	if (session->tryGamble()) {
