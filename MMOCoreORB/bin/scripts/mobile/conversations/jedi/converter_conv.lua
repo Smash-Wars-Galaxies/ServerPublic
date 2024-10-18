@@ -26,7 +26,7 @@ intro = ConvoScreen:new {
 jediConverterConvoTemplate:addScreen(intro);
 
 convert = ConvoScreen:new {
-	id = "iconvert",
+	id = "convert",
 	leftDialog = "@conversation/fs_experience_converter:s_962f82a6", -- Welcome, friend! Come here and tell me what insight I may provide for you today?
 	stopConversation = "false",
 	options = {
