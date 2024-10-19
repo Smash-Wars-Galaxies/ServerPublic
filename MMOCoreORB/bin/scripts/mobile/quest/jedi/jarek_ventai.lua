@@ -1,8 +1,8 @@
 jarek_ventai = Creature:new {
-	objectName = "@mob/creature_names:commoner",
+	objectName = "@mob/creature_names:light_jedi_sentinel",
 	customName = "Jarek Ven'tai",
-	socialGroup = "townsperson",
-	faction = "townsperson",
+	socialGroup = "self",
+	faction = "",
 	mobType = MOB_NPC,
 	level = 200,
 	chanceHit = 0.29,
@@ -32,14 +32,14 @@ jarek_ventai = Creature:new {
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)
 	-- Unarmed should be put on secondary unless the mobile doesn't use weapons, in which case "unarmed" should be put primary and "none" as secondary
-	primaryWeapon = "unarmed",
-	secondaryWeapon = "none",
+	primaryWeapon = "light_jedi_weapons",
+	secondaryWeapon = "light_jedi_weapons_ranged",
 	conversationTemplate = "jediConverterConvoTemplate",
 
 	-- primaryAttacks and secondaryAttacks should be separate skill groups specific to the weapon type listed in primaryWeapon and secondaryWeapon
 	-- Use merge() to merge groups in creatureskills.lua together. If a weapon is set to "none", set the attacks variable to empty brackets
-	primaryAttacks = brawlermid,
-	secondaryAttacks = { }
+	primaryAttacks = merge(lightsabermaster,forcepowermaster),
+	secondaryAttacks = forcepowermaster
 }
 
 CreatureTemplates:addCreatureTemplate(jarek_ventai, "jarek_ventai")

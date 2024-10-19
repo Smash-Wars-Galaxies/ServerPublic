@@ -1,8 +1,8 @@
 kyra_sovari = Creature:new {
-	objectName = "@mob/creature_names:commoner",
+	objectName = "@mob/creature_names:dark_adept",
 	customName = "Kyra Sovari",
-	socialGroup = "townsperson",
-	faction = "townsperson",
+	socialGroup = "self",
+	faction = "",
 	mobType = MOB_NPC,
 	level = 200,
 	chanceHit = 0.29,
@@ -32,14 +32,14 @@ kyra_sovari = Creature:new {
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)
 	-- Unarmed should be put on secondary unless the mobile doesn't use weapons, in which case "unarmed" should be put primary and "none" as secondary
-	primaryWeapon = "unarmed",
-	secondaryWeapon = "none",
+	primaryWeapon = "dark_jedi_weapons_gen4",
+	secondaryWeapon = "dark_jedi_weapons_ranged",
 	conversationTemplate = "jediFSTrainerConvoTemplate",
 
 	-- primaryAttacks and secondaryAttacks should be separate skill groups specific to the weapon type listed in primaryWeapon and secondaryWeapon
 	-- Use merge() to merge groups in creatureskills.lua together. If a weapon is set to "none", set the attacks variable to empty brackets
-	primaryAttacks = brawlermid,
-	secondaryAttacks = { }
+	primaryAttacks = lightsabermaster,
+	secondaryAttacks = forcepowermaster
 }
 
 CreatureTemplates:addCreatureTemplate(kyra_sovari, "kyra_sovari")
