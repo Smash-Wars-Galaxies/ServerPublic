@@ -413,6 +413,7 @@ function SmashJediManager:onFSTreeCompleted(pPlayer, branch)
 
 	if (SmashJediManagerCommon.getLearnedForceSensitiveBranches(pPlayer) >= NUMBEROFTREESTOMASTER) then
 		SmashJediManagerCommon.setJediProgressionScreenPlayState(pPlayer, SMASH_JEDI_PROGRESSION_READY_PADAWAN_TRIALS)
+		PadawanTrials:doPadawanTrialsSetup(pPlayer)
 	end
 end
 
