@@ -375,12 +375,16 @@ function SmashJediManager:useItem(pSceneObject, itemType, pCreatureObject)
 	end
 
 	if itemType == ITEMHOLOCRON then
-		local isSilent = self:sendHolocronMessage(pCreatureObject)
-		if isSilent then
-			return
+		if self:hasProgressed(pCreatureObject) then
+			SmashJediManagerCommon.useHolocron(pSceneObject, pPlayer)
 		else
-			SceneObject(pSceneObject):destroyObjectFromWorld()
-			SceneObject(pSceneObject):destroyObjectFromDatabase()
+			local isSilent = self:sendHolocronMessage(pCreatureObject)
+			if isSilent then
+				return
+			else
+				SceneObject(pSceneObject):destroyObjectFromWorld()
+				SceneObject(pSceneObject):destroyObjectFromDatabase()
+			end
 		end
 	end
 end
