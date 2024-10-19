@@ -7,7 +7,7 @@ function JediConverterConvoHandler:getInitialScreen(pPlayer, pNpc, pConvTemplate
 
 	CreatureObject(pNpc):doAnimation("beckon")
 
-	if (SmashJediManager.hasProgressed(CreatureObject(pPlayer))) then
+	if (SmashJediManagerCommon.hasJediProgressionScreenPlayState(pPlayer, SMASH_JEDI_PROGRESSION_FORCE_SENSITIVE_UNLOCKED)) then
 		return convoTemplate:getScreen("intro")
 	else
 		return convoTemplate:getScreen("no_business")

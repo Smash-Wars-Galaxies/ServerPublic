@@ -49,7 +49,7 @@ function JediTrials:isEligibleForKnightTrials(pPlayer)
 		return false
 	end
 
-	return CreatureObject(pPlayer):villageKnightPrereqsMet("")
+	return CreatureObject(pPlayer):smashKnightPrereqsMet("")
 end
 
 function JediTrials:isOnKnightTrials(pPlayer)
@@ -129,6 +129,7 @@ function JediTrials:unlockJediPadawan(pPlayer, dontSendSui)
 
 	awardSkill(pPlayer, "force_title_jedi_rank_02")
 	writeScreenPlayData(pPlayer, "PadawanTrials", "completedTrials", 1)
+	SmashJediManagerCommon.setJediProgressionScreenPlayState(pPlayer, SMASH_JEDI_PROGRESSION_COMPLETED_PADAWAN_TRIALS)
 
 	CreatureObject(pPlayer):playEffect("clienteffect/trap_electric_01.cef", "")
 	CreatureObject(pPlayer):playMusicMessage("sound/music_become_jedi.snd")

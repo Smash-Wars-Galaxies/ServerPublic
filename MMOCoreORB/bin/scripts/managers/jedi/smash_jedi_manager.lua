@@ -6,6 +6,8 @@ jediManagerName = "SmashJediManager"
 
 PROFESSIONS_TO_MASTER = 2
 
+NUMBEROFTREESTOMASTER = 2
+
 SmashJediManager = JediManager:new {
 	screenplayName = jediManagerName,
 	jediManagerName = jediManagerName,
@@ -261,6 +263,7 @@ function SmashJediManager:setForceSensitive(pCreatureObject)
 
 	PlayerObject(pGhost):setJediState(1)
 	awardSkill(pCreatureObject, "force_title_jedi_novice")
+	SmashJediManagerCommon.setJediProgressionScreenPlayState(PlayerObject(pGhost), SMASH_JEDI_PROGRESSION_FORCE_SENSITIVE_UNLOCKED)
 end
 
 -- Sui window ok pressed callback function.
@@ -393,6 +396,33 @@ function SmashJediManager:canLearnSkill(pPlayer, skillName)
 
 	return true
 end
+
+-- Handling of the onFSTreesCompleted event.
+-- @param pPlayer pointer to the creature object of the player
+function SmashJediManager:onFSTreeCompleted(pPlayer, branch)
+	if (pPlayer == nil) then
+		return
+	end
+
+	if (SmashJediManagerCommon.hasJediProgressionScreenPlayState(pPlayer, SMASH_JEDI_PROGRESSION_COMPLETED_PADAWAN_TRIALS) or SmashJediManagerCommon.hasJediProgressionScreenPlayState(pPlayer, SMASH_JEDI_PROGRESSION_COMPLETED_KNIGHT_TRIALS)) then
+		return
+	end
+
+	if (SmashJediManagerCommon.getLearnedForceSensitiveBranches(pPlayer) >= NUMBEROFTREESTOMASTER) then
+		SmashJediManagerCommon.setJediProgressionScreenPlayState(pPlayer, SMASH_JEDI_PROGRESSION_READY_PADAWAN_TRIALS)
+	end
+end
+
+function SmashJediManager:onSkillRevoked(pPlayer, pSkill)
+	if (pPlayer == nil) then
+		return
+	end
+
+	if (JediTrials:isOnPadawanTrials(pPlayer) or JediTrials:isOnKnightTrials(pPlayer)) then
+		JediTrials:droppedSkillDuringTrials(pPlayer, pSkill)
+	end
+end
+
 
 registerScreenPlay("SmashJediManager", true)
 
