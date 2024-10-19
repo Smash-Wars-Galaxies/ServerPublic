@@ -136,7 +136,7 @@ function SmashExperienceConverter:sendConversionSUI(pPlayer, pNpc, experienceTyp
 	sui.setWindowType(SuiWindowType.FS_EXP_CONVERT)
 	sui.sendTo(pPlayer)
 
-	writeStringSharedMemory(SceneObject(pPlayer):getObjectID() .. ":mysteriousConversionType", experienceType)
+	writeStringSharedMemory(SceneObject(pPlayer):getObjectID() .. ":smashConversionType", experienceType)
 end
 
 function SmashExperienceConverter:convertXpTypeCallback(pPlayer, pSui, eventIndex, args)
@@ -149,29 +149,29 @@ function SmashExperienceConverter:convertXpTypeCallback(pPlayer, pSui, eventInde
 	local cancelPressed = (eventIndex == 1)
 
 	if (cancelPressed) then
-		deleteStringSharedMemory(playerID .. ":mysteriousConversionType")
+		deleteStringSharedMemory(playerID .. ":smashConversionType")
 		return
 	end
 
 	local pPageData = LuaSuiBoxPage(pSui):getSuiPageData()
 
 	if (pPageData == nil) then
-		deleteStringSharedMemory(playerID .. ":mysteriousConversionType")
+		deleteStringSharedMemory(playerID .. ":smashConversionType")
 		return
 	end
 
 	local suiPageData = LuaSuiPageData(pPageData)
-	local xpType = readStringSharedMemory(playerID .. ":mysteriousConversionType")
+	local xpType = readStringSharedMemory(playerID .. ":smashConversionType")
 
 	if (xpType == "") then
-		deleteStringSharedMemory(playerID .. ":mysteriousConversionType")
+		deleteStringSharedMemory(playerID .. ":smashConversionType")
 		return
 	end
 
 	local pGhost = CreatureObject(pPlayer):getPlayerObject()
 
 	if (pGhost == nil) then
-		deleteStringSharedMemory(playerID .. ":mysteriousConversionType")
+		deleteStringSharedMemory(playerID .. ":smashConversionType")
 		return
 	end
 
@@ -191,17 +191,17 @@ function SmashExperienceConverter:convertXpTypeCallback(pPlayer, pSui, eventInde
 
 	if (xpAmount < ratio) then
 		CreatureObject(pPlayer):sendSystemMessage("@quest/force_sensitive/utils:convert_not_enough_xp")
-		deleteStringSharedMemory(playerID .. ":mysteriousConversionType")
+		deleteStringSharedMemory(playerID .. ":smashConversionType")
 		return
 	end
 
 	if (ratio == 0) then
 		CreatureObject(pPlayer):sendSystemMessage("@quest/force_sensitive/utils:convert_illegal_type")
-		deleteStringSharedMemory(playerID .. ":mysteriousConversionType")
+		deleteStringSharedMemory(playerID .. ":smashConversionType")
 		return
 	end
 
-	writeStringSharedMemory(playerID .. ":mysteriousChosenXp", chosenXp)
+	writeStringSharedMemory(playerID .. ":smashChosenXp", chosenXp)
 	local npcID = suiPageData:getTargetNetworkId()
 
 	local sui = SuiTransferBox.new("SmashExperienceConverter", "convertXpTransferCallback")
@@ -225,10 +225,10 @@ end
 
 function SmashExperienceConverter:convertXpTransferCallback(pPlayer, pSui, eventIndex, transferInputFromValue, transferInputToValue)
 	local playerID = SceneObject(pPlayer):getObjectID()
-	local conversionType = readStringSharedMemory(playerID .. ":mysteriousConversionType")
-	local chosenXp = readStringSharedMemory(playerID .. ":mysteriousChosenXp")
-	deleteStringSharedMemory(playerID .. ":mysteriousConversionType")
-	deleteStringSharedMemory(playerID .. ":mysteriousChosenXp")
+	local conversionType = readStringSharedMemory(playerID .. ":smashConversionType")
+	local chosenXp = readStringSharedMemory(playerID .. ":smashChosenXp")
+	deleteStringSharedMemory(playerID .. ":smashConversionType")
+	deleteStringSharedMemory(playerID .. ":smashChosenXp")
 
 	local cancelPressed = (eventIndex == 1)
 
