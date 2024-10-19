@@ -8,7 +8,7 @@ require("screenplays.screenplay")
 -- 1: Qualifies for branch unlock, not unlocked. NOTE: This only applies to Hologrinder boxes.
 -- 2: Branch Unlocked.
 
-MysteriousExperienceConverter = ScreenPlay:new {
+SmashExperienceConverter = ScreenPlay:new {
 	xpConversion = {
 		combat = {
 			{ "bountyhunter", 3 },
@@ -67,7 +67,7 @@ MysteriousExperienceConverter = ScreenPlay:new {
 	}
 }
 
-function MysteriousExperienceConverter:getBranchLearnList(pPlayer)
+function SmashExperienceConverter:getBranchLearnList(pPlayer)
 	if (pPlayer == nil) then
 		return
 	end
@@ -88,7 +88,7 @@ function MysteriousExperienceConverter:getBranchLearnList(pPlayer)
 	return branchList
 end
 
-function MysteriousExperienceConverter:sendConversionSUI(pPlayer, pNpc, experienceType)
+function SmashExperienceConverter:sendConversionSUI(pPlayer, pNpc, experienceType)
 	if (pPlayer == nil) then
 		return
 	end
@@ -139,7 +139,7 @@ function MysteriousExperienceConverter:sendConversionSUI(pPlayer, pNpc, experien
 	writeStringSharedMemory(SceneObject(pPlayer):getObjectID() .. ":mysteriousConversionType", experienceType)
 end
 
-function MysteriousExperienceConverter:convertXpTypeCallback(pPlayer, pSui, eventIndex, args)
+function SmashExperienceConverter:convertXpTypeCallback(pPlayer, pSui, eventIndex, args)
 	if (pPlayer == nil) then
 		return
 	end
@@ -223,7 +223,7 @@ function MysteriousExperienceConverter:convertXpTypeCallback(pPlayer, pSui, even
 	sui.sendTo(pPlayer)
 end
 
-function MysteriousExperienceConverter:convertXpTransferCallback(pPlayer, pSui, eventIndex, transferInputFromValue, transferInputToValue)
+function SmashExperienceConverter:convertXpTransferCallback(pPlayer, pSui, eventIndex, transferInputFromValue, transferInputToValue)
 	local playerID = SceneObject(pPlayer):getObjectID()
 	local conversionType = readStringSharedMemory(playerID .. ":mysteriousConversionType")
 	local chosenXp = readStringSharedMemory(playerID .. ":mysteriousChosenXp")
@@ -314,4 +314,4 @@ function MysteriousExperienceConverter:convertXpTransferCallback(pPlayer, pSui, 
 	CreatureObject(pPlayer):sendSystemMessage(messageString:_getObject())
 end
 
-return MysteriousExperienceConverter
+return SmashExperienceConverter

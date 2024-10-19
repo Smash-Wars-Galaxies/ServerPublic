@@ -22,9 +22,9 @@ function JediConverterConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNp
 
 	if (string.find(screenID, "learn_")) then
 		local learnType = string.sub(screenID, 7)
-		ExperienceConverter:sendConversionSUI(pPlayer, pNpc, learnType)
+		SmashExperienceConverter:sendConversionSUI(pPlayer, pNpc, learnType)
 	elseif (screenID == "what_aspects") then
-		local branchList = ExperienceConverter:getBranchLearnList(pPlayer)
+		local branchList = SmashExperienceConverter:getBranchLearnList(pPlayer)
 		clonedConversation:setDialogTextTO(branchList)
 	end
 
