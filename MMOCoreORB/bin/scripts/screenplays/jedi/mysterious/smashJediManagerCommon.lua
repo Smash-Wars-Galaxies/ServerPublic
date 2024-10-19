@@ -34,9 +34,10 @@ SMASH_JEDI_PROGRESSION_COMPLETED_KNIGHT_TRIALS = 5
 -- @param state the state to set.
 function SmashJediManagerCommon.setJediProgressionScreenPlayState(pPlayer, state)
 	if (pPlayer == nil) then
+		print( "Player Null")
 		return
 	end
-
+	print("Set JediProgressState to " .. state)
 	CreatureObject(pPlayer):setScreenPlayState(state, SMASH_JEDI_PROGRESSION_SCREEN_PLAY_STATE_STRING)
 end
 
