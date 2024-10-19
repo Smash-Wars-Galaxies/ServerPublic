@@ -39,6 +39,7 @@ function ForceGhostConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, 
 	if screenID == "learn_force" then
 		if SmashJediManager:hasCompletedMasteries(pPlayer) and not SmashJediManager:hasProgressed(pPlayer) then
 			SmashJediManager:setForceSensitive(pPlayer)
+			SmashJediManagerCommon.setJediProgressionScreenPlayState(Ghost, SMASH_JEDI_PROGRESSION_FORCE_SENSITIVE_UNLOCKED)
 		end
 	elseif screenID == "location" then
 		-- Get the PlayerObject from the CreatureObject

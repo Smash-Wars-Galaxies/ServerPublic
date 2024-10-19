@@ -263,7 +263,6 @@ function SmashJediManager:setForceSensitive(pCreatureObject)
 
 	PlayerObject(pGhost):setJediState(1)
 	awardSkill(pCreatureObject, "force_title_jedi_novice")
-	SmashJediManagerCommon.setJediProgressionScreenPlayState(PlayerObject(pGhost), SMASH_JEDI_PROGRESSION_FORCE_SENSITIVE_UNLOCKED)
 end
 
 -- Sui window ok pressed callback function.
