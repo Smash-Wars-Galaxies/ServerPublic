@@ -104,7 +104,7 @@ function SmashExperienceConverter:sendConversionSUI(pPlayer, pNpc, experienceTyp
 	local conversionList = self.xpConversion[experienceType]
 
 	if (conversionList == nil) then
-		printLuaError("MysteriousExperienceConverter:sendConversionSUI, could not grab xp conversion table for type " .. experienceType)
+		printLuaError("SmashExperienceConverter:sendConversionSUI, could not grab xp conversion table for type " .. experienceType)
 		return
 	end
 
@@ -123,7 +123,7 @@ function SmashExperienceConverter:sendConversionSUI(pPlayer, pNpc, experienceTyp
 		return
 	end
 
-	local sui = SuiListBox.new("MysteriousExperienceConverter", "convertXpTypeCallback")
+	local sui = SuiListBox.new("SmashExperienceConverter", "convertXpTypeCallback")
 
 	sui.setTargetNetworkId(SceneObject(pNpc):getObjectID())
 	sui.setTitle("@quest/force_sensitive/utils:xp_transfer_prompt")
@@ -204,7 +204,7 @@ function SmashExperienceConverter:convertXpTypeCallback(pPlayer, pSui, eventInde
 	writeStringSharedMemory(playerID .. ":mysteriousChosenXp", chosenXp)
 	local npcID = suiPageData:getTargetNetworkId()
 
-	local sui = SuiTransferBox.new("MysteriousExperienceConverter", "convertXpTransferCallback")
+	local sui = SuiTransferBox.new("SmashExperienceConverter", "convertXpTransferCallback")
 
 	sui.setTargetNetworkId(npcID)
 	sui.setTitle("@quest/force_sensitive/utils:xp_transfer_prompt")
