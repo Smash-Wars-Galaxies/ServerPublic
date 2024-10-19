@@ -320,7 +320,7 @@ includeFile("conversations/pet/pets_conv.lua")
 -- Jedi
 includeFile("conversations/jedi/converter_conv.lua")
 includeFile("conversations/jedi/forceghost_conv.lua")
-includeFile("conversations/jedi/tainer_conv.lua")
+includeFile("conversations/jedi/trainer_conv.lua")
 
 -- Misc
 includeFile("conversations/misc/bartender_conv.lua")
