@@ -54,6 +54,11 @@ forceGhostConvoTemplate = ConvoTemplate:new {
             stopConversation = "true",
             options = {}
         },{
+            id = "learn_force",
+            leftDialog = "@conversation/fs_experience_converter:s_433c2a58", -- Allow me to help you to open your mind to new possibilities...
+            stopConversation = "true",
+            options = {}
+        },{
             id = "become_fs",
             leftDialog = "",
             customDialogText = "So you found me at last... Are you interested in learning the secrets of the universe?",
@@ -62,11 +67,6 @@ forceGhostConvoTemplate = ConvoTemplate:new {
                 {"Absolutely!", "learn_force"},
                 {"I don't think so...", "cant_convert"}
             }
-        },{
-            id = "learn_force",
-            leftDialog = "@conversation/fs_experience_converter:s_433c2a58", -- Allow me to help you to open your mind to new possibilities...
-            stopConversation = "true",
-            options = {}
         }
     }
 }
