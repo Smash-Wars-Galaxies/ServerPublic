@@ -3107,6 +3107,7 @@ Lua* DirectorManager::getLuaInstance() {
 		int stackSize = lua_gettop(lua->getLuaState());
 
 		loadScreenPlays(lua);
+		JediManager::instance()->loadConfiguration(lua);
 		*version = masterScreenPlayVersion.get();
 
 		if (!lua->checkStack(stackSize)) {
@@ -3149,6 +3150,7 @@ int DirectorManager::runScreenPlays() {
 		int stackSize = lua_gettop(lua->getLuaState());
 
 		ret = loadScreenPlays(lua);
+		JediManager::instance()->loadConfiguration(lua);
 		*version = masterScreenPlayVersion.get();
 
 		if (!lua->checkStack(stackSize)) {
