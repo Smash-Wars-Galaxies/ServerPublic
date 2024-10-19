@@ -42,7 +42,7 @@ function ForceGhostConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, 
 		end
 	elseif screenID == "location" then
 		-- Get the PlayerObject from the CreatureObject
-		local playerObject = CreatureObject(pPlayer):getPlayerObject()
+		local playerObject = PlayerObject(CreatureObject(pPlayer):getPlayerObject())
 		if playerObject ~= nil then
 			-- Add the waypoint
 			playerObject:addWaypoint("yavin4", "A Strange Camp", "A mysterious location on Yavin 4", -29, 1109, WAYPOINTPURPLE, true, true, WAYPOINTJEDI, 0)
