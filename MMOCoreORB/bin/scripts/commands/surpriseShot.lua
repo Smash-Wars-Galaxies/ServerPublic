@@ -44,7 +44,7 @@
 SurpriseShotCommand = {
 	name = "surpriseshot",
 
-	damageMultiplier = 6.0,
+	damageMultiplier = 3.0,
 	speedMultiplier = 3.0,
 	healthCostMultiplier = 0.5,
 	actionCostMultiplier = 0.5,

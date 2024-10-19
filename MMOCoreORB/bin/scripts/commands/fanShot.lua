@@ -42,19 +42,19 @@
 --true = 1, false = 0
 
 FanShotCommand = {
-        name = "fanshot",
-	damageMultiplier = 3.25,
-	speedMultiplier = 1.8,
+    name = "fanshot",
+	damageMultiplier = 4.0,
+	speedMultiplier = 2.0,
 	healthCostMultiplier = 0.5,
 	actionCostMultiplier = 1,
 	mindCostMultiplier = 0.5,
-        accuracyBonus = 50,
+    accuracyBonus = 50,
 
-        --cone angle isn't strictly documented, leaving it alone
+    --cone angle isn't strictly documented, leaving it alone
 	coneAngle = 60,
 	coneAction = true,
 
-	poolsToDamage = HEALTH_ATTRIBUTE + ACTION_ATTRIBUTE + MIND_ATTRIBUTE,
+	poolsToDamage = RANDOM_ATTRIBUTE,
 
 	animation = "fire_area", 
 	animType = GENERATE_INTENSITY,

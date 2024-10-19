@@ -44,7 +44,7 @@
 DiveShotCommand = {
 	name = "diveshot",
 
-	damageMultiplier = 3.75,
+	damageMultiplier = 2.75,
 	speedMultiplier = 1.5,
 	healthCostMultiplier = 0.5,
 	actionCostMultiplier = 0.75,

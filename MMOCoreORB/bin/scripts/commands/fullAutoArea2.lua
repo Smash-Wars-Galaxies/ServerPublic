@@ -44,7 +44,7 @@
 FullAutoArea2Command = {
         name = "fullautoarea2",
 
-	damageMultiplier = 5.5,
+	damageMultiplier = 2.5,
 	speedMultiplier = 1.5,
 	healthCostMultiplier = 2.5,
 	actionCostMultiplier = 2.5,

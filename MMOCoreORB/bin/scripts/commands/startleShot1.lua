@@ -44,8 +44,8 @@
 StartleShot1Command = {
 	name = "startleshot1",
 
-	damageMultiplier = 3.75,
-	speedMultiplier = 1.2,
+	damageMultiplier = 2.5,
+	speedMultiplier = 2.0,
 	healthCostMultiplier = 0.5,
 	actionCostMultiplier = 0.5,
 	mindCostMultiplier = 1.5,

@@ -44,7 +44,7 @@
 HealthShot1Command = {
 	name = "healthshot1",
 
-	damageMultiplier = 2.25,
+	damageMultiplier = 1.75,
 	speedMultiplier = 2.0,
 	healthCostMultiplier = 0.5,
 	actionCostMultiplier = 0.75,

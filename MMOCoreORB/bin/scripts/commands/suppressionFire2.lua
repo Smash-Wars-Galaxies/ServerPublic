@@ -44,7 +44,7 @@
 SuppressionFire2Command = {
 	name = "suppressionfire2",
 
-	damageMultiplier = 4.0,
+	damageMultiplier = 3.0,
 	speedMultiplier = 1.0,
 	healthCostMultiplier = 2.0,
 	actionCostMultiplier = 1.25,
