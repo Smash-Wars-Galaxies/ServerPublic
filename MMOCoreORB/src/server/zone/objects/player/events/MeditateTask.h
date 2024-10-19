@@ -66,10 +66,10 @@ public:
 				if (woundedPools.size() <= 0)
 					return;
 
-				int heal = 5 + System::random(10);
+				int heal = 20 + System::random(10);
 
 				if (meditateMod >= 100)
-					heal = 10 + System::random(20);
+					heal = 30 + System::random(20);
 
 				// Select a random Attribute that has wounds...
 				uint8 pool = woundedPools.get(System::random(woundedPools.size() - 1));
