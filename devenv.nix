@@ -23,6 +23,7 @@ in {
     pkgs.gtest
     pkgs.libgcc.lib
     cpprest
+    pkgs.python3
   ];
 
   languages.cplusplus.enable = true;

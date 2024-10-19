@@ -1,0 +1,42 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "Core3"
+		},
+		{
+			"path": "MMOCoreORB/bin/scripts",
+			"name": "Lua Scripts"
+		},
+		{
+			"path": "MMOCoreORB/bin/scripts/commands",
+			"name": "Lua Commands"
+		},
+		{
+			"path": "MMOCoreORB/bin/scripts/loot",
+			"name": "Lua Loot"
+		},
+		{
+			"path": "MMOCoreORB/bin/scripts/mobile",
+			"name": "Lua Mobiles"
+		},
+		{
+			"path": "MMOCoreORB/bin/scripts/object",
+			"name": "Lua Objects"
+		},
+		{
+			"path": "MMOCoreORB/bin/scripts/screenplays",
+			"name": "Lua Screenplays"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"MMOCoreORB/bin/scripts": true,
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"sumneko.lua"
+		]
+	}
+}

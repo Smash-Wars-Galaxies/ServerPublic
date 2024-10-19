@@ -1,0 +1,9 @@
+{
+    "files.exclude": {
+        "commands": true,
+        "loot": true,
+        "mobile": true,
+        "object": true,
+        "screenplays": true,
+    }
+}

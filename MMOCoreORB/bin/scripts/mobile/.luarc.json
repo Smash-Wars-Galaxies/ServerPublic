@@ -1,0 +1,19 @@
+{
+    "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+    "diagnostics": {
+        "enable": false,
+        "workspaceDelay": -1,
+        "workspaceEvent": "None",
+        "disable": ["lowercase-global"],
+        "neededFileStatus": {
+            "invisible": "None!"
+        }
+    },
+    "workspace": {
+        "maxPreload": 20000,
+        "library": [
+            ".definitions/"
+        ]
+    },
+    "runtime.version": "Lua 5.3"
+}
