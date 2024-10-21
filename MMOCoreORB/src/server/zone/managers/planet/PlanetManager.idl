@@ -382,6 +382,11 @@ class PlanetManager extends ManagedService implements Logger {
 		return jtlZoneName;
 	}
 
+	@local
+	public PlanetTravelPointList getPlanetTravelPointList() {
+		return planetTravelPointList;
+	}
+
 	/**
 	 * Checks to see if the point is an existing planet travel point.
 	 * @param pointName The name of the point to check for.

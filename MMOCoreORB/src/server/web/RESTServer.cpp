@@ -16,6 +16,7 @@
 
 #include "RESTEndpoint.h"
 #include "APIRequest.h"
+#include "APIProxyPlanetManager.h"
 #include "APIProxyPlayerManager.h"
 #include "APIProxyChatManager.h"
 #include "APIProxyObjectManager.h"
@@ -141,6 +142,9 @@ void RESTServer::registerEndpoints() {
 		mPlayerManagerProxy->listOnline(apiRequest);
 	}));
 
+	addEndpoint(RESTEndpoint("GET:/v1/planet/(\\w+)/travelpoint", {"name"}, [this] (APIRequest& apiRequest) -> void {
+		mPlanetManagerProxy->handle(apiRequest);
+	}));
 
 	addEndpoint(RESTEndpoint("GET:/v1/(find|lookup)/guild/", {"mode"}, [this] (APIRequest& apiRequest) -> void {
 		mGuildManagerProxy->lookupGuild(apiRequest);
@@ -256,6 +260,12 @@ bool RESTServer::checkAuth(http_request& request) {
 void RESTServer::createProxies() {
 	destroyProxies();
 
+	mPlanetManagerProxy = new APIProxyPlanetManager();
+
+	if (mPlanetManagerProxy == nullptr) {
+		throw OutOfMemoryError();
+	}
+
 	mPlayerManagerProxy = new APIProxyPlayerManager();
 
 	if (mPlayerManagerProxy == nullptr) {
@@ -294,6 +304,11 @@ void RESTServer::createProxies() {
 }
 
 void RESTServer::destroyProxies() {
+	if (mPlanetManagerProxy != nullptr) {
+		delete mPlanetManagerProxy;
+		mPlanetManagerProxy = nullptr;
+	}
+
 	if (mPlayerManagerProxy != nullptr) {
 		delete mPlayerManagerProxy;
 		mPlayerManagerProxy = nullptr;
