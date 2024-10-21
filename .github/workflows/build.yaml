@@ -1,0 +1,35 @@
+name: "Build"
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: arc-runner-set
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache compilation
+      uses: actions/cache@v1
+      with:
+        path: ${{ github.workspace }}/.devenv/state/ccache
+        key: ccache
+    - name: Install xz-utils for the nix install action
+      run: sudo apt update && sudo apt install -y xz-utils
+    - uses: cachix/install-nix-action@v27
+    - name: Install devenv.sh
+      run: nix profile install nixpkgs#devenv
+    - name: Configure the project
+      run: devenv shell project-configure
+    - name: Build the code
+      run: devenv shell project-build
+    - name: Run linters and tests
+      run: devenv test
+      env:
+        SMASHWG_S3_ACCESS: ${{ secrets.SMASHWG_S3_ACCESS }}
+        SMASHWG_S3_SECRET: ${{ secrets.SMASHWG_S3_SECRET }}
+    - uses: actions/upload-artifact@v4  # upload test results
+      if: success() || failure()        # run this step even if previous step failed
+      with:
+        name: test-results
+        path: ${{ github.workspace }}/MMOCoreORB/bin/core3_tests.xml
