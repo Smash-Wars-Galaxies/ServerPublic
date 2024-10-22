@@ -16,6 +16,7 @@ MMOCoreORB/compile
 # Devenv
 .devenv*
 devenv.local.nix
+.env 
 
 # direnv
 .direnv
