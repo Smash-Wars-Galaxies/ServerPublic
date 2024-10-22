@@ -11,6 +11,8 @@
 #include "engine/engine.h"
 
 #include "server/db/MySqlDatabase.h"
+#include "engine/orb/ObjectBroker.h"
+#include "server/zone/managers/object/ObjectManager.h"
 
 class TestCore : public Core, public Logger {
 public:
@@ -31,6 +33,9 @@ public:
 	}
 
 	void finalizeContext() override {
+		ObjectManager::instance()->shutdown();
+		ConfigManager::finalizeInstance();
+		Core::finalizeContext();
 		server::db::mysql::MySqlDatabase::finalizeLibrary();
 	}
 };

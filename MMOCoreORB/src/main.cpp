@@ -66,9 +66,7 @@ int main(int argc, char* argv[]) {
 
 			testing::InitGoogleTest(&argc, argv);
 
-			ret = RUN_ALL_TESTS();
-
-			ObjectManager::instance()->shutdown();
+			return RUN_ALL_TESTS();
 #endif
 		} else if (arguments.contains("dumpNavMeshesToFile")) {
 			NavMeshManager::instance()->info("Dumping nav meshes to files...", true);
