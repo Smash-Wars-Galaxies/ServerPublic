@@ -36,7 +36,7 @@ in {
 
   env = {
     hardeningDisable = ["all"];
-    CCACHE_DIR = "${config.devenv.root}/state/ccache";
+    CCACHE_DIR = "${config.devenv.root}/.devenv/state/ccache";
     PROJECT_ROOT = "${config.devenv.root}/MMOCoreORB";
     PROJECT_BUILD = "${config.devenv.root}/MMOCoreORB/compile";
   };
