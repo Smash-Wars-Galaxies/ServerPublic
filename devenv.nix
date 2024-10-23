@@ -29,7 +29,10 @@ in {
 
   languages.cplusplus.enable = true;
   
-  dotenv.enable = true;
+  dotenv = {
+    enable = false;
+    disableHint = true;
+  };
 
   env = {
     hardeningDisable = ["all"];
