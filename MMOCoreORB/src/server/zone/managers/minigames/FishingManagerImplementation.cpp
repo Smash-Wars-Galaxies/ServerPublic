@@ -551,39 +551,37 @@ void FishingManagerImplementation::success(CreatureObject* player, int fish, Sce
 			if (lootFishObject != nullptr) {
 				Locker lootLocker(lootFishObject);
 
-				String time = getTime();
-				String name = player->getFirstName() + " " + player->getLastName();
-
 				// Determine fish length
-				float length = fishLengths.get(fishName);
-				float totalLength = length;
-				float harvestingMod = player->getSkillMod("creature_harvesting");
-				float randBonus = System::frandom(length * 0.5f) - System::frandom(length * 0.5f);
+				const float length = fishLengths.get(fishName);
 
-				totalLength += randBonus;
+				// Calculate total length
+				float totalLength = length;
+				
+				// Scale by 0.5 - 1.5x the base fish length
+				totalLength += System::frandom(length * 0.5f) - System::frandom(length * 0.5f);;
 
 				// Bonus for creature harvesting mod
+				const float harvestingMod = player->getSkillMod("creature_harvesting");
 				if (harvestingMod > 0) {
-					harvestingMod = (System::frandom(harvestingMod) / 100.0f) + 1.f;
-					totalLength *= harvestingMod;
+					totalLength *= (System::frandom(harvestingMod) / 100.0f) + 1.f;
 				}
 
 				Zone* zone = player->getZone();
-
 				if (zone == nullptr) {
 					trx.abort();
 					return;
 				}
 
-				String zoneName = zone->getZoneName();
-
+				String time = getTime();
+				const String name = player->getFirstName() + " " + player->getLastName();
+				const String zoneName = zone->getZoneName();
 				lootFishObject->setAttributes(name, zoneName, time, (totalLength / 100.f));
 
-				int xp = (totalLength / length) * 90;
-
-				ManagedReference<PlayerManager*> playerManager = zoneServer->getPlayerManager();
-
 				Locker playerLocker(player);
+
+				const int xp = (totalLength / length) * 90;
+				
+				ManagedReference<PlayerManager*> playerManager = zoneServer->getPlayerManager();
 				playerManager->awardExperience(player, "camp", xp, true);
 
 				int color = 1;
@@ -598,17 +596,15 @@ void FishingManagerImplementation::success(CreatureObject* player, int fish, Sce
 
 				lootFishObject->setCustomizationVariable("/private/index_color_1", color);
 
-				String baitString = "object/tangible/fishing/bait/bait_chum.iff";
+				const String baitString = "object/tangible/fishing/bait/bait_chum.iff";
 				ManagedReference<TangibleObject*> baitObject = zoneServer->createObject(baitString.hashCode(), 2).castTo<TangibleObject*>();
 
 				if (baitObject != nullptr) {
 					Locker baitLocker(baitObject);
 					TransactionLog trxBait(TrxCode::FISHING, player);
 
-					int useCount = System::random(5) + 1;
-
-					if (useCount >= 1)
-						baitObject->setUseCount(useCount, true);
+					const int useCount = System::random(5) + 1;
+					if (useCount >= 1) baitObject->setUseCount(useCount, true);
 
 					if (lootFishObject->transferObject(baitObject, -1, true)) {
 						trxBait.setSubject(baitObject);
@@ -622,13 +618,13 @@ void FishingManagerImplementation::success(CreatureObject* player, int fish, Sce
 					}
 				}
 
-				String resourceString = "seafood_fish_" + zoneName;
-				const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.FishingMultiplier", 1.0);
-				int amount = harvestingMod * 50 * resourceMultiplier;
-
 				ManagedReference<ResourceManager*> resourceManager = zoneServer->getResourceManager();
-				ManagedReference<SceneObject*> resource = cast<SceneObject*>(resourceManager->harvestResource(player, resourceString, amount));
 
+				const String resourceString = "seafood_fish_" + zoneName;
+				const float resourceMultiplier = ConfigManager::instance()->getFloat("Core3.Resource.FishingMultiplier", 1.0);
+				const int amount = int(totalLength * 2.0 * resourceMultiplier);
+				
+				ManagedReference<SceneObject*> resource = cast<SceneObject*>(resourceManager->harvestResource(player, resourceString, amount));
 				if (resource != nullptr) {
 					Locker resourceLocker(resource);
 					if (lootFishObject->transferObject(resource, -1, true)) {
