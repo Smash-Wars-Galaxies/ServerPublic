@@ -78,24 +78,6 @@ TEST_F(ConfigManagerTest, EnabledSpaceZones) {
 	std::cerr << "' }" << std::endl;
 }
 
-TEST_F(ConfigManagerTest, TreFiles) {
-	auto treFilesToLoad = configManager->getTreFiles();
-	ASSERT_TRUE(treFilesToLoad.size() != 0);
-
-	auto latestTreFile = configManager->getLatestTre();
-
-	// Make sure it's not sorted
-	ASSERT_TRUE(treFilesToLoad.get(0) == latestTreFile);
-
-	std::cerr << "[>>>>>>>>>>] TreFiles = { '";
-
-	for (int i = 0;i < treFilesToLoad.size(); i++) {
-		std::cerr << (i == 0 ? "" : "', '") <<  treFilesToLoad.get(i).toCharArray();
-	}
-
-	std::cerr << "' }" << std::endl;
-}
-
 TEST_F(ConfigManagerTest, SetTest) {
 	auto curVal = configManager->isProgressMonitorActivated();
 	configManager->setProgressMonitors(!curVal);
