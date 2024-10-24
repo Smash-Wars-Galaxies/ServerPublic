@@ -742,13 +742,14 @@ includeFile("../custom_scripts/screenplays/screenplays.lua")
 -- Legend of Hondo
 
 -- Merchants
--- includeFile("hondo/merchants/merchant_system.lua")
--- includeFile("hondo/merchants/vehicles_crazy_larry.lua")
--- includeFile("hondo/merchants/armor_volrik_lonugs.lua")
--- includeFile("hondo/merchants/armor_jabba_nal_yaro.lua")
--- includeFile("hondo/merchants/armor_jabba_cyan_yaro.lua")
--- includeFile("hondo/merchants/weapons_yivvits.lua")
--- includeFile("hondo/merchants/helper_u8l7.lua")
+includeFile("hondo/merchants/merchant_system.lua")
+includeFile("hondo/merchants/merchant_conv_handler.lua")
+includeFile("hondo/merchants/vehicles_crazy_larry.lua")
+includeFile("hondo/merchants/armor_volrik_lonugs.lua")
+includeFile("hondo/merchants/armor_jabba_nal_yaro.lua")
+includeFile("hondo/merchants/armor_jabba_cyan_yaro.lua")
+includeFile("hondo/merchants/weapons_yivvits.lua")
+includeFile("hondo/merchants/helper_u8l7.lua")
 
 -- World Boss Spawner
 includeFile("events/world_boss_spawner.lua")
