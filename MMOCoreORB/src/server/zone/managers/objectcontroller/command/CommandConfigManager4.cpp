@@ -68,6 +68,7 @@
 #include "server/zone/objects/creature/commands/ThrowGrenadeCommand.h"
 #include "server/zone/objects/creature/commands/ThrowTrapCommand.h"
 #include "server/zone/objects/creature/commands/TipCommand.h"
+#include "server/zone/objects/creature/commands/TipBandCommand.h"
 #include "server/zone/objects/creature/commands/ToggleAwayFromKeyBoardCommand.h"
 #include "server/zone/objects/creature/commands/ToggleDisplayingFactionRankCommand.h"
 #include "server/zone/objects/creature/commands/TorsoShotCommand.h"
@@ -211,6 +212,7 @@ void CommandConfigManager::registerCommands4() {
 	commandFactory.registerCommand<ThrowGrenadeCommand>(String("throwGrenade").toLowerCase());
 	commandFactory.registerCommand<ThrowTrapCommand>(String("throwTrap").toLowerCase());
 	commandFactory.registerCommand<TipCommand>(String("tip").toLowerCase());
+	commandFactory.registerCommand<TipBandCommand>(String("tipBand").toLowerCase());
 	commandFactory.registerCommand<ToggleAwayFromKeyBoardCommand>(String("toggleAwayFromKeyBoard").toLowerCase());
 	commandFactory.registerCommand<ToggleDisplayingFactionRankCommand>(String("toggleDisplayingFactionRank").toLowerCase());
 	commandFactory.registerCommand<TorsoShotCommand>(String("torsoShot").toLowerCase());

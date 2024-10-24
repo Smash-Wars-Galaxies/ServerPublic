@@ -729,6 +729,7 @@
 #include "ThrowGrenadeCommand.h"
 #include "ThrowTrapCommand.h"
 #include "TipCommand.h"
+#include "TipBandCommand.h"
 #include "ToggleAwayFromKeyBoardCommand.h"
 #include "ToggleDisplayingFactionRankCommand.h"
 #include "TorsoShotCommand.h"

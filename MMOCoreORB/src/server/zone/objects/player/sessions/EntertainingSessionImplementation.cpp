@@ -1102,6 +1102,38 @@ void EntertainingSessionImplementation::awardEntertainerExperience() {
 	flourishCount = 0;
 }
 
+SortedVector<ManagedReference<CreatureObject*> > EntertainingSessionImplementation::getBand() {
+	const auto player = entertainer.get();
+
+	const auto group = player->getGroup();
+	if (group == nullptr){
+		return { entertainer };
+	}
+
+	SortedVector<ManagedReference<CreatureObject*>> band;
+
+	Locker locker(group);
+	for (int i = 0; i < group->getGroupSize(); i++) {
+		auto groupMember = group->getGroupMember(i);
+
+		if (groupMember == nullptr) continue;
+		if (!groupMember->isInRange(player, 50.0f)) continue;
+
+		Locker clocker(groupMember, group);
+
+		if (groupMember->isPlayerCreature()) {
+			auto memberSession = groupMember->getActiveSession(SessionFacadeType::ENTERTAINING).castTo<EntertainingSession *>();
+
+			if (memberSession == nullptr) continue;
+			if (!memberSession->isDancing() && !memberSession->isPlayingMusic()) continue;
+
+			band.add(groupMember);
+		}
+	}
+
+	return band;
+}
+
 SortedVector<ManagedReference<CreatureObject*> > EntertainingSessionImplementation::getPatrons() {
 	SortedVector<ManagedReference<CreatureObject*> > patrons;
 

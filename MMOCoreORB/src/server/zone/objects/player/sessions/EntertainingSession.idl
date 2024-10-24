@@ -182,6 +182,10 @@ class EntertainingSession extends Facade {
 	@dereferenced
 	public native SortedVector<CreatureObject> getPatrons();
 
+	@local
+	@dereferenced
+	public native SortedVector<CreatureObject> getBand();
+
 	public native int getAudienceSize() {
 		return patronDataMap.size();
 	}
