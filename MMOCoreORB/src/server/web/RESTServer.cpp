@@ -142,7 +142,7 @@ void RESTServer::registerEndpoints() {
 		mPlayerManagerProxy->listOnline(apiRequest);
 	}));
 
-	addEndpoint(RESTEndpoint("GET:/v1/planet/(\\w+)/travelpoint", {"name"}, [this] (APIRequest& apiRequest) -> void {
+	addEndpoint(RESTEndpoint("GET:/v1/planet/([a-z]+)/travelpoints/", {"name"}, [this] (APIRequest& apiRequest) -> void {
 		mPlanetManagerProxy->handle(apiRequest);
 	}));
 
