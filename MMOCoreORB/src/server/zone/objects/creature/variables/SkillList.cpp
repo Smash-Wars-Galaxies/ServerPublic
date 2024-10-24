@@ -10,6 +10,10 @@
 #include "Skill.h"
 #include "server/zone/managers/skill/SkillManager.h"
 
+SkillList::SkillList(Vector<String>& skills) {
+	this->loadFromNames(skills);
+}
+
 bool SkillList::containsSkill(const String& skillBox) const {
 	String low = skillBox.toLowerCase();
 
@@ -149,4 +153,25 @@ void SkillList::insertToMessage(BaseMessage* msg) const {
 
 		msg->insertAscii(skill->getSkillName());
 	}
+}
+
+bool SkillList::is_depended_on(const String& skill) const {
+	return std::any_of(vector.begin(), vector.end(), [skill](auto entry) {
+		auto requirements = entry->getSkillsRequired();
+		return std::any_of(requirements->begin(), requirements->end(), [skill](auto requirement) { 
+			return requirement == skill; 
+		});
+	});
+}
+
+const Vector<String> SkillList::minimal_requirements() const {
+	Vector<String> retVal;
+	for (int i = 0; i < size(); ++i) {
+		const auto name = get(i)->getSkillName();			
+		if ( is_depended_on(name)) {
+			continue;
+		}
+		retVal.add(name);
+	}
+	return retVal;
 }

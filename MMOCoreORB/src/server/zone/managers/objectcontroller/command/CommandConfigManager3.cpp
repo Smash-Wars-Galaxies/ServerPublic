@@ -152,6 +152,7 @@
 #include "server/zone/objects/creature/commands/RegainConsciousnessCommand.h"
 #include "server/zone/objects/creature/commands/RegenerationCommand.h"
 #include "server/zone/objects/creature/commands/RegisterWithLocationCommand.h"
+#include "server/zone/objects/creature/commands/RegrantSkillsCommand.h"
 #include "server/zone/objects/creature/commands/ReloadCommand.h"
 #include "server/zone/objects/creature/commands/RemoteCommand.h"
 #include "server/zone/objects/creature/commands/RemoveAllowedPlayerCommand.h"
@@ -453,6 +454,7 @@ void CommandConfigManager::registerCommands3() {
 	commandFactory.registerCommand<RegainConsciousnessCommand>(String("regainConsciousness").toLowerCase());
 	commandFactory.registerCommand<RegenerationCommand>(String("regeneration").toLowerCase());
 	commandFactory.registerCommand<RegisterWithLocationCommand>(String("registerWithLocation").toLowerCase());
+	commandFactory.registerCommand<RegrantSkillsCommand>(String("regrantSkills").toLowerCase());
 	commandFactory.registerCommand<ReloadCommand>(String("reload").toLowerCase());
 	commandFactory.registerCommand<RemoteCommand>(String("remote").toLowerCase());
 	commandFactory.registerCommand<RemoveAllowedPlayerCommand>(String("removeAllowedPlayer").toLowerCase());

@@ -518,6 +518,7 @@
 #include "RecruitSkillTrainerCommand.h"
 #include "RegainConsciousnessCommand.h"
 #include "RegenerationCommand.h"
+#include "RegrantSkillsCommand.h"
 #include "RegisterWithLocationCommand.h"
 #include "ReloadCommand.h"
 #include "RemoteCommand.h"
