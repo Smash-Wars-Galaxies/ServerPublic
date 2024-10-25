@@ -41,6 +41,10 @@ in {
     PROJECT_BUILD = "${config.devenv.root}/MMOCoreORB/compile";
   };
 
+  enterShell = ''
+    export PROJECT_BUILD_JOBS=${if config.devenv.isTesting then "4" else "$(${pkgs.coreutils}/bin/nproc)"}
+  '';
+
   scripts = {
     "project-update-tre".exec = ''
       ${lib.getExe pkgs.minio-client} alias set smashwg https://s3.hellafast.io $SMASHWG_S3_ACCESS $SMASHWG_S3_SECRET
@@ -50,7 +54,7 @@ in {
       ${lib.getExe pkgs.cmake} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_REST_SERVER=ON -S "$PROJECT_ROOT" -B "$PROJECT_BUILD"
     '';
     "project-build".exec = ''
-      ${lib.getExe pkgs.cmake} --build "$PROJECT_BUILD" --parallel $(${pkgs.coreutils}/bin/nproc) --target all --
+      ${lib.getExe pkgs.cmake} --build "$PROJECT_BUILD" --parallel $PROJECT_BUILD_JOBS --target all --
     '';
   };
 
@@ -66,6 +70,11 @@ in {
   # https://devenv.sh/services/
   services.mysql = {
     enable = true;
+    settings = {
+      mysqld = {
+        skip-networking = true;
+      };
+    };
     ensureUsers = [
       {
         name = "swgemu";
@@ -86,13 +95,15 @@ in {
   enterTest = ''
     project-update-tre
 
-    wait_for_port 3306 # Wait for MySQL
-    while ! "${pkgs.mariadb}/bin/mysql" -h"localhost" -u"swgemu" -p"123456" -e "USE swgemu;" 2>/dev/null; do
+    while ! "${pkgs.mariadb}/bin/mysql" -S "${config.devenv.runtime}/mysql.sock" -u "swgemu" -p"123456" -e "USE swgemu;" 2>/dev/null; do
       sleep 1
     done
 
     cd MMOCoreORB/bin
-    cp conf/config.lua.example conf/config.lua && cat conf/config.lua
+    if [ ! -f "conf/config.lua" ]; then
+      cp conf/config.lua.test conf/config.lua
+      ${pkgs.gnused}/bin/sed -i 's|DATABASE_HOST|${config.devenv.runtime}/mysql.sock|g' conf/config.lua
+    fi
     ./core3 runUnitTests --gtest_output=xml:core3_tests.xml
   '';
 }
