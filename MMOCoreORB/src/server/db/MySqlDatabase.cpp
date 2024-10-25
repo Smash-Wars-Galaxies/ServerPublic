@@ -12,6 +12,9 @@ Distribution of this file for usage outside of Core3 is prohibited.
 
 #include "MySqlDatabase.h"
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 using namespace server::db::mysql;
 
 class MysqlTask final : public Task {
@@ -102,25 +105,43 @@ int MySqlDatabase::createDatabaseThread() {
 void MySqlDatabase::connect(const String& dbname, const String& user, const String& passw, int port) {
 	Locker locker(this);
 
-	info(true) << "connecting to " << host << ":" << port << "...";
+	const bool isSocket = fs::exists(fs::path(host.toCharArray()));
+
+	std::ostringstream sTarget;
+	sTarget << host.toCharArray();
+	if ( !isSocket ){
+		sTarget << ":" << port;
+	}
+
+	const String target(sTarget.str());
+	info(true) << "connecting to " << target << "...";
 
 	static int databaseThread = createDatabaseThread();
-
 	fatal(!databaseThread) << "could not create mysql database thread";
 
-	if (!mysql_init(&mysql))
-		error();
+	if (!mysql_init(&mysql)) error();
 
 	mysql_options(&mysql, MYSQL_OPT_READ_TIMEOUT, (char*)&queryTimeout);
 	mysql_options(&mysql, MYSQL_OPT_WRITE_TIMEOUT, (char*)&writeQueryTimeout);
 	int reconnect = 1;
 	mysql_options(&mysql, MYSQL_OPT_RECONNECT, &reconnect);
 
-	if (!mysql_real_connect(&mysql, host.toCharArray(), user.toCharArray(), passw.toCharArray(), dbname.toCharArray(), port, nullptr, 0)) {
+	auto result = mysql_real_connect(
+		&mysql, 
+		(isSocket) ? nullptr : host.toCharArray(), 
+		user.toCharArray(), 
+		passw.toCharArray(), 
+		dbname.toCharArray(), 
+		(isSocket) ? 0 : port, 
+		(isSocket) ? host.toCharArray(): nullptr, 
+		0
+	);
+
+	if (result == nullptr){
 		error();
 	}
 
-	info(true) << "connected to " << host << ":" << port;
+	info(true) << "connected to " << target;
 
 #ifdef WITH_STM
 	autocommit(false);
