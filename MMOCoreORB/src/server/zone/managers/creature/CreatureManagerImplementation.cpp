@@ -884,7 +884,7 @@ void CreatureManagerImplementation::droidHarvest(Creature* creature, CreatureObj
 	trx.commit();
 	
 	if(creatureHealth == "creature_quality_jackpot") {
-		String resourceClass = resourceSpawn->getFinalClass();
+		String resourceClass = resourceSpawn->getFriendlyName();
 		owner->sendSystemMessage("PRAISED BE! The Force blesses you with a bountiful harvest! You harvested " + std::to_string(quantityExtracted) + " unit(s) of " + resourceClass + "!");
 	}
 	else {
@@ -892,7 +892,7 @@ void CreatureManagerImplementation::droidHarvest(Creature* creature, CreatureObj
 		StringIdChatParameter harvestMessage("skl_use", creatureHealth);
 
 		harvestMessage.setDI(quantityExtracted);
-		harvestMessage.setTU(resourceSpawn->getFinalClass());
+		harvestMessage.setTU(resourceSpawn->getFriendlyName());
 
 		owner->sendSystemMessage(harvestMessage);
 	}
@@ -1051,14 +1051,14 @@ void CreatureManagerImplementation::harvest(Creature* creature, CreatureObject* 
 	/// Send System Messages
 
 	if(creatureHealth == "creature_quality_jackpot") {
-		String resourceClass = resourceSpawn->getFinalClass();
+		String resourceClass = resourceSpawn->getFriendlyName();
 		player->sendSystemMessage("PRAISED BE! The Force blesses you with a bountiful harvest! You harvested " + std::to_string(quantityExtracted) + " unit(s) of " + resourceClass + "!");
 	}
 	else {
 		StringIdChatParameter harvestMessage("skl_use", creatureHealth);
 
 		harvestMessage.setDI(quantityExtracted);
-		harvestMessage.setTU(resourceSpawn->getFinalClass());
+		harvestMessage.setTU(resourceSpawn->getFriendlyName());
 
 		player->sendSystemMessage(harvestMessage);
 	}
