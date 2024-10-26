@@ -69,8 +69,8 @@ public:
 			bool canGetDirection = player->hasSkill("outdoors_ranger_harvest_01");
 		    bool canGetDistance = player->hasSkill("outdoors_ranger_harvest_03");
 
-			SortedVector<ManagedReference<TreeEntry*> > objects(512, 512);
-			zone->getInRangeObjects(player->getPositionX(), player->getPositionZ(), player->getPositionY(), 512, &objects, true);
+			SortedVector<ManagedReference<TreeEntry*> > objects(1024, 1024);
+			zone->getInRangeObjects(player->getPositionX(), player->getPositionZ(), player->getPositionY(), 1024, &objects, true);
 
 			for (int i = 0; i < objects.size(); ++i) {
 				SceneObject* object = static_cast<SceneObject*>(objects.get(i).get());
