@@ -573,7 +573,7 @@ corellia_northwest_forest = {
 			minDifficulty = 65,
 			maxDifficulty = 500,
 			numberToSpawn = 15,
-			weighting = 5,
+			weighting = 10,
 			size = 25,
 		},
 		{
