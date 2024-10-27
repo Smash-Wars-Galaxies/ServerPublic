@@ -1042,6 +1042,144 @@ void ChatManagerImplementation::broadcastMessage(BaseMessage* message) {
 }
 
 // arg1 is preLocked
+void ChatManagerImplementation::broadcastChatMessage(SceneObject* sourceObject, const UnicodeString& message, uint64 chatTargetID, uint32 spatialChatType, uint32 moodType, uint32 chatFlags, int languageID) const {
+	if (sourceObject == nullptr) {
+		return;
+	}
+
+	Zone* zone = sourceObject->getZone();
+	if (zone == nullptr){
+		return;
+	}
+
+	if (spatialChatType == 0) {
+		spatialChatType = defaultSpatialChatType;
+	}
+
+	StringIdChatParameter* param = nullptr;
+	if (message.length() && message[0] == '@' && message.indexOf(":") != -1) {
+		param = new StringIdChatParameter(message.toString());
+	}
+
+	CloseObjectsVector* closeObjects = (CloseObjectsVector*) sourceObject->getCloseObjects();
+
+	SortedVector<TreeEntry*> closeEntryObjects(200, 50);
+
+	if (closeObjects != nullptr) {
+		closeObjects->safeCopyReceiversTo(closeEntryObjects, CloseObjectsVector::CREOTYPE);
+	} else {
+#ifdef COV_DEBUG
+		sourceObject->info("Null closeobjects vector in ChatManager::broadcastChatMessage", true);
+#endif
+
+		Vector3 worldPosition = sourceObject->getWorldPosition();
+
+		zone->getInRangeObjects(worldPosition.getX(), worldPosition.getZ(), worldPosition.getY(), zone->getZoneObjectRange(), &closeEntryObjects, true);
+	}
+
+	short range = defaultSpatialChatDistance;
+	short specialRange = spatialChatDistances.get(spatialChatType);
+
+	if (specialRange != -1) {
+		range = specialRange;
+	}
+
+	// Increase chat range in space zones
+	if (zone->isSpaceZone()) {
+		range *= SPACE_RANGE_MULTIPLIER;
+	}
+
+	Vector3 sourcePosition = sourceObject->getWorldPosition();
+	uint64 sourceID = sourceObject->getObjectID();
+
+	// info(true) << "broadcastChatMessage1 for spatial - total objects size: " << closeEntryObjects.size() << " From Source location: " << sourcePosition << " Chat Type: " << spatialChatType;
+
+	try {	
+		ManagedReference<CreatureObject*> chatTarget = server->getObject(chatTargetID).castTo<CreatureObject*>();
+
+		for (int i = 0; i < closeEntryObjects.size(); ++i) {
+			SceneObject* object = static_cast<SceneObject*>(closeEntryObjects.get(i));
+
+			if (object == nullptr)
+				continue;
+
+			uint64 objectGroupID = 0;
+
+			// Run through checks only if object is not the sending source
+			if (sourceID != object->getObjectID()) {
+				int distSquared = sourcePosition.squaredDistanceTo(object->getWorldPosition());
+
+				// info(true) << "attempting to send spatial message 1 to " << object->getDisplayedName() << " Position: " << object->getWorldPosition() << "  Object Dist Squared: " << distSquared << " Range Squared: " << (range * range);
+
+				if ((range * range) < distSquared)
+					continue;
+
+				auto creature = object->asCreatureObject();
+
+				if (creature == nullptr)
+					continue;
+
+				// Get group ID for group chat function
+				objectGroupID = creature->getGroupID();
+
+				if (!creature->isPlayerCreature())
+					continue;
+
+				PlayerObject* ghost = creature->getPlayerObject();
+				if (ghost == nullptr)
+					continue;
+			}
+
+			SpatialChat* cmsg = nullptr;
+			uint64 targetID = object->getObjectID();
+
+			if ((chatFlags & CF_TARGET_ONLY) && targetID != chatTargetID && targetID != sourceID)
+				continue;
+
+			if ((chatFlags & CF_TARGET_GROUP_ONLY) || (chatFlags & CF_TARGET_SOURCE_GROUP_ONLY)) {
+				bool validRecipient = false;
+
+				if (targetID == sourceID)
+					validRecipient = true;
+
+				if (targetID == chatTargetID)
+					validRecipient = true;
+
+					
+				if (chatTarget != nullptr && chatTarget->isGrouped() && chatTarget->getGroupID() == objectGroupID)
+					validRecipient = true;
+
+				if (!validRecipient)
+					continue;
+			}
+
+			if (param == nullptr) {
+				cmsg = new SpatialChat(sourceID, targetID, chatTargetID, message, range, spatialChatType, moodType, chatFlags, languageID);
+			} else {
+				cmsg = new SpatialChat(sourceID, targetID, chatTargetID, *param, range, spatialChatType, moodType, chatFlags, languageID);
+			}
+
+			object->sendMessage(cmsg);
+		}
+
+		if (param != nullptr) {
+			delete param;
+			param = nullptr;
+		}
+
+	} catch (...) {
+		if (param != nullptr) {
+			delete param;
+			param = nullptr;
+		}
+
+		throw;
+	}
+
+	//zone->runlock();
+}
+
+// arg1 is preLocked
 void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreature, const UnicodeString& message, uint64 chatTargetID, uint32 spatialChatType, uint32 moodType, uint32 chatFlags, int languageID) const {
 	if (sourceCreature == nullptr)
 		return;
