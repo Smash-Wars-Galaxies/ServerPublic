@@ -1,0 +1,22 @@
+package server.zone.objects.tangible.terminal.ticketcollector;
+
+include engine.log.Logger;
+
+import engine.core.ManagedObject;
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.scene.SceneObject;
+
+class TicketCollectorObserver extends Observer implements Logger {
+	@weakReference
+	protected SceneObject collectorObject;
+    protected int shuttleType;
+	
+	public TicketCollectorObserver(SceneObject collector) {
+		collectorObject = collector;
+		
+		Logger.setLoggingName("TicketCollectorObserver");
+	}
+
+	public native int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2);
+}

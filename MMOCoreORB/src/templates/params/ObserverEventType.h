@@ -105,6 +105,9 @@ public:
 		FACTIONCHAT,				// ManagedObject arg1 = AiAgent, long arg2 = playerID
 		NOPLAYERSINRANGE,			// ManagedObject arg1 = null, long arg2 = 0
 		SPATIALCHAT,				// ManagedObject arg1 = ChatMessage containing string text, long arg2 = playerID
+		SHUTTLE_OPERATIONAL,		// ManagedObject arg1 = Shuttle, long arg2 = shuttleType
+		SHUTTLE_DEPARTED,			// ManagedObject arg1 = Shuttle, long arg2 = time until landing
+		SHUTTLE_LANDED,			    // ManagedObject arg1 = Shuttle, long arg2 = time until depart
 	};
 };
 

@@ -56,9 +56,11 @@ public:
 			strongReference->setPosture(CreaturePosture::PRONE);
 			departedTime = originalDepartedTime * ((60.0f + System::random(80.0f))/100.0f);
 			//departedTime = 60; // Test
+			strongReference->notifyObservers(ObserverEventType::SHUTTLE_DEPARTED, strongReference, departedTime * 1000);
 			reschedule(departedTime * 1000);
 		} else {
 			strongReference->setPosture(CreaturePosture::UPRIGHT);
+			strongReference->notifyObservers(ObserverEventType::SHUTTLE_LANDED, strongReference, getLandedTime() * 1000);
 			reschedule(getLandedTime() * 1000);
 		}
 	}

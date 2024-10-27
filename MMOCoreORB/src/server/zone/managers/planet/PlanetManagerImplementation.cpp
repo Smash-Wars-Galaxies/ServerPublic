@@ -16,6 +16,7 @@
 #include "server/zone/managers/object/ObjectManager.h"
 
 #include "engine/util/iffstream/IffStream.h"
+#include "server/zone/objects/tangible/terminal/ticketcollector/TicketCollectorObserver.h"
 #include "templates/snapshot/WorldSnapshotIff.h"
 #include "templates/datatables/DataTableIff.h"
 #include "templates/datatables/DataTableRow.h"
@@ -1575,7 +1576,6 @@ void PlanetManagerImplementation::scheduleShuttle(CreatureObject* shuttle, int s
 	Locker clocket(_this.getReferenceUnsafeStaticCast(), shuttle);
 
 	const uint64 oid = shuttle->getObjectID();
-
 	if (shuttleMap.contains(oid)) {
 		// this shuttle is already known, no need for a 2nd task
 		return;
@@ -1603,6 +1603,30 @@ void PlanetManagerImplementation::scheduleShuttle(CreatureObject* shuttle, int s
 	shuttleMap.put(oid, task);
 
 	task->schedule((task->getLandedTime() + task->getLandingTime()) * 1000);
+
+	// Notify of shuttle starting
+	CloseObjectsVector* closeObjectsVector = (CloseObjectsVector*) shuttle->getCloseObjects();
+	if (closeObjectsVector != nullptr) {
+		SortedVector<ManagedReference<TreeEntry*> > closeObjects;
+		closeObjectsVector->safeCopyTo(closeObjects);
+
+		for (int i = 0; i < closeObjects.size(); ++i) {
+			ManagedReference<SceneObject*> object = cast<SceneObject*>(closeObjects.get(i).get());
+			if (object == nullptr) continue;
+			if (object == shuttle) continue; 
+			if (object->getGameObjectType() != SceneObjectType::TICKETCOLLECTOR) continue;
+			if (!object->isInRange(shuttle, 32.0f)) continue;
+
+			ManagedReference<TicketCollectorObserver*> observer = new TicketCollectorObserver(object);
+			
+			shuttle->registerObserver(ObserverEventType::SHUTTLE_OPERATIONAL,observer);
+			shuttle->registerObserver(ObserverEventType::SHUTTLE_DEPARTED, observer);
+			shuttle->registerObserver(ObserverEventType::SHUTTLE_LANDED, observer);
+			break;
+		}
+	}
+
+	shuttle->notifyObservers(ObserverEventType::SHUTTLE_OPERATIONAL, shuttle, shuttleType);
 }
 
 int PlanetManagerImplementation::destroyEventObject(uint64 objectID) {
